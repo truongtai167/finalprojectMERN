@@ -1,7 +1,7 @@
 const mongoose = require("mongoose"); // Erase if already required
 
 // Declare the Schema of the Mongo model
-var pitchCategorySchema = new mongoose.Schema(
+var newsCategorySchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -14,4 +14,4 @@ var pitchCategorySchema = new mongoose.Schema(
 );
 
 //Export the model
-module.exports = mongoose.model("PitchCategory", pitchCategorySchema);
+module.exports = mongoose.model("NewsCategory", newsCategorySchema);

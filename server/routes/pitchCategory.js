@@ -1,12 +1,16 @@
-const router = require('express').Router()
-const ctrls = require('../controllers/pitchCategory')
-const { verifyAccessToken, isAdmin } = require('../middlewares/verifyToken')
-
-router.post('/', [verifyAccessToken, isAdmin], ctrls.createCategory)
-router.get('/', ctrls.getCategories)
-router.put('/:pcid', [verifyAccessToken, isAdmin], ctrls.updateCategory)
-router.delete('/:pcid', [verifyAccessToken, isAdmin], ctrls.deleteCategory)
+const router = require("express").Router();
+const controllers = require("../controllers/pitchCategory");
+const { verifyAccessToken, isAdmin,isAdminAndPitchOwn } = require("../middlewares/verifyToken");
 
 
+// Quest
+router.get("/",  controllers.getPitchCategory);
 
-module.exports = router
+
+// User
+
+// Admin - PitchOwner
+router.post("/", [verifyAccessToken, isAdminAndPitchOwn], controllers.createPitchCategory);
+router.put("/:pitchCategoryId", [verifyAccessToken, isAdminAndPitchOwn], controllers.updatePitchCategory);
+router.delete("/:pitchCategoryId", [verifyAccessToken, isAdminAndPitchOwn], controllers.deletePitchCategory);
+module.exports = router;

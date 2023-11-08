@@ -1,16 +1,23 @@
-const router = require('express').Router()
-const ctrls = require('../controllers/pitch')
-const { verifyAccessToken, isAdmin, isAdminAndPitchOwn } = require('../middlewares/verifyToken')
-const uploader = require('../config/cloudinaryconfig')
-
-router.post('/', [verifyAccessToken, isAdminAndPitchOwn], ctrls.createPitch)
-router.get('/', ctrls.getPitchs)
-router.put('/ratings', [verifyAccessToken], ctrls.ratings)
-
-router.put('/uploadimage/:pid', [verifyAccessToken, isAdmin], uploader.single('images'), ctrls.uploadImagesPitch)
-router.put('/:pid', [verifyAccessToken, isAdminAndPitchOwn], ctrls.updatePitch)
-router.delete('/:pid', [verifyAccessToken, isAdminAndPitchOwn], ctrls.deletePitch)
-router.get('/:pid', ctrls.getPitch)
+const router = require("express").Router();
+const controllers = require("../controllers/pitch");
+const { verifyAccessToken, isAdmin, isAdminAndPitchOwn } = require("../middlewares/verifyToken");
+const uploader = require('../config/cloudinary.config')
 
 
-module.exports = router
+// Quest
+router.get("/:pitchId", controllers.getPitch);
+router.get("/", controllers.getPitchs);
+
+
+// User
+router.put("/ratings", [verifyAccessToken], controllers.ratings);
+
+
+
+// Admin - PitchOwner
+router.put("/uploadimage/:pitchId", [verifyAccessToken, isAdminAndPitchOwn],uploader.array('images',10) ,controllers.uploadImagesPitch);
+router.put("/:pitchId", [verifyAccessToken, isAdminAndPitchOwn] ,controllers.updatePitch);
+router.put("/address/:pitchId", [verifyAccessToken, isAdminAndPitchOwn] ,controllers.updatePitchAddress);
+router.delete("/:pitchId",[verifyAccessToken, isAdminAndPitchOwn],controllers.deletePitch);
+router.post("/", [verifyAccessToken, isAdminAndPitchOwn], controllers.createPitch);
+module.exports = router;

@@ -1,23 +1,27 @@
-const router = require('express').Router()
-const ctrls = require('../controllers/user')
-const { verifyAccessToken, isAdmin } = require('../middlewares/verifyToken')
+const router = require("express").Router();
+const controllers = require("../controllers/user");
+const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 
-router.post('/register', ctrls.register)
-router.post('/login', ctrls.login)
-router.get('/current', verifyAccessToken, ctrls.getCurrent)
-router.post('/refreshtoken', ctrls.refreshAccessToken)
-router.get('/logout', ctrls.logout)
-router.get('/forgotpassword', ctrls.forgotPassword)
-router.put('/resetpassword', ctrls.resetPassword)
-router.get('/', [verifyAccessToken, isAdmin], ctrls.getUsers)
-router.delete('/', [verifyAccessToken, isAdmin], ctrls.deleteUsers)
-router.put('/current', [verifyAccessToken], ctrls.updateUsers)
-router.put('/:uid', [verifyAccessToken, isAdmin], ctrls.updateUsersByAdmin)
+// Quest
+router.post("/register", controllers.register);
+router.post("/login", controllers.login);
+router.post("/refreshtoken", controllers.refreshAccessToken);
+router.get("/logout", controllers.logout);
+router.get("/forgotpassword", controllers.forgotPassword);
+router.put("/resetpassword", controllers.resetPassword);
 
-module.exports = router
+// User
+router.get("/current", verifyAccessToken, controllers.getCurrent);
+router.put("/current", verifyAccessToken, controllers.updateUser);
+router.put("/booking", verifyAccessToken, controllers.updateOrder);
 
+// Admin
+router.put(
+  "/:userId",
+  [verifyAccessToken, isAdmin],
+  controllers.updateUserByAdmin
+);
+router.get("/", [verifyAccessToken, isAdmin], controllers.getUsers);
+router.delete("/", [verifyAccessToken, isAdmin], controllers.deleteUser);
 
-//CRUD | CREATE (POST) - READ(GET) - UPDATE(PUT) - DELETE(DEL) |
-
-//CREATE (POST) + PUT - body (k bị lộ)
-//GET + DELETE - query (hiển thị)
+module.exports = router;
