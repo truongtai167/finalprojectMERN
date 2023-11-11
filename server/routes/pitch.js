@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const controllers = require("../controllers/pitch");
 const { verifyAccessToken, isAdmin, isAdminAndPitchOwn } = require("../middlewares/verifyToken");
-const uploader = require('../config/cloudinary.config')
+const uploader = require('../config/cloudinaryconfig')
 
 
 // Quest

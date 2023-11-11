@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const controllers = require("../controllers/news");
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
-const uploader = require('../config/cloudinary.config')
+const uploader = require('../config/cloudinaryconfig')
 
 // Quest
 router.get("/", controllers.getAllNews);
