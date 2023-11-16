@@ -7,7 +7,7 @@ module.exports = {
     },
     extend: {
       width: {
-        main: "1220px",
+        main: "1380px",
       },
       colors: {
         main: "#ee3131",
