@@ -12,7 +12,7 @@ const Header = () => {
       </Link>
 
       <div>
-        <div>
+        {/* <div>
           <form className="flex-nowrap justify-between items-center bg-zinc-100 shadow-sm border border-zinc-200 rounded-full lg:mx-4 py-1 px-2 inline-flex max-w-[449px]">
             <div className="px-2 lg:w-[296px] lg:px-0">
               <div
@@ -86,7 +86,7 @@ const Header = () => {
               </svg>
             </button>
           </form>
-        </div>
+        </div> */}
       </div>
 
       <div className="flex items-center justify-center px-6">

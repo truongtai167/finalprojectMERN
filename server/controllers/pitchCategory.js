@@ -1,19 +1,18 @@
 const PitchCategory = require("../models/pitchCategory");
 const asyncHandler = require("express-async-handler");
 
-
 const createPitchCategory = asyncHandler(async (req, res) => {
   const response = await PitchCategory.create(req.body);
   return res.status(200).json({
     success: response ? true : false,
-    message: response ? response : "Cannot create new pitch category",
+    pitchCategory: response ? response : "Cannot create new pitch category",
   });
 });
 const getPitchCategory = asyncHandler(async (req, res) => {
   const response = await PitchCategory.find().select("title  _id");
   return res.status(200).json({
     success: response ? true : false,
-    message: response ? response : "Cannot get pitch category",
+    pitchCategories: response ? response : "Cannot get pitch categories",
   });
 });
 const updatePitchCategory = asyncHandler(async (req, res) => {
