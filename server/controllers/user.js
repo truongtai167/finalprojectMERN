@@ -173,12 +173,25 @@ const resetPassword = asyncHandler(async (req, res) => {
   });
 });
 
+// const getUsers = asyncHandler(async (req, res) => {
+//   const response = await User.find().select("-refreshToken -password -role");
+//     return res.status(200).json({
+//       success: response ? true : false,
+//       users: response ? response : "cannot get user",
+//     });
+// });
 const getUsers = asyncHandler(async (req, res) => {
   const response = await User.find().select("-refreshToken -password -role");
-  return res.status(200).json({
-    success: response ? true : false,
-    users: response,
-  });
+  if (response)
+    return res.status(200).json({
+      success: true,
+      users: response,
+    });
+  else
+    return res.status(200).json({
+      success: false,
+      users: "Cannot get User",
+    });
 });
 const deleteUser = asyncHandler(async (req, res) => {
   const { _id } = req.query;

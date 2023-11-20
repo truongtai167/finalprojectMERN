@@ -1,20 +1,24 @@
 const Pitch = require("../models/pitch");
 const asyncHandler = require("express-async-handler");
-const slugify = require("slugify");
-
+// const slugify = require("slugify");
+// import { createSlug } from "../ultils/helpers";
+const { createSlug } = require("../ultils/helpers");
 const createPitch = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   if (Object.keys(req.body).length === 0) throw new Error("Missing input");
 
   if (req.body && req.body.name && _id) {
-    req.body.slug = slugify(req.body.name);
+    // req.body.slug = slugify(req.body.name);
+    const slug = createSlug(req.body.name);
+    // console.log(slug);
+    req.body.slug = slug;
     req.body.owner = _id;
   }
 
   const newPitch = await Pitch.create(req.body);
   return res.status(200).json({
     success: newPitch ? true : false,
-    message: newPitch ? newPitch : "Cannot create new pitch",
+    NewPitch: newPitch ? newPitch : "Cannot create new pitch",
   });
 });
 
@@ -24,11 +28,11 @@ const getPitch = asyncHandler(async (req, res) => {
   const pitch = await Pitch.findById(pitchId).populate("owner", excludeFields);
   return res.status(200).json({
     success: pitch ? true : false,
-    message: pitch ? pitch : "Cannot get pitch",
+    PitchData: pitch ? pitch : "Cannot get pitch",
   });
 });
-// dùng mongoose 6.9 => ok
-const getPitchs = asyncHandler(async (req, res) => {
+
+const getPitches = asyncHandler(async (req, res) => {
   const queries = { ...req.query };
   // seperate special field
   const excludeFields = ["limit", "sort", "page", "fields"];
@@ -70,55 +74,15 @@ const getPitchs = asyncHandler(async (req, res) => {
     const counts = await Pitch.find(formatedQueries).countDocuments();
     return res.status(200).json({
       success: response ? true : false,
-      PitchData: response ? response : "Cannot get pitch",
+      pitches: response ? response : "Cannot get pitch",
       totalCount: counts,
     });
   });
 });
-// dùng mongoose 7.
-// const getPitchs = asyncHandler(async (req, res) => {
-//   const queries = { ...req.query };
 
-//   // Loại bỏ các trường đặc biệt ra khỏi query
-//   const excludeFields = ["limit", "sort", "page", "fields"];
-//   excludeFields.forEach((el) => delete queries[el]);
-
-//   // Format lại các toán tử cho đúng cú pháp của mongoose
-//   let queryString = JSON.stringify(queries);
-//   queryString = queryString.replace(
-//     /\b(gte|gt|lt|lte)\b/g,
-//     (matchedEl) => `$${matchedEl}`
-//   );
-
-//   const formatedQueries = JSON.parse(queryString);
-
-//   // Filterring
-//   if (queries?.name)
-//     formatedQueries.name = { $regex: queries.name, $options: "i" };
-
-//   try {
-//     // Tìm kiếm sản phẩm theo điều kiện
-//     const pitchs = await Pitch.find(formatedQueries);
-
-//     // Đếm số lượng sản phẩm thỏa mãn điều kiện
-//     const counts = await Pitch.countDocuments(formatedQueries);
-
-//     return res.status(200).json({
-//       success: true,
-//       pitchsData: pitchs,
-//       counts: counts,
-//     });
-//   } catch (error) {
-//     // Xử lý lỗi nếu có
-//     return res.status(500).json({
-//       success: false,
-//       error: "Cannot get products",
-//     });
-//   }
-// });
 const updatePitch = asyncHandler(async (req, res) => {
   const { pitchId } = req.params;
-  if (req.body && req.body.name) req.body.slug = slugify(req.body.name);
+  if (req.body && req.body.name) req.body.slug = createSlug(req.body.name);
   const updatedPitch = await Pitch.findByIdAndUpdate(pitchId, req.body, {
     new: true,
   });
@@ -130,7 +94,7 @@ const updatePitch = asyncHandler(async (req, res) => {
 
 const deletePitch = asyncHandler(async (req, res) => {
   const { pitchId } = req.params;
-  if (req.body && req.body.name) req.body.slug = slugify(req.body.name);
+  // if (req.body && req.body.name) req.body.slug = createSlug(req.body.name);
   const deletedPitch = await Pitch.findByIdAndDelete(pitchId);
   return res.status(200).json({
     success: deletedPitch ? true : false,
@@ -221,7 +185,7 @@ const updatePitchAddress = asyncHandler(async (req, res) => {
 module.exports = {
   createPitch,
   getPitch,
-  getPitchs,
+  getPitches,
   updatePitch,
   deletePitch,
   ratings,

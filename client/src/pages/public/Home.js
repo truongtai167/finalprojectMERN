@@ -1,7 +1,9 @@
-import React from "react";
-import { Navigation, Header, Banner, Sidebar } from "../../components";
-
+import React, { useEffect, useState } from "react";
+import { Banner, Sidebar, BestPrice } from "../../components";
+// import { apiGetPitches } from "../../apis/pitch";
 const Home = () => {
+ 
+
   return (
     <div className="w-main flex">
       <div className="flex flex-col gap-5 w-[20%] flex-auto ">
@@ -10,7 +12,7 @@ const Home = () => {
       </div>
       <div className="flex flex-col gap-5 pl-5 w-[80%] flex-auto ">
         <Banner />
-        <span> Best Seller </span>
+        <BestPrice />
       </div>
     </div>
   );

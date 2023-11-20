@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind utilities;
+
 button.slick-next {
   right: 70px;
   z-index: 10;

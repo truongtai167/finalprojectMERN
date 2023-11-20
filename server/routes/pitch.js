@@ -6,7 +6,7 @@ const uploader = require('../config/cloudinaryconfig')
 
 // Quest
 router.get("/:pitchId", controllers.getPitch);
-router.get("/", controllers.getPitchs);
+router.get("/", controllers.getPitches);
 
 
 // User
