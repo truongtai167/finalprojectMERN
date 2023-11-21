@@ -5,3 +5,4 @@ export { default as Sidebar } from "./Sidebar";
 export { default as BestPrice } from "./BestPrice";
 export { default as Pitch } from "./Pitch";
 export { default as CustomSlider } from "./CustomSlider";
+export { default as SelectOption } from "./SelectOption";
