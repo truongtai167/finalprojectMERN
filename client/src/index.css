@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind utilities;
-
+/* 
 button.slick-next {
   right: 70px;
   z-index: 10;
@@ -14,7 +14,7 @@ button.slick-prev {
 }
 
 button.slick-next::before {
-  color: gray;
+  /* color: gray;
   content: "\276F";
   background-color: #b8b5b5;
   width: 80px;
@@ -22,7 +22,17 @@ button.slick-next::before {
   font-size: 30px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
+  /* font-family: FontAwesome;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  font-size: 40px;
+  content: "\f104"; */
+  /*
 }
 
 button.slick-prev::before {
@@ -35,4 +45,42 @@ button.slick-prev::before {
   display: flex;
   justify-content: center;
   align-items: center;
+} 
+*/
+button.slick-next,
+button.slick-prev {
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  font-size: 40px;
+  width: 80px;
+  height: 80px;
+  color: #fff; /* Màu chữ */
+  background-color: transparent; /* Nền trong suốt */
+  border: none; /* Không có đường viền */
+  border-radius: 50%; /* Bo tròn button */
+  text-align: center;
+  line-height: 80px; /* Duy trì chữ giữa button */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  transition: background-color 0.3s ease; /* Hiệu ứng màu nền */
+}
+
+button.slick-next {
+  right: 70px;
+}
+
+button.slick-prev {
+  left: 20px;
+}
+
+button.slick-next:hover,
+button.slick-prev:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* Hiệu ứng khi hover, màu trắng đục */
 }

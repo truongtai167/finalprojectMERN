@@ -9,7 +9,7 @@ const tabs = [
   { id: 2, name: "new pitches" },
 ];
 const settings = {
-  dots: true,
+  dots: false,
   infinite: false,
   speed: 500,
   slidesToShow: 3,

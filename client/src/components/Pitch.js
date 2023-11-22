@@ -40,7 +40,7 @@ const Pitch = ({ pitchData, isNew }) => {
             src={pitchData?.images[0] || defaultImage}
             alt=""
             className="w-[320px] h-[250px] object-cover"
-          ></img>
+          />
           <img
             src={isNew ? newTag : bestpriceTag}
             alt=""
