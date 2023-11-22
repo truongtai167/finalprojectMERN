@@ -4,8 +4,17 @@ import { apiGetPitches } from "../apis/pitch";
 import defaultImage from "../assets/Coming_Soon.png";
 import { formatMoney, renderStarFromNumber } from "../ultils/helpers";
 import { CountDown } from "./";
-import poster from "../assets/poster.jpg";
-
+import poster01 from "../assets/poster.jpg";
+import poster02 from "../assets/poster02.jpg";
+import poster03 from "../assets/poster03.jpg";
+import poster04 from "../assets/poster04.jpg";
+import poster05 from "../assets/poster05.jpg";
+import poster06 from "../assets/poster06.jpg";
+const imageArray = [poster01, poster02, poster03, poster04, poster05, poster06];
+function getRandomImage() {
+  const randomIndex = Math.floor(Math.random() * imageArray.length);
+  return imageArray[randomIndex];
+}
 const { AiFillStar, AiOutlineMenu } = icons;
 let idInterval;
 const DealDaily = () => {
@@ -14,12 +23,16 @@ const DealDaily = () => {
   const [minute, setminute] = useState(0);
   const [second, setsecond] = useState(0);
   const [expireTime, setexpireTime] = useState(false);
+
+  let posterImage = poster01;
+
   const fetchDealDaily = async () => {
     const response = await apiGetPitches({
       limit: 1,
       page: Math.round(Math.random() * 3),
       totalRatings: 5,
     });
+
     if (response.success) {
       setdealdaily(response.pitches[0]);
       const h = 24 - new Date().getHours();
@@ -28,10 +41,12 @@ const DealDaily = () => {
       sethour(h);
       setminute(m);
       setsecond(s);
+      posterImage = getRandomImage();
     } else {
       sethour(0);
       setminute(59);
       setsecond(59);
+      posterImage = getRandomImage();
     }
   };
   // useEffect(() => {
@@ -108,11 +123,11 @@ const DealDaily = () => {
           <span>Option</span>
         </button>
       </div>
-      <div className="px-4 mt-8">
+      <div className="pt-2 mt-11 flex items-end">
         <img
-          src={poster}
+          src={posterImage}
           alt="poster"
-          className="flex-1 h-full w-full object-contain"
+          className="w-full  object-contain"
         />
       </div>
     </div>
