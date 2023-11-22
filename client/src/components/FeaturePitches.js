@@ -11,8 +11,8 @@ const FeaturePitches = () => {
 
   const fetchPitches = async () => {
     const response = await apiGetPitches({
-      limit: 6,
-      page: Math.round(Math.random() * 3),
+      limit: 9,
+      page: Math.round(Math.random() * 2),
     });
     if (response.success) setpitches(response.pitches);
   };
@@ -24,7 +24,7 @@ const FeaturePitches = () => {
       <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-main">
         FEATURED PITCHES
       </h3>
-      <div className="flex flex-wrap mt-[15px] mx-[-20px]">
+      <div className="flex flex-wrap mt-[15px] mx-[-10px]">
         {pitches?.map((el) => (
           <PitchCard
             key={el._id}

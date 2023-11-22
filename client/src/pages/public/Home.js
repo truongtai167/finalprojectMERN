@@ -23,6 +23,14 @@ const Home = () => {
       <div className="my-8">
         <FeaturePitches />
       </div>
+      <div className="my-8 w-main">
+        <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-main">
+          NEW ARRIVALS
+        </h3>
+        {/* <div className="mt-4 mx-[-10px]">
+          <CustomSlider pitches={newPitches}></CustomSlider>
+        </div> */}
+      </div>
       <div className="w-full h-[500px]"></div>
     </>
   );
