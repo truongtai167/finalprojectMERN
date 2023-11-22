@@ -22,7 +22,7 @@ const BestPrice = () => {
   const [activedTab, setactivedTab] = useState(1);
   const [pitches, setpitches] = useState([]);
   const dispatch = useDispatch();
-  const { newPitches } = useSelector((state) => state.pitchs);
+  const { newPitches } = useSelector((state) => state.pitches);
 
   const fetchPitches = async () => {
     const response = await apiGetPitches({ sort: "price" });
@@ -73,6 +73,7 @@ const BestPrice = () => {
           src={banner1}
           alt="banner"
           className="flex-1 h-[380px] w-[100px] object-contain"
+          
         />
         <img
           src={banner2}

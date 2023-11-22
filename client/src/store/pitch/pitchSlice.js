@@ -6,6 +6,7 @@ export const pitchSlice = createSlice({
   initialState: {
     newPitches: null,
     errorMessage: "",
+    isLoading: false,
   },
   reducers: {
     // logout: (state) => {
@@ -25,6 +26,7 @@ export const pitchSlice = createSlice({
       // Tắt trạng thái loading, lưu thông tin user vào store
       state.isLoading = false;
       state.newPitches = action.payload;
+      console.log("newPitches", state.newPitches);
     });
 
     // Khi thực hiện action login thất bại (Promise rejected)

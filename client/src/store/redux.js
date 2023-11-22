@@ -8,6 +8,6 @@ import pitchSlice from "./pitch/pitchSlice";
 export const store = configureStore({
   reducer: {
     app: appSlice,
-    pitchs: pitchSlice,
+    pitches: pitchSlice,
   },
 });
