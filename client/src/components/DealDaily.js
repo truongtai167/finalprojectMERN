@@ -123,7 +123,8 @@ const DealDaily = () => {
           <span>Option</span>
         </button>
       </div>
-      <div className="pt-2 mt-11 flex items-end">
+      <span hidden>A  </span>
+      <div className="mt-16 flex items-end">
         <img
           src={posterImage}
           alt="poster"

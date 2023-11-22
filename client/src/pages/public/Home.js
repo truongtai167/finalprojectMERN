@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Banner, Sidebar, BestPrice, DealDaily } from "../../components";
+import React from "react";
+import {
+  Banner,
+  Sidebar,
+  BestPrice,
+  DealDaily,
+  FeaturePitches,
+} from "../../components";
 // import { apiGetPitches } from "../../apis/pitch";
 const Home = () => {
   return (
@@ -13,6 +19,9 @@ const Home = () => {
           <Banner />
           <BestPrice />
         </div>
+      </div>
+      <div className="my-8">
+        <FeaturePitches />
       </div>
       <div className="w-full h-[500px]"></div>
     </>

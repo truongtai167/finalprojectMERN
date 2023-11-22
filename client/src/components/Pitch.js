@@ -31,7 +31,10 @@ const Pitch = ({ pitchData, isNew }) => {
         <div className="w-full relative">
           {isShowOption && (
             <div className="absolute bottom-[-10px] left-0 right-0 flex justify-center gap-2 animate-slide-top">
-              <SelectOption icon={<AiFillEye />}></SelectOption>
+              <span title="Quick View">
+                
+                <SelectOption icon={<AiFillEye />}></SelectOption>
+              </span>
               <SelectOption icon={<AiOutlineMenu />}></SelectOption>
               <SelectOption icon={<BsFillSuitHeartFill />}></SelectOption>
             </div>

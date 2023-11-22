@@ -49,7 +49,7 @@ const BestPrice = () => {
           <span
             key={el.id}
             className={`font-bold capitalize border-r cursor-pointer text-gray-400 ${
-              activedTab === el.id ? "text-red-500" : ""
+              activedTab === el.id ? "text-red-600" : ""
             }`}
             onClick={() => setactivedTab(el.id)}
           >
@@ -72,12 +72,12 @@ const BestPrice = () => {
         <img
           src={banner1}
           alt="banner"
-          className="flex-1 h-auto w-[100px] object-contain"
+          className="flex-1 h-[400px] w-[100px] object-contain"
         />
         <img
           src={banner2}
           alt="banner"
-          className="flex-1 h-auto w-[100px] object-contain"
+          className="flex-1 h-[400px] w-[100px] object-contain"
         />
       </div>
     </div>
