@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
-import { Login, Home, Public } from "./pages/public";
-import path from "./ultils/path";
-import { getCategories } from "./store/asyncAction";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom'
+import { Login, Home, Public } from './pages/public'
+import path from './ultils/path'
+import { getCategories } from './store/app/asyncAction'
+import { useDispatch } from 'react-redux';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {

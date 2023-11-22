@@ -5,9 +5,14 @@ import {
   BestPrice,
   DealDaily,
   FeaturePitches,
+  CustomSlider,
 } from "../../components";
-// import { apiGetPitches } from "../../apis/pitch";
+import { useSelector } from "react-redux";
+import icons from "../../ultils/icons";
+const { IoIosArrowForward } = icons;
 const Home = () => {
+  const { newPitches } = useSelector((state) => state.pitchs);
+  const { categories } = useSelector((state) => state.app);
   return (
     <>
       <div className="w-main flex">
@@ -20,16 +25,16 @@ const Home = () => {
           <BestPrice />
         </div>
       </div>
-      <div className="my-8">
+      <div className="my-8 my-8">
         <FeaturePitches />
       </div>
-      <div className="my-8 w-main">
-        <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-main">
+      <div className="my-8 w-main ">
+        <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-main my-8">
           NEW ARRIVALS
         </h3>
-        {/* <div className="mt-4 mx-[-10px]">
+        <div className="w-full mt-4 mr-0 ml-0">
           <CustomSlider pitches={newPitches}></CustomSlider>
-        </div> */}
+        </div>
       </div>
       <div className="w-full h-[500px]"></div>
     </>

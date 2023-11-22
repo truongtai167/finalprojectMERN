@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { apiGetPitches } from "../apis/pitch";
-import { Pitch } from "./";
+import { Pitch, CustomSlider } from "./";
 import Slider from "react-slick";
 import banner1 from "../assets/banner1.png";
 import banner2 from "../assets/banner2.png";
+import { useDispatch, useSelector } from "react-redux";
+import { getNewPitches } from "../store/pitch/asyncAction";
 const tabs = [
   { id: 1, name: "best price" },
   { id: 2, name: "new pitches" },
@@ -16,32 +18,27 @@ const settings = {
   slidesToScroll: 1,
 };
 const BestPrice = () => {
-  const [bestPrices, setbestPrices] = useState([]);
-  const [newPitches, setnewPitches] = useState([]);
+  const [bestSellers, setbestSellers] = useState([]);
   const [activedTab, setactivedTab] = useState(1);
-  const [pitchs, setpitchs] = useState([]);
+  const [pitches, setpitches] = useState([]);
+  const dispatch = useDispatch();
+  const { newPitches } = useSelector((state) => state.pitchs);
 
   const fetchPitches = async () => {
-    const response = await Promise.all([
-      apiGetPitches({ sort: "--price" }),
-      apiGetPitches({ sort: "-createdAt" }),
-    ]);
-    console.log("API Response:", response);
-    if (response[0]?.success) {
-      setbestPrices(response[0].pitches);
-      setpitchs(response[0].pitches);
+    const response = await apiGetPitches({ sort: "price" });
+    if (response.success) {
+      setbestSellers(response.pitches);
+      setpitches(response.pitches);
     }
-    if (response[1]?.success) setnewPitches(response[1].pitches);
-    setpitchs(response[0].pitches);
   };
   useEffect(() => {
     fetchPitches();
+    dispatch(getNewPitches());
   }, []);
   useEffect(() => {
-    if (activedTab === 1) setpitchs(bestPrices);
-    if (activedTab === 2) setpitchs(newPitches);
+    if (activedTab === 1) setpitches(bestSellers);
+    if (activedTab === 2) setpitches(newPitches);
   }, [activedTab]);
-
   return (
     <div>
       <div className="flex text-[20px] gap-8 pb-4 border-b-2 border-main">
@@ -57,7 +54,7 @@ const BestPrice = () => {
           </span>
         ))}
       </div>
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <Slider {...settings}>
           {pitchs?.map((el) => (
             <Pitch
@@ -67,17 +64,20 @@ const BestPrice = () => {
             ></Pitch>
           ))}
         </Slider>
+      </div> */}
+      <div className="mt-4 mx-[0]">
+        <CustomSlider pitches={pitches} activedTab={activedTab}></CustomSlider>
       </div>
       <div className="w-full flex gap-4 mt-8">
         <img
           src={banner1}
           alt="banner"
-          className="flex-1 h-[400px] w-[100px] object-contain"
+          className="flex-1 h-[380px] w-[100px] object-contain"
         />
         <img
           src={banner2}
           alt="banner"
-          className="flex-1 h-[400px] w-[100px] object-contain"
+          className="flex-1 h-[380px] w-[100px] object-contain"
         />
       </div>
     </div>

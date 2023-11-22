@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import defaultImage from "../assets/Coming_Soon.png";
 import { formatMoney, renderStarFromNumber } from "../ultils/helpers";
-import newTag from "../assets/NewTag2.png";
+import newTag from "../assets/newTag.png";
 import bestpriceTag from "../assets/bestprice2.png";
 import { SelectOption } from "./";
 import icons from "../ultils/icons";
@@ -32,7 +32,6 @@ const Pitch = ({ pitchData, isNew }) => {
           {isShowOption && (
             <div className="absolute bottom-[-10px] left-0 right-0 flex justify-center gap-2 animate-slide-top">
               <span title="Quick View">
-                
                 <SelectOption icon={<AiFillEye />}></SelectOption>
               </span>
               <SelectOption icon={<AiOutlineMenu />}></SelectOption>
@@ -42,14 +41,14 @@ const Pitch = ({ pitchData, isNew }) => {
           <img
             src={pitchData?.images[0] || defaultImage}
             alt=""
-            className="w-[320px] h-[250px] object-cover"
+            className="w-full h-[280px] object-cover"
           />
           <img
             src={isNew ? newTag : bestpriceTag}
             alt=""
             className={`absolute  ${
               isNew
-                ? "w-[70px] top-[0px] left-[-7.5px]"
+                ? "w-[100px] h-[90px] top-[-20px] left-[-5px]"
                 : "w-[100px] h-[90px] top-[-30px] left-[-0px]"
             } h-[50px] object-cover`}
           ></img>
