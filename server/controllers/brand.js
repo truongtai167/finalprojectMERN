@@ -5,26 +5,20 @@ const { createSlug } = require("../ultils/helpers");
 const createBrand = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   if (Object.keys(req.body).length === 0) throw new Error("Missing input");
-
   if (req.body && req.body.title && _id) {
     // req.body.slug = slugify(req.body.name);
     const slug = createSlug(req.body.title);
-    // console.log(slug);
     req.body.slug = slug;
     req.body.owner = _id;
-    // req.body.categories = 
   }
-
+  let categories = [];
+  if (req.body.categories) {
+    categories = req.body.categories.split(",");
+  }
+  req.body.categories = categories;
   const response = await Brand.create(req.body);
-  // if (response && req.body.category)
-  //   await PitchCategory.updateMany(
-  //     { title: { $in: req.body.category } },
-  //     { $addToSet: { brands: req.body.title } },
-  //     { new: true } // Trả về bản ghi đã được cập nhật
-  //   );
-  if (response && req.body.categories) {
-    const categories = req.body.categories.split(",");
 
+  if (response && req.body.categories) {
     // Chờ cho brand được tạo xong rồi mới thực hiện cập nhật category
     await Promise.all(
       categories.map(async (categoryTitle) => {
@@ -32,7 +26,6 @@ const createBrand = asyncHandler(async (req, res) => {
         const pitchCategory = await PitchCategory.findOne({
           title: categoryTitle,
         });
-
         if (pitchCategory) {
           // Cập nhật mảng brands của category
           console.log("response.title:", response.title);
@@ -42,7 +35,6 @@ const createBrand = asyncHandler(async (req, res) => {
       })
     );
   }
-  
   return res.status(200).json({
     success: response ? true : false,
     createdBrand: response ? response : "Cannot create new brand",
@@ -68,10 +60,30 @@ const getBrand = asyncHandler(async (req, res) => {
 });
 const updateBrand = asyncHandler(async (req, res) => {
   const { brandId } = req.params;
-  if (req.body && req.body.name) req.body.slug = createSlug(req.body.title); // update slug
+  // find old title
+  const oldBrand = await Brand.findById(brandId);
+  const oldTitle = oldBrand.title;
+  // console.log("oldBrand.title", oldBrand.title);
+  if (req.body && req.body.title) req.body.slug = createSlug(req.body.title); // update slug
   const updatedBrand = await Brand.findByIdAndUpdate(brandId, req.body, {
     new: true,
   });
+  // update pitchCategory
+  // console.log("updateBrand.title", updatedBrand.title);
+  const categories = updatedBrand.categories;
+  await Promise.all(
+    categories.map(async (categoryTitle) => {
+      // console.log("categoryTitle", categoryTitle);
+      // Tìm category có title tương ứng
+      const updatedCategory = await PitchCategory.findOneAndUpdate(
+        { brands: { $all: [oldTitle] } },
+        { $set: { "brands.$": updatedBrand.title } },
+        { new: true }
+      );
+      // console.log("YES");
+    })
+  );
+
   return res.status(200).json({
     success: updatedBrand ? true : false,
     updatedBrand: updatedBrand ? updatedBrand : "Cannot update brand",
@@ -79,6 +91,25 @@ const updateBrand = asyncHandler(async (req, res) => {
 });
 const deleteBrand = asyncHandler(async (req, res) => {
   const { brandId } = req.params;
+
+  // find old title
+  const deletedBrand = await Brand.findById(brandId);
+  const deletedTitle = deletedBrand.title;
+  console.log("deletedBrand.title", deletedBrand.title);
+  // update pitchCategory
+  const categories = deletedBrand.categories;
+  await Promise.all(
+    categories.map(async (categoryTitle) => {
+      // console.log("categoryTitle", categoryTitle);
+      // Tìm category có title tương ứng
+      const updatedCategory = await PitchCategory.findOneAndUpdate(
+        { brands: { $in: [deletedTitle] } },
+        { $pull: { brands: deletedTitle } },
+        { new: true }
+      );
+    })
+  );
+
   const response = await Brand.findByIdAndDelete(brandId);
   return res.status(200).json({
     success: response ? true : false,
