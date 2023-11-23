@@ -82,7 +82,7 @@ const getPitches = asyncHandler(async (req, res) => {
 
 const updatePitch = asyncHandler(async (req, res) => {
   const { pitchId } = req.params;
-  if (req.body && req.body.name) req.body.slug = createSlug(req.body.name);
+  if (req.body && req.body.name) req.body.slug = createSlug(req.body.name); // update slug
   const updatedPitch = await Pitch.findByIdAndUpdate(pitchId, req.body, {
     new: true,
   });
@@ -94,7 +94,7 @@ const updatePitch = asyncHandler(async (req, res) => {
 
 const deletePitch = asyncHandler(async (req, res) => {
   const { pitchId } = req.params;
-  // if (req.body && req.body.name) req.body.slug = createSlug(req.body.name);
+
   const deletedPitch = await Pitch.findByIdAndDelete(pitchId);
   return res.status(200).json({
     success: deletedPitch ? true : false,
@@ -104,7 +104,7 @@ const deletePitch = asyncHandler(async (req, res) => {
 
 const ratings = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  console.log("_id : ", _id);
+
   const { star, comment, pitchId } = req.body;
   if (!star || !pitchId) throw new Error("Missing input");
   const ratingPitch = await Pitch.findById(pitchId);
@@ -141,7 +141,6 @@ const ratings = asyncHandler(async (req, res) => {
   const ratingCount = updatePitch.ratings.length;
 
   const sumRatings = updatePitch.ratings.reduce((sum, el) => sum + +el.star, 0);
-  // console.log(sumRatings);
 
   updatePitch.totalRatings = Math.round((sumRatings * 10) / ratingCount) / 10;
   await updatePitch.save();
@@ -167,7 +166,19 @@ const uploadImagesPitch = asyncHandler(async (req, res) => {
     message: response ? response : "Cannot upload images pitch",
   });
 });
-
+const updatePitchDescription = asyncHandler(async (req, res) => {
+  const { pitchId } = req.params;
+  if (!req.body.description) throw new Error("Missing Inputs");
+  const response = await Pitch.findByIdAndUpdate(
+    pitchId,
+    { $push: { description: req.body.description } },
+    { new: true }
+  );
+  return res.status(200).json({
+    success: response ? true : false,
+    message: response ? response : "Cannot update description pitch",
+  });
+});
 const updatePitchAddress = asyncHandler(async (req, res) => {
   const { pitchId } = req.params;
   if (!req.body.address) throw new Error("Missing Inputs");
@@ -190,5 +201,6 @@ module.exports = {
   deletePitch,
   ratings,
   uploadImagesPitch,
+  updatePitchDescription,
   updatePitchAddress,
 };

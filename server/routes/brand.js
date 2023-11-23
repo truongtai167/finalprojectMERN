@@ -1,14 +1,17 @@
 const router = require("express").Router();
 const controllers = require("../controllers/brand");
-const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
-
+const { verifyAccessToken, isAdmin, isAdminAndPitchOwn } = require("../middlewares/verifyToken");
+const uploader = require('../config/cloudinaryconfig')
 // Quest
 router.get("/",  controllers.getBrand);
-
+router.put("/ratings", [verifyAccessToken], controllers.ratings);
 //User
 
 // Admin
-router.post("/", [verifyAccessToken, isAdmin], controllers.createBrand);
-router.put("/:brandId", [verifyAccessToken, isAdmin], controllers.updateBrand);
-router.delete("/:brandId", [verifyAccessToken, isAdmin], controllers.deleteBrand);
+router.put("/uploadimage/:brandId", [verifyAccessToken, isAdminAndPitchOwn],uploader.array('images',10) ,controllers.uploadImagesBrand);
+router.post("/", [verifyAccessToken,isAdminAndPitchOwn ,isAdmin], controllers.createBrand);
+router.put("/:brandId", [verifyAccessToken,isAdminAndPitchOwn ,isAdmin], controllers.updateBrand);
+router.delete("/:brandId", [verifyAccessToken,isAdminAndPitchOwn ,isAdmin], controllers.deleteBrand);
+router.put("/address/:brandId", [verifyAccessToken, isAdminAndPitchOwn] ,controllers.updateBrandAddress);
+router.put("/description/:brandId", [verifyAccessToken, isAdminAndPitchOwn] ,controllers.updateBrandDescription);
 module.exports = router;

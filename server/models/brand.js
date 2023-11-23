@@ -9,6 +9,39 @@ var brandSchema = new mongoose.Schema(
       unique: true,
       index: true,
     },
+    slug: {
+      type: String,
+      required: true,
+      lowercase: true,
+    },
+    categories: {
+      type: Array,
+    },
+    description: {
+      type: Array,
+    },
+    images: {
+      type: Array,
+    },
+    address: {
+      type: String,
+    },
+    owner: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      default: "654aeed30df025516275eef0",
+    },
+    ratings: [
+      {
+        star: { type: Number },
+        postedBy: { type: mongoose.Types.ObjectId, ref: "User" },
+        comment: { type: String },
+      },
+    ],
+    totalRatings: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

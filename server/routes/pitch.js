@@ -18,6 +18,7 @@ router.put("/ratings", [verifyAccessToken], controllers.ratings);
 router.put("/uploadimage/:pitchId", [verifyAccessToken, isAdminAndPitchOwn],uploader.array('images',10) ,controllers.uploadImagesPitch);
 router.put("/:pitchId", [verifyAccessToken, isAdminAndPitchOwn] ,controllers.updatePitch);
 router.put("/address/:pitchId", [verifyAccessToken, isAdminAndPitchOwn] ,controllers.updatePitchAddress);
+router.put("/description/:pitchId", [verifyAccessToken, isAdminAndPitchOwn] ,controllers.updatePitchDescription);
 router.delete("/:pitchId",[verifyAccessToken, isAdminAndPitchOwn],controllers.deletePitch);
 router.post("/", [verifyAccessToken, isAdminAndPitchOwn], controllers.createPitch);
 module.exports = router;
