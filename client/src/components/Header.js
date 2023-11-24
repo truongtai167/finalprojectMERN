@@ -91,9 +91,10 @@ const Header = () => {
 
       <div className="flex items-center justify-center px-6">
         <FaUserCircle size={24}></FaUserCircle>
-        <div> Log In</div>
-        <span>/</span>
-        <div> Sign Up</div>
+        
+        <Link className=" pl-3 hover:text-red-500" to={`/${path.LOGIN}`}>
+          Sign In / Sign Up
+        </Link>
       </div>
     </div>
   );

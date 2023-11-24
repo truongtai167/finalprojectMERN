@@ -16,7 +16,7 @@ const createPitchCategory = asyncHandler(async (req, res) => {
   });
 });
 const getPitchCategory = asyncHandler(async (req, res) => {
-  const response = await PitchCategory.find().select("title  brand image");
+  const response = await PitchCategory.find().select("title  brands image");
   return res.status(200).json({
     success: response ? true : false,
     pitchCategories: response ? response : "Cannot get pitch categories",
