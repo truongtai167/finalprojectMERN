@@ -72,13 +72,13 @@ const BestPrice = () => {
         <img
           src={banner1}
           alt="banner"
-          className="flex-1 h-[380px] w-[100px] object-contain"
+          className="flex-1 h-[370px] w-[100px] object-contain"
           
         />
         <img
           src={banner2}
           alt="banner"
-          className="flex-1 h-[380px] w-[100px] object-contain"
+          className="flex-1 h-[370px] w-[100px] object-contain"
         />
       </div>
     </div>

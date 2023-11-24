@@ -3,7 +3,7 @@ import icons from "../ultils/icons";
 import { apiGetPitches } from "../apis/pitch";
 import defaultImage from "../assets/Coming_Soon.png";
 import { formatMoney, renderStarFromNumber } from "../ultils/helpers";
-import { CountDown } from "./";
+import { CountDown, ImageSlider } from "./";
 import poster01 from "../assets/poster.jpg";
 import poster02 from "../assets/poster02.jpg";
 import poster03 from "../assets/poster03.jpg";
@@ -11,10 +11,22 @@ import poster04 from "../assets/poster04.jpg";
 import poster05 from "../assets/poster05.jpg";
 import poster06 from "../assets/poster06.jpg";
 const imageArray = [poster01, poster02, poster03, poster04, poster05, poster06];
-function getRandomImage() {
-  const randomIndex = Math.floor(Math.random() * imageArray.length);
-  return imageArray[randomIndex];
-}
+// function getRandomImage() {
+//   const randomIndex = Math.floor(Math.random() * imageArray.length);
+//   setTimeout(randomIndex,10000)
+//   return imageArray[randomIndex];
+// }
+// function getRandomImage() {
+//   const randomIndex = Math.floor(Math.random() * imageArray.length);
+
+//   setTimeout(function() {
+//     // Mã bạn muốn thực hiện sau 10 giây
+//     console.log('Đã qua 10 giây');
+//     // Gọi hàm hoặc thực hiện các công việc khác tại đây
+//   }, 10000);
+
+//   return imageArray[randomIndex];
+// }
 const { AiFillStar, AiOutlineMenu } = icons;
 let idInterval;
 const DealDaily = () => {
@@ -24,7 +36,7 @@ const DealDaily = () => {
   const [second, setsecond] = useState(0);
   const [expireTime, setexpireTime] = useState(false);
 
-  let posterImage = poster01;
+  // let posterImage = getRandomImage();
 
   const fetchDealDaily = async () => {
     const response = await apiGetPitches({
@@ -41,12 +53,12 @@ const DealDaily = () => {
       sethour(h);
       setminute(m);
       setsecond(s);
-      posterImage = getRandomImage();
+      // posterImage = getRandomImage();
     } else {
       sethour(0);
       setminute(59);
       setsecond(59);
-      posterImage = getRandomImage();
+      // posterImage = getRandomImage();
     }
   };
   // useEffect(() => {
@@ -123,13 +135,9 @@ const DealDaily = () => {
           <span>Option</span>
         </button>
       </div>
-      <span hidden>A  </span>
+      <span hidden>A </span>
       <div className="mt-16 flex items-end">
-        <img
-          src={posterImage}
-          alt="poster"
-          className="w-full  object-contain"
-        />
+        <ImageSlider imageArray={imageArray} intervalMinutes={0.1} />
       </div>
     </div>
   );

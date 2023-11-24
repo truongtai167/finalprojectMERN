@@ -1,6 +1,12 @@
 import { RiPhoneFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
-import { FaUserCircle, FaFacebook, FaDiscord, FaYoutube } from "react-icons/fa";
+import {
+  FaUserCircle,
+  FaFacebook,
+  FaDiscord,
+  FaYoutube,
+  FaEye,
+} from "react-icons/fa";
 import { MdArrowRight } from "react-icons/md";
 import {
   AiFillHome,
@@ -13,6 +19,7 @@ import {
 import { BiLogoGmail } from "react-icons/bi";
 import { BsFillSuitHeartFill } from "react-icons/bs";
 import { IoIosArrowForward } from "react-icons/io";
+
 const icons = {
   RiPhoneFill,
   MdEmail,
@@ -30,6 +37,7 @@ const icons = {
   FaDiscord,
   FaYoutube,
   BiLogoGmail,
+  FaEye,
 };
 
 export default icons;
