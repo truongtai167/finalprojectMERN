@@ -9,7 +9,7 @@ router.post("/refreshtoken", controllers.refreshAccessToken);
 router.get("/logout", controllers.logout);
 router.get("/forgotpassword", controllers.forgotPassword);
 router.put("/resetpassword", controllers.resetPassword);
-
+router.get("/verify/:token", controllers.verifyEmail);
 // User
 router.get("/current", verifyAccessToken, controllers.getCurrent);
 router.put("/current", verifyAccessToken, controllers.updateUser);

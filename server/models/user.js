@@ -18,23 +18,6 @@ var userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    gender: {
-      type: String,
-      // required: true,
-    },
-    identityNumber: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    dateOfBirth: {
-      type: String,
-      required: true,
-    },
-    address: {
-      type: String,
-      required: true,
-    },
     image: {
       type: String,
     },
@@ -45,6 +28,16 @@ var userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "user",
+    },
+    gender: {
+      type: String,
+      // required: true,
+    },
+    dateOfBirth: {
+      type: String,
+    },
+    address: {
+      type: String,
     },
     order: [
       {

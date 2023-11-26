@@ -26,7 +26,6 @@ export const pitchSlice = createSlice({
       // Tắt trạng thái loading, lưu thông tin user vào store
       state.isLoading = false;
       state.newPitches = action.payload;
-      console.log("newPitches", state.newPitches);
     });
 
     // Khi thực hiện action login thất bại (Promise rejected)

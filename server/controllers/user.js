@@ -8,35 +8,99 @@ const {
 } = require("../middlewares/jwt");
 const sendMail = require("../ultils/sendMail");
 const crypto = require("crypto");
-
+const makeToken = require("uniqid");
+// const register = asyncHandler(async (req, res) => {
+//   const { name, email, password, phoneNumber } = req.body;
+//   if (!name || !email || !password || !phoneNumber) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Missing input",
+//     });
+//   }
+//   const user = await User.findOne({ email });
+//   if (user) throw new Error("email has existed");
+//   else {
+//     const newUser = await User.create(req.body);
+//     return res.status(200).json({
+//       success: newUser ? true : false,
+//       createdUser: newUser
+//         ? "Register successfully. Please log in "
+//         : "Something go wrong",
+//     });
+//   }
+// });
 const register = asyncHandler(async (req, res) => {
-  const { name, email, password, phoneNumber, identityNumber, dateOfBirth } =
-    req.body;
-  if (
-    !name ||
-    !email ||
-    !password ||
-    !phoneNumber ||
-    !identityNumber ||
-    !dateOfBirth
-  ) {
+  const { name, email, password, phoneNumber } = req.body;
+  if (!name || !email || !password || !phoneNumber) {
     return res.status(400).json({
       success: false,
       message: "Missing input",
     });
   }
-  const user = await User.findOne({ email });
-  if (user) throw new Error("User has existed");
-  else {
-    const newUser = await User.create(req.body);
-    return res.status(200).json({
-      success: newUser ? true : false,
-      message: newUser
-        ? "Register successfully. Please log in "
-        : "Something go wrong",
-    });
-  }
+  const token = makeToken();
+  res.cookie(
+    "dataregister",
+    { ...req.body, token },
+    { httpOnly: true, maxAge: 15 * 60 * 1000 }
+  );
+  const html = `click this link to verify your email after 15 minutes:
+  <a href=${process.env.URL_SERVER}/api/user/verify/${token}>Click here</a>
+  `;
+
+  await sendMail({ email, html, subject: "Verify email - debug boy" });
+  return res.status(200).json({
+    success: true,
+    message: "please verify your email",
+  });
 });
+const verifyEmail = asyncHandler(async (req, res) => {
+  const cookie = req.cookies;
+  const { token } = req.params;
+  if (!cookie || cookie?.dataregister?.token !== token)
+    return res.redirect(`${process.env.CLIENT_URL}/verify/fail`);
+  const newUser = await User.create({
+    email: cookie?.dataregister?.email,
+    password: cookie?.dataregister?.password,
+    phoneNumber: cookie?.dataregister?.phoneNumber,
+    name: cookie?.dataregister?.name,
+  });
+  if (newUser) return res.redirect(`${process.env.CLIENT_URL}/verify/success`);
+  else return res.redirect(`${process.env.CLIENT_URL}/verify/fail`);
+});
+// const register2 = asyncHandler(async (req, res) => {
+//   const { email, password, name, phoneNumber } = req.body;
+//   if (!email || !password || !name || !phoneNumber)
+//     return res.status(400).json({
+//       success: false,
+//       mes: "Missing inputs",
+//     });
+//   const user = await User.findOne({ email });
+//   if (user) throw new Error("email has existed");
+//   else {
+//     const token = makeToken();
+//     const emailedited = btoa(email) + "@" + token;
+//     const newUser = await User.create({
+//       email: emailedited,
+//       password,
+//       name,
+//       // phoneNumber,
+//     });
+//     if (newUser) {
+//       const html = `<h2>Register code:</h2><br /><blockquote>${token}</blockquote>`;
+//       await sendMail({ email, html, subject: "Verify Email - Debug Boy" });
+//     }
+//     setTimeout(async () => {
+//       await User.deleteOne({ email: emailedited });
+//     }, [600000]);
+//     return res.json({
+//       success: newUser ? true : false,
+//       mes: newUser
+//         ? "Please verify Email"
+//         : "Something went wrong, please try again",
+//     });
+//   }
+// });
+
 // refresh token=> cap moi access token
 // access token => xac thuc nguoi dung, phan quyen nguoi dung
 const login = asyncHandler(async (req, res) => {
@@ -143,6 +207,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const data = {
     email,
     html,
+    subject: "Forgot Password",
   };
   const result = await sendMail(data);
   return res.status(200).json({
@@ -299,4 +364,5 @@ module.exports = {
   updateUser,
   updateUserByAdmin,
   updateOrder,
+  verifyEmail,
 };

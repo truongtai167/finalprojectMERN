@@ -11,10 +11,13 @@ import { useSelector } from "react-redux";
 import icons from "../../ultils/icons";
 import defaultImage from "../../assets/Coming_Soon.png";
 const { MdArrowRight } = icons;
+
 const Home = () => {
   const { newPitches } = useSelector((state) => state.pitches);
   // console.log("pitches", newPitches);
   const { categories } = useSelector((state) => state.app);
+  const { isLoggedIn, current } = useSelector((state) => state.user);
+  console.log({isLoggedIn, current});
   return (
     <>
       <div className="w-main flex">

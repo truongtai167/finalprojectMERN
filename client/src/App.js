@@ -9,6 +9,7 @@ import {
   News,
   FAQ,
   Pitches,
+  VerifyEmail,
 } from "./pages/public";
 import path from "./ultils/path";
 import { getCategories } from "./store/app/asyncAction";
@@ -28,10 +29,15 @@ function App() {
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.NEWS} element={<News />} />
           <Route path={path.PITCHES} element={<Pitches />} />
-          <Route path={path.DETAIL_PITCH__CATEGORY__PITCHID__TITLE} element={<DetailPitch />}/>
+          <Route
+            path={path.DETAIL_PITCH__CATEGORY__PITCHID__TITLE}
+            element={<DetailPitch />}
+          />
           <Route path={path.OUR_SERVICE} element={<Services />} />
+
           <Route path={path.FAQ} element={<FAQ />} />
         </Route>
+        <Route path={path.VERIFY_EMAIL} element={<VerifyEmail />} />
         <Route path={path.LOGIN} element={<Login />} />
       </Routes>
       <ToastContainer

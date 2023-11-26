@@ -6,3 +6,4 @@ export { default as DetailPitch } from "./DetailPitch";
 export { default as News } from "./News";
 export { default as Services } from "./Services";
 export { default as FAQ } from "./FAQ";
+export { default as VerifyEmail } from "./VerifyEmail";

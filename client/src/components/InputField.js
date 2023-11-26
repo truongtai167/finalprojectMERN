@@ -9,7 +9,16 @@ function InputField({
   setInvalidFields,
 }) {
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+      {value.trim() !== "" && (
+        <label
+          className="text-[12px] animate-slide-top-sm absolute top-0 left-[8px] block bg-white px-1"
+          htmlFor={nameKey}
+        >
+          {nameKey?.slice(0, 1).toUpperCase() + nameKey?.slice(1)}
+        </label>
+      )}
+
       <input
         type={type || "text"}
         className="px-4 py-2 rounded-sm border w-full my-2 placeholder:italic outline-none"
