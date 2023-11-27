@@ -5,12 +5,13 @@ export const apiRegister = (data) =>
     url: "/user/register",
     method: "post",
     data,
+    withCredentials: true,
   });
-export const apiFinalRegister = (token) =>
-  axios({
-    url: "/user/finalregister/" + token,
-    method: "put",
-  });
+// export const apiFinalRegister = (token) =>
+//   axios({
+//     url: "/user/finalregister/" + token,
+//     method: "put",
+//   });
 export const apiLogin = (data) =>
   axios({
     url: "/user/login",
@@ -30,8 +31,8 @@ export const apiResetPassword = (data) =>
     method: "put",
     data,
   });
-export const apiGetCurrent = () =>
-  axios({
-    url: "/user/current",
-    method: "get",
-  });
+// export const apiGetCurrent = () =>
+//   axios({
+//     url: "/user/current",
+//     method: "get",
+//   });

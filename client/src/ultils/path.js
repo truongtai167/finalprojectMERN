@@ -10,6 +10,6 @@ const path = {
   DETAIL_PITCH: "pitch/:pitchId/:title",
   DETAIL_PITCH__CATEGORY__PITCHID__TITLE: ":category/:pitchId/:title",
   VERIFY_EMAIL: "verify/:status",
-  // RESET_PASSWORD: "reset-password/:token",
+  RESET_PASSWORD: "reset-password/:token",
 };
 export default path;

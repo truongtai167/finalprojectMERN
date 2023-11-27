@@ -9,6 +9,10 @@ module.exports = {
       width: {
         main: "1380px",
       },
+      backgroundColor: {
+        main: "#ee3131",
+        overlay: "rgba(0,0,0,0.3)",
+      },
       colors: {
         main: "#ee3131",
         overlay: "rgba(0,0,0,0.7)",
@@ -53,6 +57,16 @@ module.exports = {
             transform: "translateX(0px);",
           },
         },
+        "slide-tr": {
+          "0%": {
+            "-webkit-transform": "translateY(0) translateX(0)",
+            transform: "translateY(0) translateX(0)",
+          },
+          "100%": {
+            "-webkit-transform": "translateY(-1px) translateX(1px)",
+            transform: "translateY(-1px) translateX(1px)",
+          },
+        },
       },
       animation: {
         "slide-top":
@@ -60,6 +74,8 @@ module.exports = {
         "slide-top-sm": "slide-top-sm 0.2s linear both;",
         "slide-right":
           "slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;",
+        "slide-tr":
+          "slide-tr 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;",
       },
     },
   },

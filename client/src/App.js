@@ -10,6 +10,7 @@ import {
   FAQ,
   Pitches,
   VerifyEmail,
+  ResetPassword,
 } from "./pages/public";
 import path from "./ultils/path";
 import { getCategories } from "./store/app/asyncAction";
@@ -34,11 +35,12 @@ function App() {
             element={<DetailPitch />}
           />
           <Route path={path.OUR_SERVICE} element={<Services />} />
-
           <Route path={path.FAQ} element={<FAQ />} />
+          
         </Route>
         <Route path={path.VERIFY_EMAIL} element={<VerifyEmail />} />
         <Route path={path.LOGIN} element={<Login />} />
+        <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
       </Routes>
       <ToastContainer
         position="top-right"
@@ -50,6 +52,7 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        theme="colored"
       />
       {/* Same as */}
       <ToastContainer />

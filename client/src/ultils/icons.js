@@ -6,7 +6,9 @@ import {
   FaDiscord,
   FaYoutube,
   FaEye,
+  FaEyeSlash,
 } from "react-icons/fa";
+
 import { MdArrowRight } from "react-icons/md";
 import {
   AiFillHome,
@@ -38,6 +40,7 @@ const icons = {
   FaYoutube,
   BiLogoGmail,
   FaEye,
+  FaEyeSlash,
 };
 
 export default icons;
