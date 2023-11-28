@@ -29,77 +29,103 @@ const makeToken = require("uniqid");
 //     });
 //   }
 // });
-const register = asyncHandler(async (req, res) => {
-  const { name, email, password, phoneNumber } = req.body;
-  if (!name || !email || !password || !phoneNumber) {
-    return res.status(400).json({
-      success: false,
-      message: "Missing input",
-    });
-  }
-  const token = makeToken();
-  res.cookie(
-    "dataregister",
-    { ...req.body, token },
-    { httpOnly: true, maxAge: 15 * 60 * 1000 }
-  );
-  const html = `click this link to verify your email after 15 minutes:
-  <a href=${process.env.URL_SERVER}/api/user/verify/${token}>Click here</a>
-  `;
-
-  await sendMail({ email, html, subject: "Verify email - debug boy" });
-  return res.status(200).json({
-    success: true,
-    message: "please verify your email",
-  });
-});
-const verifyEmail = asyncHandler(async (req, res) => {
-  const cookie = req.cookies;
-  const { token } = req.params;
-  if (!cookie || cookie?.dataregister?.token !== token)
-    return res.redirect(`${process.env.CLIENT_URL}/verify/fail`);
-  const newUser = await User.create({
-    email: cookie?.dataregister?.email,
-    password: cookie?.dataregister?.password,
-    phoneNumber: cookie?.dataregister?.phoneNumber,
-    name: cookie?.dataregister?.name,
-  });
-  if (newUser) return res.redirect(`${process.env.CLIENT_URL}/verify/success`);
-  else return res.redirect(`${process.env.CLIENT_URL}/verify/fail`);
-});
-// const register2 = asyncHandler(async (req, res) => {
-//   const { email, password, name, phoneNumber } = req.body;
-//   if (!email || !password || !name || !phoneNumber)
+//register and verify email
+// const register = asyncHandler(async (req, res) => {
+//   const { name, email, password, phoneNumber } = req.body;
+//   if (!name || !email || !password || !phoneNumber) {
 //     return res.status(400).json({
 //       success: false,
-//       mes: "Missing inputs",
-//     });
-//   const user = await User.findOne({ email });
-//   if (user) throw new Error("email has existed");
-//   else {
-//     const token = makeToken();
-//     const emailedited = btoa(email) + "@" + token;
-//     const newUser = await User.create({
-//       email: emailedited,
-//       password,
-//       name,
-//       // phoneNumber,
-//     });
-//     if (newUser) {
-//       const html = `<h2>Register code:</h2><br /><blockquote>${token}</blockquote>`;
-//       await sendMail({ email, html, subject: "Verify Email - Debug Boy" });
-//     }
-//     setTimeout(async () => {
-//       await User.deleteOne({ email: emailedited });
-//     }, [600000]);
-//     return res.json({
-//       success: newUser ? true : false,
-//       mes: newUser
-//         ? "Please verify Email"
-//         : "Something went wrong, please try again",
+//       message: "Missing input",
 //     });
 //   }
+//   const token = makeToken();
+//   res.cookie(
+//     "dataregister",
+//     { ...req.body, token },
+//     { httpOnly: true, maxAge: 15 * 60 * 1000 }
+//   );
+//   const html = `click this link to verify your email after 15 minutes:
+//   <a href=${process.env.URL_SERVER}/api/user/verify/${token}>Click here</a>
+//   `;
+
+//   await sendMail({ email, html, subject: "Verify email - debug boy" });
+//   return res.status(200).json({
+//     success: true,
+//     message: "please verify your email",
+//   });
 // });
+// const verifyEmail = asyncHandler(async (req, res) => {
+//   const cookie = req.cookies;
+//   const { token } = req.params;
+//   if (!cookie || cookie?.dataregister?.token !== token) {
+//     res.clearCookie("dataregister");
+//     return res.redirect(`${process.env.CLIENT_URL}/verify/fail`);
+//   }
+
+//   const newUser = await User.create({
+//     email: cookie?.dataregister?.email,
+//     password: cookie?.dataregister?.password,
+//     phoneNumber: cookie?.dataregister?.phoneNumber,
+//     name: cookie?.dataregister?.name,
+//   });
+//   res.clearCookie("dataregister");
+//   if (newUser) return res.redirect(`${process.env.CLIENT_URL}/verify/success`);
+//   else return res.redirect(`${process.env.CLIENT_URL}/verify/fail`);
+// });
+const verifyEmail = asyncHandler(async (req, res) => {
+  const { token } = req.params;
+  const notActivatedEmail = await User.findOne({
+    email: new RegExp(`${token}$`),
+  });
+  if (notActivatedEmail) {
+    notActivatedEmail.email = Buffer.from(
+      notActivatedEmail?.email?.split("@")[0],
+      "base64"
+    ).toString("utf-8");
+    notActivatedEmail.save();
+  }
+  return res.json({
+    success: notActivatedEmail ? true : false,
+    mes: notActivatedEmail
+      ? notActivatedEmail
+      : // "Register is successfully. Please go login"
+        "Something went wrong, please try again",
+  });
+});
+const register = asyncHandler(async (req, res) => {
+  const { email, password, name, phoneNumber } = req.body;
+  if (!email || !password || !name || !phoneNumber)
+    return res.status(400).json({
+      success: false,
+      mes: "Missing inputs",
+    });
+  const user = await User.findOne({ email });
+  if (user) throw new Error("email has existed");
+  else {
+    const token = makeToken();
+    const encodedEmail = Buffer.from(email).toString("base64");
+    const emailedited = encodedEmail + "@" + token;
+    const newUser = await User.create({
+      email: emailedited,
+      password,
+      name,
+      phoneNumber,
+    });
+    if (newUser) {
+      const html = `<h2>Register code:</h2><br /><blockquote>debugboy-${token}</blockquote>`;
+      await sendMail({ email, html, subject: "Verify code - Debug Boy" });
+    }
+    setTimeout(async () => {
+      await User.deleteOne({ email: emailedited });
+    }, [60000]);
+    return res.json({
+      success: newUser ? true : false,
+      mes: newUser
+        ? "Please check your email"
+        : "Something went wrong, please try again",
+    });
+  }
+});
 
 // refresh token=> cap moi access token
 // access token => xac thuc nguoi dung, phan quyen nguoi dung
@@ -196,14 +222,15 @@ const logout = asyncHandler(async (req, res) => {
 // change password
 
 const forgotPassword = asyncHandler(async (req, res) => {
-  const { email } = req.query;
+  const { email } = req.body;
   if (!email) throw new Error("Missing email");
   const user = await User.findOne({ email });
   if (!user) throw new Error("User not found");
   const resetToken = user.createPasswordChangeToken();
   await user.save();
 
-  const html = `Please follow this link to reset your password, this link will be closed in 15 min : <a href=${process.env.URL_SERVER}/api/user/reset-password/${resetToken}>Click here</a>`;
+  const html = `Please follow this link to reset your password, this link will be closed in 15 min :
+   <a href=${process.env.CLIENT_URL}/reset-password/${resetToken}>Click here</a>`;
   const data = {
     email,
     html,
@@ -211,8 +238,10 @@ const forgotPassword = asyncHandler(async (req, res) => {
   };
   const result = await sendMail(data);
   return res.status(200).json({
-    success: true,
-    result,
+    success: result.response?.includes("OK") ? true : false,
+    message: result.response?.includes("OK")
+      ? "check your email"
+      : "something went wrong , try again",
   });
 });
 const resetPassword = asyncHandler(async (req, res) => {

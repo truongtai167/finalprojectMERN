@@ -10,11 +10,10 @@ export const userSlice = createSlice({
     // isLoading: false,
   },
   reducers: {
-    register: (state, action) => {
-      console.log(action);
+    login: (state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn;
       state.current = action.payload.userData;
-      state.token = action.payload.type;
+      state.token = action.payload.token;
     },
   },
   // Code logic xử lý async action
@@ -42,6 +41,6 @@ export const userSlice = createSlice({
   //   },
 });
 
-export const { register } = userSlice.actions;
+export const { login } = userSlice.actions;
 
 export default userSlice.reducer;

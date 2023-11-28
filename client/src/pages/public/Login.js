@@ -1,34 +1,42 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import bgImage from "../../assets/bg_login.png";
 import { Button, InputField } from "../../components";
-import { apiRegister, apiLogin, apiForgotPassword } from "../../apis/user";
+import {
+  apiRegister,
+  apiLogin,
+  apiForgotPassword,
+  apiVerify,
+} from "../../apis/user";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import path from "../../ultils/path";
-import { register } from "../../store/user/userSlice";
+import { login } from "../../store/user/userSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { validate } from "../../ultils/helpers";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const location = useLocation();
   // console.log(location);
-  const [payload, setpayload] = useState({
+  const [payload, setPayload] = useState({
     email: "",
     password: "",
     name: "",
     phoneNumber: "",
   });
-
+  const [invalidFields, setInvalidFields] = useState([]);
   const [isRegister, setIsRegister] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [token, setToken] = useState("");
+  const [isVerifyEmail, setIsVerifyEmail] = useState(false);
   const resetPayload = () => {
-    setpayload({
+    setPayload({
       email: "",
       password: "",
-      firstname: "",
-      lastname: "",
+      name: "",
+      phoneNumber: "",
     });
   };
   const [email, setEmail] = useState("");
@@ -40,32 +48,97 @@ const Login = () => {
       toast.info(response.message, { theme: "colored" });
     }
   };
+  useEffect(() => {
+    resetPayload();
+  }, [isRegister]);
+
+  // submit
+  // console.log(validate(payload));
   const handleSubmit = useCallback(async () => {
     const { name, phoneNumber, ...data } = payload;
-    if (isRegister) {
-      const response = await apiRegister(payload);
-      if (response.success) {
-        Swal.fire("Congratulation", response.message, "success").then(() => {
-          setIsRegister(false);
-          resetPayload();
-        });
-      } else Swal.fire("Oops", response.message, "error");
-    } else {
-      const result = await apiLogin(data); // login
-      if (result.success) {
-        dispatch(
-          register({
-            isLoggedIn: true,
-            token: result.accessToken,
-            userData: result.userData,
-          })
-        );
-        navigate(`/${path.HOME}`);
-      } else Swal.fire("Oops", result.message, "error");
+    console.log("isRegister", isRegister);
+    console.log("payload", payload);
+    console.log("data", data);
+    const invalids = isRegister
+      ? validate(payload, setInvalidFields)
+      : validate(data, setInvalidFields);
+
+    if (invalids === 0) {
+      if (isRegister) {
+        const response = await apiRegister(payload);
+        if (response.success) {
+          setIsVerifyEmail(true);
+        } else Swal.fire("Oops", response.message, "error");
+      } else {
+        const result = await apiLogin(data); // login
+        if (result.success) {
+          dispatch(
+            login({
+              isLoggedIn: true,
+              token: result.accessToken,
+              userData: result.userData,
+            })
+          );
+          navigate(`/${path.HOME}`);
+        } else Swal.fire("Oops", result.message, "error");
+      }
     }
   }, [payload, isRegister]);
+
+  const finalRegister = async () => {
+    console.log({ token });
+    const response = await apiVerify(token);
+    if (response.success) {
+      Swal.fire("Congratulation", response.message, "success").then(() => {
+        setIsRegister(false);
+        resetPayload();
+      });
+    } else Swal.fire("Oops", response.message, "error");
+    setIsVerifyEmail(false);
+    setToken("");
+  };
+
   return (
     <div className="w-screen h-screen relative">
+      {isVerifyEmail && (
+        <div className="absolute top-0 left-0 animate-slide-right bottom-0 right-0 bg-overlay flex flex-col items-center py-8 z-50">
+          <div className="flex flex-col gap-4">
+            {/* <h4 className="text-2xl font-semibold text-main mb-4">
+            We've sent you a registration code. Please check your email and
+            enter the code:
+          </h4> */}
+            <label htmlFor="text" className="text-white text-lg font-bold ">
+              We've sent you a registration code. Please check your email and
+              enter the code:
+            </label>
+            <input
+              type="text"
+              id="token"
+              className="w-[800px] border-b outline-none p-4 placeholder:text-sm"
+              placeholder="Exp: debugboy-xxxxxxxxx "
+              value={token}
+              onChange={(el) => setToken(el.target.value)}
+            />
+          </div>
+          <div className="flex items-center justify-end mt-4 gap-2">
+            <Button
+              name={"submit"}
+              handleOnClick={finalRegister}
+              style={
+                "px-4 py-2 rounded-md text-white bg-green-500 text-semibold my-2"
+              }
+            />
+            {/* <Button
+              name={"Cancel"}
+              handleOnClick={() => setIsVerifyEmail(false)}
+              style={
+                "px-4 py-2 rounded-md text-white bg-red-500 text-semibold my-2"
+              }
+            /> */}
+          </div>
+        </div>
+      )}
+
       {isForgotPassword && (
         <div className="absolute top-0 left-0 animate-slide-right bottom-0 right-0 bg-overlay flex flex-col items-center py-8 z-50">
           <div className="flex flex-col gap-4">
@@ -112,28 +185,36 @@ const Login = () => {
           {isRegister && (
             <InputField
               value={payload.name}
-              setValue={setpayload}
+              setValue={setPayload}
               nameKey="name"
+              invalidFields={invalidFields}
+              setInvalidFields={setInvalidFields}
             />
           )}
           <InputField
             value={payload.email}
-            setValue={setpayload}
+            setValue={setPayload}
             nameKey="email"
             type={"email"}
+            invalidFields={invalidFields}
+            setInvalidFields={setInvalidFields}
           />
           <InputField
             value={payload.password}
-            setValue={setpayload}
+            setValue={setPayload}
             nameKey="password"
             type={"password"}
+            invalidFields={invalidFields}
+            setInvalidFields={setInvalidFields}
           />
           {isRegister && (
             <InputField
               value={payload.phoneNumber}
-              setValue={setpayload}
+              setValue={setPayload}
               nameKey="phoneNumber"
               type={"tel"}
+              invalidFields={invalidFields}
+              setInvalidFields={setInvalidFields}
             />
           )}
           <Button
