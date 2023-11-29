@@ -14,9 +14,9 @@ const Breadcrumb = ({ title, category }) => {
     { path: "/:category/:pid/:title", breadcrumb: title },
   ];
 
-  console.log({ title, category });
+  
   const breadcrumb = useBreadcrumbs(routes);
-  console.log(breadcrumb);
+  
   return (
     <div className="text-sm flex items-center gap-1">
       {breadcrumb
