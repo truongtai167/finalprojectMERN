@@ -35,30 +35,51 @@ export const validate = (payload, setInvalidFields) => {
       ]);
     }
   }
-  // for (let arr of formatPayload) {
-  //   switch (arr[0]) {
-  //     case "email":
-  //       const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  //       if (!arr[1].match(regex)) {
-  //         invalids++;
-  //         setInvalidFields((prev) => [
-  //           ...prev,
-  //           { name: arr[0], mes: "Invalid email" },
-  //         ]);
-  //       }
-  //       break;
-  //     case "password":
-  //       if (arr[1].length < 6) {
-  //         invalids++;
-  //         setInvalidFields((prev) => [
-  //           ...prev,
-  //           { name: arr[0], mes: "Password minimum 6 characters" },
-  //         ]);
-  //       }
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }
+  for (let arr of formatPayload) {
+    switch (arr[0]) {
+      case "email":
+        const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (!arr[1].match(regex)) {
+          invalids++;
+          setInvalidFields((prev) => [
+            ...prev,
+            { name: arr[0], mes: "Invalid email" },
+          ]);
+        }
+        break;
+      case "password":
+        if (arr[1].length < 8) {
+          invalids++;
+          setInvalidFields((prev) => [
+            ...prev,
+            { name: arr[0], mes: "Password minimum 8 characters" },
+          ]);
+        }
+        break;
+      case "name":
+        console.log("name");
+        const nameRegex = /^[^\d\W_]+$/; // Chỉ chấp nhận chữ cái và khoảng trắng
+        if (!arr[1].match(nameRegex)) {
+          invalids++;
+          setInvalidFields((prev) => [
+            ...prev,
+            { name: arr[0], mes: "Only alphabetic characters" },
+          ]);
+        }
+        break;
+      case "phoneNumber":
+        const phoneRegex = /^\d{1,11}$/; // Chỉ chấp nhận số, tối đa 11 chữ số
+        if (!arr[1].match(phoneRegex)) {
+          invalids++;
+          setInvalidFields((prev) => [
+            ...prev,
+            { name: arr[0], mes: "Number only" },
+          ]);
+        }
+        break;
+      default:
+        break;
+    }
+  }
   return invalids;
 };

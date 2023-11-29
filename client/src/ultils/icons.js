@@ -18,8 +18,9 @@ import {
   AiOutlineMenu,
   AiOutlineLogout,
 } from "react-icons/ai";
+import { CiLogout } from "react-icons/ci";
 import { BiLogoGmail } from "react-icons/bi";
-import { BsFillSuitHeartFill } from "react-icons/bs";
+import { BsFillSuitHeartFill, BsCart } from "react-icons/bs";
 import { IoIosArrowForward } from "react-icons/io";
 
 const icons = {
@@ -41,6 +42,8 @@ const icons = {
   BiLogoGmail,
   FaEye,
   FaEyeSlash,
+  CiLogout,
+  BsCart,
 };
 
 export default icons;

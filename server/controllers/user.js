@@ -9,6 +9,7 @@ const {
 const sendMail = require("../ultils/sendMail");
 const crypto = require("crypto");
 const makeToken = require("uniqid");
+
 // const register = asyncHandler(async (req, res) => {
 //   const { name, email, password, phoneNumber } = req.body;
 //   if (!name || !email || !password || !phoneNumber) {
@@ -112,8 +113,128 @@ const register = asyncHandler(async (req, res) => {
       phoneNumber,
     });
     if (newUser) {
-      const html = `<h2>Register code:</h2><br /><blockquote>debugboy-${token}</blockquote>`;
-      await sendMail({ email, html, subject: "Verify code - Debug Boy" });
+      // const html = `<h2>Register code:</h2><br /><blockquote>debugboy-${token}</blockquote>`;
+      const emailHtml = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Email Template</title>
+          <style>
+              body {
+                  font-family: 'Helvetica', Arial, sans-serif;
+                  background-color: #f4f4f4;
+                  margin: 0;
+                  padding: 0;
+              }
+
+              .container {
+                  max-width: 560px;
+                  margin: 0 auto;
+                  font-family: 'Helvetica', Arial, sans-serif;
+              }
+
+              .header {
+                  background-color:#ffffff;
+                  color: #fff;
+                  text-align: center;
+                  padding: 20px;
+              }
+
+              .logo img {
+                  max-width: 100%;
+                  height: auto;
+              }
+
+              .content {
+                  background-color: #ffffff;
+                  color: #353740;
+                  padding: 40px 20px;
+                  text-align: left;
+                  line-height: 1.5;
+              }
+
+              h1 {
+                  color: #202123;
+                  font-size: 32px;
+                  line-height: 40px;
+                  margin: 0 0 20px;
+              }
+              .code{
+                font-size: 16px;
+                line-height: 24px;
+                margin: 0 0 24px;
+                text-align: center; 
+              }
+              p {
+                font-size: 16px;
+                line-height: 24px;
+                margin: 0 0 24px; 
+            }
+
+              .cta-button {
+                  display: inline-block;
+                  text-decoration: none;
+                  background: #10a37f;
+                  border-radius: 3px;
+                  color: white;
+                  font-size: 16px;
+                  line-height: 24px;
+                  font-weight: 400;
+                  padding: 12px 20px 11px;
+                  margin: 0px;
+              }
+
+              .footer {
+                  background: #ffffff;
+                  color: #6e6e80;
+                  padding: 0 20px 20px;
+                  font-size: 13px;
+                  line-height: 1.4;
+                  text-align: left;
+              }
+          </style>
+      </head>
+      <body>
+          <center>
+              <table class="container" style="width: 100%; border-collapse: collapse !important;">
+                  <tr>
+                      <td class="header">
+                          <img src="https://res.cloudinary.com/dmj8tbay1/image/upload/v1701228568/logo_ykataq.png" width="200" height="80" alt="BookingPitches Logo">
+                      </td>
+                  </tr>
+                  <tr>
+                      <td class="content">
+                          <h1>Verify your email address</h1>
+                          <p>
+                              To continue setting up your BookingPitches account, please verify that this is your email address.
+                          </p>
+                          <p class"code">
+                              DEBUGBOY-${token}
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td class="footer">
+                          <p>
+                              This link will expire in 1 minutes. If you did not make this request, please disregard this email.
+                              For help, contact us through our <a href="" target="_blank">FAQ</a>.
+                          </p>
+                      </td>
+                  </tr>
+              </table>
+          </center>
+      </body>
+      </html>
+    `;
+
+      await sendMail({
+        email,
+        html: emailHtml,
+        subject: "Verify code - Debug Boy",
+      });
     }
     setTimeout(async () => {
       await User.deleteOne({ email: emailedited });
@@ -171,7 +292,7 @@ const getCurrent = asyncHandler(async (req, res) => {
   const user = await User.findById(_id).select("-refreshToken -password -role");
   return res.status(200).json({
     success: user ? true : false,
-    result: user ? user : "User not found",
+    user: user ? user : "User not found",
   });
 });
 const refreshAccessToken = asyncHandler(async (req, res) => {

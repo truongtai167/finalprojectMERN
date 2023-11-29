@@ -115,7 +115,7 @@ const Login = () => {
               type="text"
               id="token"
               className="w-[800px] border-b outline-none p-4 placeholder:text-sm"
-              placeholder="Exp: debugboy-xxxxxxxxx "
+              placeholder="Exp: DEBUGBOY-xxxxxxxxx "
               value={token}
               onChange={(el) => setToken(el.target.value)}
             />

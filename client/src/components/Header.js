@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../assets/logo.png";
 import icons from "../ultils/icons";
 import { Link } from "react-router-dom";
 import path from "..//ultils/path";
+import { getCurrent } from "../store/user/asyncAction";
+import { logout } from "../store/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 const Header = () => {
-  const { FaUserCircle } = icons;
+  const { FaUserCircle, CiLogout, BsCart } = icons;
+  const dispatch = useDispatch();
+  const { isLoggedIn, current } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(getCurrent());
+    }
+  }, [dispatch, isLoggedIn]);
+
   return (
     <div className="border w-main flex justify-between h-[110px] py-[35px]">
       <Link to={`/${path.HOME}`}>
@@ -89,12 +100,45 @@ const Header = () => {
         </div> */}
       </div>
 
-      <div className="flex items-center justify-center px-6">
-        <FaUserCircle size={24}></FaUserCircle>
-        
-        <Link className=" pl-3 hover:text-red-500" to={`/${path.LOGIN}`}>
-          Sign In / Sign Up
-        </Link>
+      <div className="flex items-center justify-end px-6 gap-2  border-gray-300">
+        {isLoggedIn ? (
+          <div className="flex items-center gap-2 cursor-pointer ">
+            <div
+              className="flex items-center gap-2 cursor-pointer group border-r-2"
+              onClick={() => {
+                /* handle user profile click */
+              }}
+            >
+              <FaUserCircle size={24} className="group-hover:text-red-500" />
+              <span className="group-hover:text-red-500 mr-2">
+                {current?.name}
+              </span>
+            </div>
+            <div
+              className="flex items-center gap-2 cursor-pointer group border-r-2 mr-2"
+              onClick={() => {
+                dispatch(logout());
+              }}
+            >
+              <CiLogout size={24} className="group-hover:text-red-500" />
+              <span className="group-hover:text-red-500 mr-2 ">Logout</span>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-1 cursor-pointer group">
+            <FaUserCircle size={24} className="group-hover:text-red-500" />
+            <Link
+              className="pl-1 group-hover:text-red-500"
+              to={`/${path.LOGIN}`}
+            >
+              Sign In / Sign Up
+            </Link>
+          </div>
+        )}
+        <div className="flex items-center gap-1 cursor-pointer group">
+          <BsCart size={24} className="group-hover:text-red-500" />
+          <span className="group-hover:text-red-500">Dat San</span>
+        </div>
       </div>
     </div>
   );
