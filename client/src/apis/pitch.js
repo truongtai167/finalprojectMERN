@@ -7,8 +7,8 @@ export const apiGetPitches = (params) =>
     params,
   });
 
-export const apiGetPitch = (pid) =>
+export const apiGetPitch = (pitchId) =>
   axios({
-    url: "/pitch/" + pid,
+    url: "/pitch/" + pitchId,
     method: "get",
   });

@@ -30,7 +30,7 @@ const Home = () => {
           <BestPrice />
         </div>
       </div>
-      <div className="my-8 my-8">
+      <div className="my-8 ">
         <FeaturePitches />
       </div>
       <div className="my-8 w-main ">
