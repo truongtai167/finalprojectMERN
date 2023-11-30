@@ -2,21 +2,19 @@ import React from "react";
 import useBreadcrumbs from "use-react-router-breadcrumbs";
 import { Link } from "react-router-dom";
 import icons from "../ultils/icons";
-const userNamesById = { 1: "John" };
+
 const { IoIosArrowForward } = icons;
-const DynamicUserBreadcrumb = ({ match }) => (
-  <span>{userNamesById[match.params.userId]}</span>
-);
-const Breadcrumb = ({ title, category }) => {
+
+const Breadcrumb = ({ title, category, brand }) => {
   const routes = [
     { path: "/:category", breadcrumb: category },
+    { path: "/:category/:brand", breadcrumb: brand },
     { path: "/", breadcrumb: "Home" },
-    { path: "/:category/:pid/:title", breadcrumb: title },
+    { path: "/:category/:brand/:pid/:title", breadcrumb: title },
   ];
 
-  
   const breadcrumb = useBreadcrumbs(routes);
-  
+
   return (
     <div className="text-sm flex items-center gap-1">
       {breadcrumb

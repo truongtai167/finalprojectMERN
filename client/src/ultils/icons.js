@@ -1,5 +1,6 @@
 import { RiPhoneFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
+import { IoFastFood } from "react-icons/io5";
 import {
   FaUserCircle,
   FaFacebook,
@@ -7,6 +8,7 @@ import {
   FaYoutube,
   FaEye,
   FaEyeSlash,
+  FaCalendarAlt,FaShieldAlt ,FaCar ,FaWifi 
 } from "react-icons/fa";
 
 import { MdArrowRight } from "react-icons/md";
@@ -16,13 +18,13 @@ import {
   AiOutlineStar,
   AiFillEye,
   AiOutlineMenu,
-  AiOutlineLogout,
+  AiOutlineLogout,AiOutlineSafety 
 } from "react-icons/ai";
 import { CiLogout } from "react-icons/ci";
 import { BiLogoGmail } from "react-icons/bi";
 import { BsFillSuitHeartFill, BsCart } from "react-icons/bs";
 import { IoIosArrowForward } from "react-icons/io";
-
+import { BsFillTelephoneForwardFill } from "react-icons/bs";
 const icons = {
   RiPhoneFill,
   MdEmail,
@@ -44,6 +46,7 @@ const icons = {
   FaEyeSlash,
   CiLogout,
   BsCart,
+  FaCalendarAlt,FaShieldAlt ,FaCar ,AiOutlineSafety ,FaWifi ,IoFastFood,BsFillTelephoneForwardFill
 };
 
 export default icons;

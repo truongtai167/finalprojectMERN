@@ -10,15 +10,16 @@ import path from "../ultils/path";
 
 const { AiFillEye, AiOutlineMenu, BsFillSuitHeartFill } = icons;
 
-const Pitch = ({ pitchData, isNew }) => {
+const Pitch = ({ pitchData, isNew, normal }) => {
   const [isShowOption, setisShowOption] = useState(false);
+  console.log("brand : ", pitchData?.brand);
   return (
     <div className="w-full text-base pr-[10px]">
       <Link
         className="w-full border p-[15px] flex flex-col items-center"
-        to={`/${pitchData?.category?.toLowerCase()}/${pitchData?._id}/${
-          pitchData?.name
-        }`}
+        to={`/${pitchData?.category?.toLowerCase()}/${pitchData?.brand?.toLowerCase()}/${
+          pitchData?._id
+        }/${pitchData?.name}`}
         onMouseEnter={(e) => {
           e.stopPropagation();
           setisShowOption(true);
@@ -43,15 +44,17 @@ const Pitch = ({ pitchData, isNew }) => {
             alt=""
             className="w-full h-[280px] object-cover"
           />
-          <img
-            src={isNew ? newTag : bestpriceTag}
-            alt=""
-            className={`absolute  ${
-              isNew
-                ? "w-[100px] h-[90px] top-[-20px] left-[-5px]"
-                : "w-[100px] h-[90px] top-[-30px] left-[-0px]"
-            } h-[50px] object-cover`}
-          ></img>
+          {!normal && (
+            <img
+              src={isNew ? newTag : bestpriceTag}
+              alt=""
+              className={`absolute  ${
+                isNew
+                  ? "w-[100px] h-[90px] top-[-20px] left-[-5px]"
+                  : "w-[100px] h-[90px] top-[-30px] left-[-0px]"
+              } h-[50px] object-cover`}
+            ></img>
+          )}
           {/* <span className="font-bold  top-[-12px] left-[-10px] text-white absolute">
             {isNew ? "New" : "Best"}
           </span> */}

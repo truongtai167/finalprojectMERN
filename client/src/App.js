@@ -31,12 +31,11 @@ function App() {
           <Route path={path.NEWS} element={<News />} />
           <Route path={path.PITCHES} element={<Pitches />} />
           <Route
-            path={path.DETAIL_PITCH__CATEGORY__PITCHID__TITLE}
+            path={path.DETAIL_PITCH__CATEGORY__BRAND__PITCHID__TITLE}
             element={<DetailPitch />}
           />
           <Route path={path.OUR_SERVICE} element={<Services />} />
           <Route path={path.FAQ} element={<FAQ />} />
-          
         </Route>
         <Route path={path.VERIFY_EMAIL} element={<VerifyEmail />} />
         <Route path={path.LOGIN} element={<Login />} />

@@ -15,3 +15,5 @@ export { default as InputField } from "./InputField";
 export { default as Button } from "./Button";
 export { default as ImageSlider } from "./ImageSlider";
 export { default as Breadcrumb } from "./Breadcrumb";
+export { default as PitchExtraInfo } from "./PitchExtraInfo";
+export { default as PitchInformation } from "./PitchInformation";
