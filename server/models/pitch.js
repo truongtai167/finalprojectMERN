@@ -43,6 +43,9 @@ var pitchSchema = new mongoose.Schema(
     images: {
       type: Array,
     },
+    location: {
+      type: String,
+    },
     address: {
       type: Array,
     },

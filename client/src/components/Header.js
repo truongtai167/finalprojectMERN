@@ -120,15 +120,15 @@ const Header = () => {
                 dispatch(logout());
               }}
             >
-              <CiLogout size={24} className="group-hover:text-red-500" />
+              <CiLogout size={24}  className="group-hover:text-red-500 " />
               <span className="group-hover:text-red-500 mr-2 ">Logout</span>
             </div>
           </div>
         ) : (
           <div className="flex items-center gap-1 cursor-pointer group">
-            <FaUserCircle size={24} className="group-hover:text-red-500" />
+            <FaUserCircle size={24} className="text-red-500" />
             <Link
-              className="pl-1 group-hover:text-red-500"
+              className="pl-1 group-hover:text-red-500 "
               to={`/${path.LOGIN}`}
             >
               Sign In / Sign Up
@@ -136,8 +136,8 @@ const Header = () => {
           </div>
         )}
         <div className="flex items-center gap-1 cursor-pointer group">
-          <BsCart size={24} className="group-hover:text-red-500" />
-          <span className="group-hover:text-red-500">Dat San</span>
+          <BsCart size={24} className="text-red-500" />
+          <span className="group-hover:text-red-500">Booking</span>
         </div>
       </div>
     </div>

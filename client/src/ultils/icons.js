@@ -8,9 +8,12 @@ import {
   FaYoutube,
   FaEye,
   FaEyeSlash,
-  FaCalendarAlt,FaShieldAlt ,FaCar ,FaWifi 
+  FaCalendarAlt,
+  FaShieldAlt,
+  FaCar,
+  FaWifi,
 } from "react-icons/fa";
-
+import { BsFillTelephoneFill } from "react-icons/bs";
 import { MdArrowRight } from "react-icons/md";
 import {
   AiFillHome,
@@ -18,7 +21,9 @@ import {
   AiOutlineStar,
   AiFillEye,
   AiOutlineMenu,
-  AiOutlineLogout,AiOutlineSafety 
+  AiOutlineLogout,
+  AiOutlineSafety,
+  AiOutlineDown,
 } from "react-icons/ai";
 import { CiLogout } from "react-icons/ci";
 import { BiLogoGmail } from "react-icons/bi";
@@ -46,7 +51,14 @@ const icons = {
   FaEyeSlash,
   CiLogout,
   BsCart,
-  FaCalendarAlt,FaShieldAlt ,FaCar ,AiOutlineSafety ,FaWifi ,IoFastFood,BsFillTelephoneForwardFill
+  FaCalendarAlt,
+  FaShieldAlt,
+  FaCar,
+  AiOutlineSafety,
+  FaWifi,
+  IoFastFood,
+  AiOutlineDown,
+  BsFillTelephoneFill,
 };
 
 export default icons;

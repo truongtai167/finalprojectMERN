@@ -17,3 +17,5 @@ export { default as ImageSlider } from "./ImageSlider";
 export { default as Breadcrumb } from "./Breadcrumb";
 export { default as PitchExtraInfo } from "./PitchExtraInfo";
 export { default as PitchInformation } from "./PitchInformation";
+export { default as SearchItems } from "./SearchItems";
+export { default as InputSelect } from "./InputSelect";

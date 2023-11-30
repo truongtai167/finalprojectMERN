@@ -71,12 +71,13 @@ function DetailPitch() {
   return (
     <div className="w-full">
       <div className="h-[81px] flex justify-center items-center bg-gray-100">
-        <div className="w-main">
-          <h3 className="font-semibold">{title}</h3>
+        <div className="w-main ml-2">
+          <h3 className="font-semibold ">{title}</h3>
           <Breadcrumb
             title={title}
             category={category}
             brand={brand}
+            
           ></Breadcrumb>
         </div>
       </div>

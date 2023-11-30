@@ -12,7 +12,7 @@ const { AiFillEye, AiOutlineMenu, BsFillSuitHeartFill } = icons;
 
 const Pitch = ({ pitchData, isNew, normal }) => {
   const [isShowOption, setisShowOption] = useState(false);
-  console.log("brand : ", pitchData?.brand);
+  
   return (
     <div className="w-full text-base pr-[10px]">
       <Link

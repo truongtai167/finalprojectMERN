@@ -34,6 +34,8 @@ const {
   FaWifi,
   IoFastFood,
   BsFillTelephoneForwardFill,
+  AiFillEye,
+  BsFillTelephoneFill,
 } = icons;
 export const PitchExtraInformation = [
   {
@@ -71,7 +73,7 @@ export const PitchExtraInformation = [
     id: 6,
     title: "Hotline",
     sub: "Call anytime if you have questions",
-    icon: <BsFillTelephoneForwardFill />,
+    icon: <BsFillTelephoneFill />,
   },
 ];
 
@@ -124,6 +126,46 @@ export const pitchInforTabs = [
     ],
   },
 ];
+export const shifts = [
+  { id: 1, time: "6:00 AM - 7:00 AM" },
+  { id: 2, time: "7:00 AM - 8:00 AM" },
+  { id: 3, time: "8:00 AM - 9:00 AM" },
+  { id: 4, time: "9:00 AM - 10:00 AM" },
+  { id: 5, time: "10:00 AM - 11:00 AM" },
+  { id: 6, time: "11:00 AM - 12:00 PM" },
+  { id: 7, time: "12:00 PM - 1:00 PM" },
+  { id: 8, time: "1:00 PM - 2:00 PM" },
+  { id: 9, time: "2:00 PM - 3:00 PM" },
+  { id: 10, time: "3:00 PM - 4:00 PM" },
+  { id: 11, time: "4:00 PM - 5:00 PM" },
+  { id: 12, time: "5:00 PM - 6:00 PM" },
+  { id: 13, time: "6:00 PM - 7:00 PM" },
+  { id: 14, time: "7:00 PM - 8:00 PM" },
+  { id: 15, time: "8:00 PM - 9:00 PM" },
+  { id: 16, time: "9:00 PM - 10:00 PM" },
+  { id: 17, time: "10:00 PM - 11:00 PM" },
+  { id: 18, time: "11:00 PM - 12:00 AM" },
+];
+export const locations = [
+  "Quận 1",
+  "Quận 2",
+  "Quận 3",
+  "Quận 4",
+  "Quận 5",
+  "Quận 6",
+  "Quận 7",
+  "Quận 8",
+  "Quận 9",
+  "Quận 10",
+  "Quận 11",
+  "Quận 12",
+  "Thủ Đức",
+  "Bình Tân",
+  "Tân Bình",
+  "Bình Chánh",
+  // Thêm thông tin cho các quận/huyện khác ở Tp. Hồ Chí Minh
+];
+
 export const sorts = [
   {
     id: 1,

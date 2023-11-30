@@ -34,6 +34,7 @@ const getPitch = asyncHandler(async (req, res) => {
 
 const getPitches = asyncHandler(async (req, res) => {
   const queries = { ...req.query };
+
   // seperate special field
   const excludeFields = ["limit", "sort", "page", "fields"];
   excludeFields.forEach((el) => delete queries[el]);
@@ -45,7 +46,7 @@ const getPitches = asyncHandler(async (req, res) => {
   );
   const formatedQueries = JSON.parse(queryString);
   // console.log(formatedQueries);
-
+  let addressQueryObject = {};
   // filtering
   if (queries?.name)
     formatedQueries.name = { $regex: queries.name, $options: "i" };
@@ -53,8 +54,21 @@ const getPitches = asyncHandler(async (req, res) => {
     formatedQueries.brand = { $regex: queries.brand, $options: "i" };
   if (queries?.category)
     formatedQueries.category = { $regex: queries.category, $options: "i" };
+  if (queries?.address) {
+    delete formatedQueries.address;
+    const addressArray = queries.address?.split(",");
+    const addressQuery = addressArray.map((el) => ({
+      address: {
+        $regex: el,
+        $options: "i",
+      },
+    }));
+    addressQueryObject = { $or: addressQuery };
+  }
+  const qr = { ...addressQueryObject, ...formatedQueries };
 
-  let queryCommand = Pitch.find(formatedQueries);
+  let queryCommand = Pitch.find(qr);
+
   // softing
   if (req.query.sort) {
     const softBy = req.query.sort.split(",").join(" ");
@@ -77,7 +91,7 @@ const getPitches = asyncHandler(async (req, res) => {
   queryCommand.exec(async (err, response) => {
     if (err) throw new Error(err.message);
 
-    const counts = await Pitch.find(formatedQueries).countDocuments();
+    const counts = await Pitch.find(qr).countDocuments();
     return res.status(200).json({
       success: response ? true : false,
       pitches: response ? response : "Cannot get pitch",
