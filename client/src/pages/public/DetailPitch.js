@@ -67,6 +67,15 @@ function DetailPitch() {
     }
     window.scrollTo(0, 0);
   }, [pitchId]);
+  useEffect(() => {
+    if (pitchId) {
+      fetchPitchData();
+    }
+  }, [update]);
+
+  const rerender = useCallback(() => {
+    setUpdate(!update);
+  }, [update]);
 
   return (
     <div className="w-full">
@@ -77,7 +86,6 @@ function DetailPitch() {
             title={title}
             category={category}
             brand={brand}
-            
           ></Breadcrumb>
         </div>
       </div>
@@ -162,11 +170,11 @@ function DetailPitch() {
       </div>
       <div className="w-main m-auto mt-8">
         <PitchInformation
-        // totalRatings={pitch?.totalRatings}
-        // ratings={pitch?.ratings}
-        // namePitch={pitch?.title}
-        // pid={pitch?._id}
-        // rerender={rerender}
+          totalRatings={pitch.totalRatings}
+          ratings={pitch?.ratings}
+          namePitch={pitch?.name}
+          pid={pitch?._id}
+          rerender={rerender}
         />
       </div>
       <div className="w-main m-auto mt-8">

@@ -19,3 +19,8 @@ export { default as PitchExtraInfo } from "./PitchExtraInfo";
 export { default as PitchInformation } from "./PitchInformation";
 export { default as SearchItems } from "./SearchItems";
 export { default as InputSelect } from "./InputSelect";
+export { default as VoteBar } from "./VoteBar";
+export { default as Ratings } from "./Ratings";
+export { default as Comment } from "./Comment";
+export { default as VoteOption } from "./VoteOption";
+export { default as Model } from "./Model";

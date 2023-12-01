@@ -14,17 +14,19 @@ import {
 } from "./pages/public";
 import path from "./ultils/path";
 import { getCategories } from "./store/app/asyncAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { Model } from "./components";
 function App() {
   const dispatch = useDispatch();
+  const { isShowModel, modelChildren } = useSelector((state) => state.app);
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
   return (
-    <div className="min-h-screen font-main">
+    <div className="font-main relative">
+      {isShowModel && <Model>{modelChildren}</Model>}
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
@@ -37,7 +39,6 @@ function App() {
           <Route path={path.FAQ} element={<FAQ />} />
           <Route path={path.OUR_SERVICE} element={<Services />} />
           <Route path={path.PITCHES} element={<Pitches />} />
-         
         </Route>
         <Route path={path.VERIFY_EMAIL} element={<VerifyEmail />} />
         <Route path={path.LOGIN} element={<Login />} />

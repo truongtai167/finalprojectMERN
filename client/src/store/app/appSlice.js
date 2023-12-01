@@ -6,11 +6,14 @@ export const appSlice = createSlice({
   initialState: {
     categories: null,
     isLoading: false,
+    isShowModel: false,
+    modelChildren: null,
   },
   reducers: {
-    // logout: (state) => {
-    //     state.isLoading = false
-    // }
+    showModel: (state, action) => {
+      state.isShowModel = action.payload.isShowModel,
+      state.modelChildren = action.payload.modelChildren
+    },
   },
   // Code logic xử lý async action
   extraReducers: (builder) => {
@@ -36,6 +39,6 @@ export const appSlice = createSlice({
   },
 });
 
-export const {} = appSlice.actions;
+export const {showModel} = appSlice.actions;
 
 export default appSlice.reducer;

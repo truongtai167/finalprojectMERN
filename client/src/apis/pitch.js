@@ -12,3 +12,9 @@ export const apiGetPitch = (pitchId) =>
     url: "/pitch/" + pitchId,
     method: "get",
   });
+export const apiRatings = (data) =>
+  axios({
+    url: "/pitch/ratings",
+    method: "put",
+    data,
+  });

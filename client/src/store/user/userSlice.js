@@ -17,8 +17,9 @@ export const userSlice = createSlice({
     },
     logout: (state, action) => {
       state.isLoggedIn = false;
-      // state.current = action.payload.userData;
       state.token = null;
+      state.current = null;
+      state.isLoading = false;
     },
   },
   // Code logic xử lý async action
