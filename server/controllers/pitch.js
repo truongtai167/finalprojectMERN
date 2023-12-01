@@ -24,8 +24,20 @@ const createPitch = asyncHandler(async (req, res) => {
 
 const getPitch = asyncHandler(async (req, res) => {
   const { pitchId } = req.params;
-  const excludeFields = ["name", "address", "email", "phoneNumber"];
-  const pitch = await Pitch.findById(pitchId).populate("owner", excludeFields);
+  // const excludeFields = ["name", "address", "email", "phoneNumber"];
+  // const pitch = await Pitch.findById(pitchId)
+  //   .populate("owner", excludeFields)
+  //   .populate({
+  //     path: "postedBy",
+  //     select: "name avatar",
+  //   });
+  const pitch = await Pitch.findById(pitchId).populate({
+    path: "ratings",
+    populate: {
+      path: "postedBy",
+      select: "name avatar",
+    },
+  });
   return res.status(200).json({
     success: pitch ? true : false,
     PitchData: pitch ? pitch : "Cannot get pitch",
@@ -125,7 +137,7 @@ const deletePitch = asyncHandler(async (req, res) => {
 const ratings = asyncHandler(async (req, res) => {
   const { _id } = req.user;
 
-  const { star, comment, pitchId } = req.body;
+  const { star, comment, pitchId, updatedAt } = req.body;
   if (!star || !pitchId) throw new Error("Missing input");
   const ratingPitch = await Pitch.findById(pitchId);
   // console.log(ratingPitch);
@@ -140,7 +152,11 @@ const ratings = asyncHandler(async (req, res) => {
         ratings: { $elemMatch: alreadyRating },
       },
       {
-        $set: { "ratings.$.star": star, "ratings.$.comment": comment },
+        $set: {
+          "ratings.$.star": star,
+          "ratings.$.comment": comment,
+          "ratings.$.updatedAt": updatedAt,
+        },
       },
       { new: true }
     );
@@ -149,7 +165,7 @@ const ratings = asyncHandler(async (req, res) => {
     await Pitch.findByIdAndUpdate(
       pitchId,
       {
-        $push: { ratings: { star, comment, postedBy: _id } },
+        $push: { ratings: { star, comment, postedBy: _id, updatedAt } },
       },
       { new: true }
     );

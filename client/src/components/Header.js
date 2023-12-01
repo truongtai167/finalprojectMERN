@@ -11,9 +11,12 @@ const Header = () => {
   const dispatch = useDispatch();
   const { isLoggedIn, current } = useSelector((state) => state.user);
   useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(getCurrent());
-    }
+    const setTimeoutId = setTimeout(() => {
+      if (isLoggedIn) dispatch(getCurrent());
+    }, 300);
+    return () => {
+      clearTimeout(setTimeoutId);
+    };
   }, [dispatch, isLoggedIn]);
 
   return (
@@ -120,7 +123,7 @@ const Header = () => {
                 dispatch(logout());
               }}
             >
-              <CiLogout size={24}  className="group-hover:text-red-500 " />
+              <CiLogout size={24} className="group-hover:text-red-500 " />
               <span className="group-hover:text-red-500 mr-2 ">Logout</span>
             </div>
           </div>
