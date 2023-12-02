@@ -64,8 +64,11 @@ const getPitches = asyncHandler(async (req, res) => {
     formatedQueries.name = { $regex: queries.name, $options: "i" };
   if (queries?.brand)
     formatedQueries.brand = { $regex: queries.brand, $options: "i" };
-  if (queries?.category)
+  if (queries?.category) {
+    console.log(queries?.category);
     formatedQueries.category = { $regex: queries.category, $options: "i" };
+  }
+
   if (queries?.address) {
     delete formatedQueries.address;
     const addressArray = queries.address?.split(",");

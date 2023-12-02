@@ -84,5 +84,10 @@ export const validate = (payload, setInvalidFields) => {
   return invalids;
 };
 export const formatPrice = (number) => Math.round(number / 1000) * 1000;
-export const formattedCategory = (category) =>
-  category.replace(/-/g, " ");
+export const formattedCategory = (category) => category.replace(/-/g, " ");
+export const generateRange = (start, end) => {
+  // start = 3, end = 6 ==> [3,4,5,6]
+  // start = 2, end = 7 ==> [2,3,4,5,6,7]
+  const length = end + 1 - start;
+  return Array.from({ length }, (_, index) => start + index);
+};

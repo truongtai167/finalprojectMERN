@@ -24,3 +24,5 @@ export { default as Ratings } from "./Ratings";
 export { default as Comment } from "./Comment";
 export { default as VoteOption } from "./VoteOption";
 export { default as Model } from "./Model";
+export { default as Pagination } from "./Pagination";
+export { default as PaginationItem } from "./PaginationItem";

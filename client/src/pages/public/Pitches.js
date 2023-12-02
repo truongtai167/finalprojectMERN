@@ -11,7 +11,13 @@ import Masonry from "react-masonry-css";
 import "react-datepicker/dist/react-datepicker.css";
 import icons from "../../ultils/icons";
 import { sorts } from "../../ultils/constants";
-import { Breadcrumb, Pitch, SearchItems, InputSelect } from "../../components";
+import {
+  Breadcrumb,
+  Pitch,
+  SearchItems,
+  InputSelect,
+  Pagination,
+} from "../../components";
 // import ReactImageMagnify from "react-image-magnify";
 import {
   formatMoney,
@@ -32,11 +38,13 @@ const Pitches = () => {
   const [activeClick, setActiveClick] = useState(null);
   const [params] = useSearchParams();
   const [sort, setSort] = useState("");
-  console.log(params.entries);
+  // const formattedCategory2 = category.replace(/-/g, " ");
   const fetchProductsByCategory = async (queries) => {
     const response = await apiGetPitches(queries);
     // console.log(response);
-    if (response.success) setPitches(response.pitches);
+    // console.log(formattedCategory2);
+
+    if (response.success) setPitches(response);
   };
 
   const changeValue = useCallback(
@@ -62,6 +70,7 @@ const Pitches = () => {
     // console.log(param);
     // fetchProductsByCategory(queries);
     const queries = Object.fromEntries([...params]);
+    // console.log(queries);
     let priceQuery = {};
     if (queries.to && queries.from) {
       priceQuery = {
@@ -136,7 +145,7 @@ const Pitches = () => {
           className="my-masonry-grid flex mx-[-10px] pl-3"
           columnClassName="my-masonry-grid_column"
         >
-          {pitches?.map((el) => (
+          {pitches?.pitches?.map((el) => (
             <Pitch
               key={el._id}
               pid={el.id}
@@ -145,6 +154,10 @@ const Pitches = () => {
             ></Pitch>
           ))}
         </Masonry>
+      </div>
+      <div className="w-main m-auto my-4 flex bg-red-400 justify-end">
+        <Pagination totalCount={pitches?.totalCount} />
+        {/* <Pagination /> */}
       </div>
       <div className="h-[500px]"> </div>
     </div>

@@ -34,21 +34,6 @@ const SearchItems = ({
     else setSetSelected((prev) => [...prev, e.target.value]);
     changeActiveFilter(null);
   };
-  useEffect(() => {
-    if (selected.length > 0) {
-      navigate({
-        pathname: `/${category}`,
-        search: createSearchParams({
-          address: selected.join(","),
-        }).toString(),
-      });
-    } else {
-      navigate({
-        pathname: `/${category}`,
-      });
-    }
-  }, [selected]);
-  //   console.log(selected);
   const fetchBestPricePitch = async () => {
     const response = await apiGetPitches({ sort: "-price", limit: 1 });
     if (response.success) setBestPrice(response.pitches[0]?.price);
@@ -56,39 +41,53 @@ const SearchItems = ({
   const debouncePriceFrom = useDebounce(price.from, 500);
   const debouncePriceTo = useDebounce(price.to, 500);
   useEffect(() => {
+    let param = [];
+    for (let i of params.entries()) param.push(i);
+    const queries = {};
+    for (let i of param) queries[i[0]] = i[1];
+    if (selected.length > 0) {
+      queries.address = selected.join(",");
+      queries.page = 1;
+    } else delete queries.address;
+    // if (Number(price.from) > 0) queries.from = price.from;
+    // if (Number(price.to) > 0) queries.from = price.to;
+    navigate({
+      pathname: `/${category}`,
+      search: createSearchParams(queries).toString(),
+    });
+  }, [selected]);
+  // debouncePriceFrom, debouncePriceTo
+  //   console.log(selected);
+
+  useEffect(() => {
     if (type === "input") fetchBestPricePitch();
   }, [type]);
   useEffect(() => {
-    const data = {};
-    if (Number(price.from) > 0) data.from = price.from;
-    if (Number(price.to) > 0) data.to = price.to;
+    let param = [];
+    for (let i of params.entries()) param.push(i);
+    const queries = {};
+    for (let i of param) queries[i[0]] = i[1];
+    if (Number(price.from) > 0) {
+      queries.from = price.from;
+    } else {
+      delete queries.from;
+    }
+    if (Number(price.to) > 0) {
+      queries.to = price.to;
+    } else {
+      delete queries.to;
+    }
+    queries.page = 1;
     navigate({
       pathname: `/${category}`,
-      search: createSearchParams(data).toString(),
+      search: createSearchParams(queries).toString(),
     });
-    // let param = [];
-    // for (let i of params.entries()) param.push(i);
-    // const queries = {};
-    // for (let i of param) queries[i[0]] = i[1];
-    // if (Number(price.from) > 0) {
-    //   queries.from = price.from;
-    // } else {
-    //   delete queries.from;
-    // }
-    // if (Number(price.to) > 0) {
-    //   queries.to = price.to;
-    // } else {
-    //   delete queries.to;
-    // }
-    // // queries.page = 1;
-    // navigate({
-    //   pathname: `/${category}`,
-    //   search: createSearchParams(queries).toString(),
-    // });
   }, [debouncePriceFrom, debouncePriceTo]);
 
   useEffect(() => {
-    if (price.from > price.to) alert("From price cannot greater than To price");
+    if (price.from && price.to)
+      if (price.from > price.to)
+        alert("From price cannot greater than To price");
   }, [price]);
   return (
     <div
