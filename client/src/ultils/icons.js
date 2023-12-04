@@ -1,5 +1,5 @@
 import { RiPhoneFill } from "react-icons/ri";
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdSpaceDashboard, MdGroups } from "react-icons/md";
 import { IoFastFood } from "react-icons/io5";
 import {
   FaUserCircle,
@@ -12,6 +12,8 @@ import {
   FaShieldAlt,
   FaCar,
   FaWifi,
+  FaProductHunt,
+  FaMoneyBill,
 } from "react-icons/fa";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { MdArrowRight } from "react-icons/md";
@@ -59,6 +61,10 @@ const icons = {
   IoFastFood,
   AiOutlineDown,
   BsFillTelephoneFill,
+  MdSpaceDashboard,
+  MdGroups,
+  FaProductHunt,
+  FaMoneyBill,
 };
 
 export default icons;

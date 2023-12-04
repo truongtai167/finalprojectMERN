@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import logo from "../assets/logo.png";
-import icons from "../ultils/icons";
+import logo from "../../assets/logo.png";
+import icons from "../../ultils/icons";
 import { Link, useNavigate } from "react-router-dom";
-import path from "..//ultils/path";
-import { getCurrent } from "../store/user/asyncAction";
-import { logout, clearMessage } from "../store/user/userSlice";
+import path from "../../ultils/path";
+import { getCurrent } from "../../store/user/asyncAction";
+import { logout, clearMessage } from "../../store/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
@@ -148,10 +148,12 @@ const Header = () => {
             </Link>
           </div>
         )}
-        <div className="flex items-center gap-1 cursor-pointer group">
-          <BsCart size={24} className="text-red-500" />
-          <span className="group-hover:text-red-500">Booking</span>
-        </div>
+        {current && (
+          <div className="flex items-center gap-1 cursor-pointer group">
+            <BsCart size={24} className="text-red-500" />
+            <span className="group-hover:text-red-500">Booking</span>
+          </div>
+        )}
       </div>
     </div>
   );

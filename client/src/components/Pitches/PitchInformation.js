@@ -1,13 +1,13 @@
 import React, { memo, useState, useCallback, useEffect } from "react";
-import { pitchInforTabs } from "../ultils/constants";
+import { pitchInforTabs } from "../../ultils/constants";
 import Swal from "sweetalert2";
-import path from "../ultils/path";
+import path from "../../ultils/path";
 import { useNavigate } from "react-router-dom";
-import { showModel } from "../store/app/appSlice";
-import { VoteBar, Button, Comment, VoteOption } from "./";
+import { showModel } from "../../store/app/appSlice";
+import { VoteBar, Button, Comment, VoteOption } from "..";
 import { useDispatch, useSelector } from "react-redux";
-import { renderStarFromNumber } from "../ultils/helpers";
-import { apiRatings } from "../apis/pitch";
+import { renderStarFromNumber } from "../../ultils/helpers";
+import { apiRatings } from "../../apis/pitch";
 const PitchInformation = ({
   totalRatings,
   ratings,

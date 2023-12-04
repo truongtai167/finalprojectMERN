@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { PitchCard } from "./";
-import { apiGetPitches } from "../apis/pitch";
-import banner3 from "../assets/banner3.png";
-import banner4 from "../assets/banner4.jpg";
-import banner5 from "../assets/banner5.png";
-import banner6 from "../assets/banner6.jpg";
+import { PitchCard } from "..";
+import { apiGetPitches } from "../../apis/pitch";
+import banner3 from "../../assets/banner3.png";
+import banner4 from "../../assets/banner4.jpg";
+import banner5 from "../../assets/banner5.png";
+import banner6 from "../../assets/banner6.jpg";
 
 const FeaturePitches = () => {
   const [pitches, setpitches] = useState(null);

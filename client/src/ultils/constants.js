@@ -220,3 +220,61 @@ export const voteOptions = [
     text: "Perfect",
   },
 ];
+const { MdSpaceDashboard, MdGroups, FaProductHunt, FaMoneyBill } = icons;
+export const adminSideBar = [
+  {
+    id: 1,
+    type: "SINGLE",
+    text: "Dashboard",
+    path: `/${path.ADMIN}/${path.DASHBOARD}`,
+    icon: <MdSpaceDashboard />,
+  },
+  {
+    id: 3,
+    type: "PARENT",
+    text: "Manage users",
+    icon: <MdGroups />,
+    submenu: [
+      {
+        text: "Create user",
+        path: `/${path.ADMIN}/${path.CREATE_USER}`,
+      },
+      {
+        text: "Manage user",
+        path: `/${path.ADMIN}/${path.MANAGE_USER}`,
+      },
+    ],
+  },
+];
+export const pitchownerSidebar = [
+  {
+    id: 1,
+    type: "SINGLE",
+    text: "Dashboard",
+    path: `/${path.PITCH_OWNER}/${path.DASHBOARD_OWNER}`,
+    icon: <MdSpaceDashboard />,
+  },
+  {
+    id: 2,
+    type: "PARENT",
+    text: "Manage pitches",
+    icon: <FaProductHunt />,
+    submenu: [
+      {
+        text: "Create pitch",
+        path: `/${path.PITCH_OWNER}/${path.CREATE_PITCH}`,
+      },
+      {
+        text: "Manage pitch",
+        path: `/${path.PITCH_OWNER}/${path.MANAGE_PITCH}`,
+      },
+    ],
+  },
+  {
+    id: 3,
+    type: "SINGLE",
+    text: "Manage orders",
+    path: `/${path.PITCH_OWNER}/${path.MANAGE_ORDER}`,
+    icon: <FaMoneyBill />,
+  },
+];

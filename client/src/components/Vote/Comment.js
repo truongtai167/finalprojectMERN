@@ -1,7 +1,7 @@
 import React from "react";
-import avatar from "../assets/avatar-default.png"
-import moment from 'moment';
-import { renderStarFromNumber } from "../ultils/helpers";
+import avatar from "../../assets/avatar-default.png";
+import moment from "moment";
+import { renderStarFromNumber } from "../../ultils/helpers";
 
 const Comment = ({
   image = avatar,

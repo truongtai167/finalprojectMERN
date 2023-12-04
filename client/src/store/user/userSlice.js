@@ -13,7 +13,6 @@ export const userSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn;
-      // state.current = action.payload.userData;
       state.token = action.payload.token;
     },
     logout: (state, action) => {

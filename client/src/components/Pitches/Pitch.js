@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import defaultImage from "../assets/Coming_Soon.png";
-import { formatMoney, renderStarFromNumber } from "../ultils/helpers";
-import newTag from "../assets/newTag.png";
-import bestpriceTag from "../assets/bestprice2.png";
-import { SelectOption } from "./";
-import icons from "../ultils/icons";
+import defaultImage from "../../assets/Coming_Soon.png";
+import { formatMoney, renderStarFromNumber } from "../../ultils/helpers";
+import newTag from "../../assets/newTag.png";
+import bestpriceTag from "../../assets/bestprice2.png";
+import { SelectOption } from "..";
+import icons from "../../ultils/icons";
 import { Link } from "react-router-dom";
-import path from "../ultils/path";
+import path from "../../ultils/path";
 
 const { AiFillEye, AiOutlineMenu, BsFillSuitHeartFill } = icons;
 
 const Pitch = ({ pitchData, isNew, normal }) => {
   const [isShowOption, setisShowOption] = useState(false);
-  
+
   return (
     <div className="w-full text-base pr-[10px]">
       <Link

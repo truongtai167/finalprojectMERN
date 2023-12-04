@@ -1,8 +1,8 @@
 import React, { memo, useRef, useEffect, useState } from "react";
-import { voteOptions } from "../ultils/constants";
-import Button from "./Button";
-import icons from "../ultils/icons";
-import logo from "../assets/logo.png";
+import { voteOptions } from "../../ultils/constants";
+import Button from "../Buttons/Button";
+import icons from "../../ultils/icons";
+import logo from "../../assets/logo.png";
 
 const { AiFillStar } = icons;
 

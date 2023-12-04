@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { apiGetPitches } from "../apis/pitch";
-import { Pitch, CustomSlider } from "./";
+import { apiGetPitches } from "../../apis/pitch";
+import { Pitch, CustomSlider } from "..";
 import Slider from "react-slick";
-import banner1 from "../assets/banner1.png";
-import banner2 from "../assets/banner2.png";
+import banner1 from "../../assets/banner1.png";
+import banner2 from "../../assets/banner2.png";
 import { useDispatch, useSelector } from "react-redux";
-import { getNewPitches } from "../store/pitch/asyncAction";
+import { getNewPitches } from "../../store/pitch/asyncAction";
 const tabs = [
   { id: 1, name: "best price" },
   { id: 2, name: "new pitches" },
@@ -73,7 +73,6 @@ const BestPrice = () => {
           src={banner1}
           alt="banner"
           className="flex-1 h-[370px] w-[100px] object-contain"
-          
         />
         <img
           src={banner2}

@@ -24,7 +24,7 @@ const verifyAccessToken = asyncHandler(async (req, res, next) => {
 
 const isAdmin = asyncHandler(async (req, res, next) => {
   const { role } = req.user;
-  if (role !== "admin")
+  if (+role !== 20110394)
     res.status(401).json({
       success: false,
       message: "REQUIRE ADMIN ROLE",
@@ -33,7 +33,7 @@ const isAdmin = asyncHandler(async (req, res, next) => {
 });
 const isAdminAndPitchOwn = asyncHandler((req, res, next) => {
   const { role } = req.user;
-  if (role !== "pitchowner" && role !== "admin")
+  if (+role !== 20110396 && role !== 20110394)
     return res.status(401).json({
       success: false,
       mes: "REQUIRE HIGHER ROLE",

@@ -1,7 +1,7 @@
 import React, { memo } from "react";
-import usePagination from "../hooks/usePagination";
+import usePagination from "../../hooks/usePagination";
 import { useSearchParams } from "react-router-dom";
-import { PaginationItem } from "./";
+import { PaginationItem } from "..";
 const Pagination = ({ totalCount, currentPage }) => {
   //   const [params] = useSearchParams();
   //   const pagination = usePagination(50,4);
@@ -20,7 +20,7 @@ const Pagination = ({ totalCount, currentPage }) => {
       return `${start} - ${end}`;
     }
   };
- 
+
   return (
     <div className="flex w-full justify-between items-center">
       {+params.get("page") === 0 && (

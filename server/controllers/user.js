@@ -10,69 +10,6 @@ const sendMail = require("../ultils/sendMail");
 const crypto = require("crypto");
 const makeToken = require("uniqid");
 
-// const register = asyncHandler(async (req, res) => {
-//   const { name, email, password, phoneNumber } = req.body;
-//   if (!name || !email || !password || !phoneNumber) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Missing input",
-//     });
-//   }
-//   const user = await User.findOne({ email });
-//   if (user) throw new Error("email has existed");
-//   else {
-//     const newUser = await User.create(req.body);
-//     return res.status(200).json({
-//       success: newUser ? true : false,
-//       createdUser: newUser
-//         ? "Register successfully. Please log in "
-//         : "Something go wrong",
-//     });
-//   }
-// });
-//register and verify email
-// const register = asyncHandler(async (req, res) => {
-//   const { name, email, password, phoneNumber } = req.body;
-//   if (!name || !email || !password || !phoneNumber) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Missing input",
-//     });
-//   }
-//   const token = makeToken();
-//   res.cookie(
-//     "dataregister",
-//     { ...req.body, token },
-//     { httpOnly: true, maxAge: 15 * 60 * 1000 }
-//   );
-//   const html = `click this link to verify your email after 15 minutes:
-//   <a href=${process.env.URL_SERVER}/api/user/verify/${token}>Click here</a>
-//   `;
-
-//   await sendMail({ email, html, subject: "Verify email - debug boy" });
-//   return res.status(200).json({
-//     success: true,
-//     message: "please verify your email",
-//   });
-// });
-// const verifyEmail = asyncHandler(async (req, res) => {
-//   const cookie = req.cookies;
-//   const { token } = req.params;
-//   if (!cookie || cookie?.dataregister?.token !== token) {
-//     res.clearCookie("dataregister");
-//     return res.redirect(`${process.env.CLIENT_URL}/verify/fail`);
-//   }
-
-//   const newUser = await User.create({
-//     email: cookie?.dataregister?.email,
-//     password: cookie?.dataregister?.password,
-//     phoneNumber: cookie?.dataregister?.phoneNumber,
-//     name: cookie?.dataregister?.name,
-//   });
-//   res.clearCookie("dataregister");
-//   if (newUser) return res.redirect(`${process.env.CLIENT_URL}/verify/success`);
-//   else return res.redirect(`${process.env.CLIENT_URL}/verify/fail`);
-// });
 const verifyEmail = asyncHandler(async (req, res) => {
   const { token } = req.params;
   const notActivatedEmail = await User.findOne({
@@ -289,7 +226,7 @@ const login = asyncHandler(async (req, res) => {
 
 const getCurrent = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const user = await User.findById(_id).select("-refreshToken -password -role");
+  const user = await User.findById(_id).select("-refreshToken -password ");
   return res.status(200).json({
     success: user ? true : false,
     user: user ? user : "User not found",

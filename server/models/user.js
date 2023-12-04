@@ -30,7 +30,8 @@ var userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: "user",
+      enum: [20110412, 20110396, 20110394], // user/pitchowner/admin
+      default: 20110412,
     },
     gender: {
       type: String,

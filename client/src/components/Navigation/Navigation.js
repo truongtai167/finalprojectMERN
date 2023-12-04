@@ -1,8 +1,6 @@
 import React from "react";
-import { navigation } from "../ultils/constants";
+import { navigation } from "../../ultils/constants";
 import { NavLink } from "react-router-dom";
-
-
 
 const Navigation = () => {
   return (

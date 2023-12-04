@@ -1,15 +1,15 @@
 import React, { useState, useEffect, memo } from "react";
-import icons from "../ultils/icons";
-import { apiGetPitches } from "../apis/pitch";
-import defaultImage from "../assets/Coming_Soon.png";
-import { formatMoney, renderStarFromNumber } from "../ultils/helpers";
-import { CountDown, ImageSlider } from "./";
-import poster01 from "../assets/poster.jpg";
-import poster02 from "../assets/poster02.jpg";
-import poster03 from "../assets/poster03.jpg";
-import poster04 from "../assets/poster04.jpg";
-import poster05 from "../assets/poster05.jpg";
-import poster06 from "../assets/poster06.jpg";
+import icons from "../../ultils/icons";
+import { apiGetPitches } from "../../apis/pitch";
+import defaultImage from "../../assets/Coming_Soon.png";
+import { formatMoney, renderStarFromNumber } from "../../ultils/helpers";
+import { CountDown, ImageSlider } from "..";
+import poster01 from "../../assets/poster.jpg";
+import poster02 from "../../assets/poster02.jpg";
+import poster03 from "../../assets/poster03.jpg";
+import poster04 from "../../assets/poster04.jpg";
+import poster05 from "../../assets/poster05.jpg";
+import poster06 from "../../assets/poster06.jpg";
 const imageArray = [poster01, poster02, poster03, poster04, poster05, poster06];
 // function getRandomImage() {
 //   const randomIndex = Math.floor(Math.random() * imageArray.length);

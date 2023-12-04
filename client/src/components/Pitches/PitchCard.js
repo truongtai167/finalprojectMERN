@@ -1,5 +1,5 @@
 import React from "react";
-import { formatMoney, renderStarFromNumber } from "../ultils/helpers";
+import { formatMoney, renderStarFromNumber } from "../../ultils/helpers";
 
 const PitchCard = ({ price, totalRatings, name, image }) => {
   return (
