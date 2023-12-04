@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import bgImage from "../../assets/bg_login.png";
-import { Button, InputField } from "../../components";
+import { Button, InputField, Loading } from "../../components";
 import {
   apiRegister,
   apiLogin,
@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import path from "../../ultils/path";
 import { login } from "../../store/user/userSlice";
+import { showModel } from "../../store/app/appSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -56,16 +57,18 @@ const Login = () => {
   // console.log(validate(payload));
   const handleSubmit = useCallback(async () => {
     const { name, phoneNumber, ...data } = payload;
-    console.log("isRegister", isRegister);
-    console.log("payload", payload);
-    console.log("data", data);
+    // console.log("isRegister", isRegister);
+    // console.log("payload", payload);
+    // console.log("data", data);
     const invalids = isRegister
       ? validate(payload, setInvalidFields)
       : validate(data, setInvalidFields);
 
     if (invalids === 0) {
       if (isRegister) {
+        dispatch(showModel({ isShowModel: true, modelChildren: <Loading /> }));
         const response = await apiRegister(payload);
+        dispatch(showModel({ isShowModel: false, modelChildren: null }));
         if (response.success) {
           setIsVerifyEmail(true);
         } else Swal.fire("Oops", response.message, "error");

@@ -7,6 +7,7 @@ import { getCurrent } from "../store/user/asyncAction";
 import { logout, clearMessage } from "../store/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+
 const Header = () => {
   const { FaUserCircle, CiLogout, BsCart } = icons;
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const Header = () => {
         navigate(`/${path.LOGIN}`);
       });
   }, [message]);
+  // const {current} =
   return (
     <div className="border w-main flex justify-between h-[110px] py-[35px]">
       <Link to={`/${path.HOME}`}>
@@ -116,7 +118,17 @@ const Header = () => {
           <div className="flex items-center gap-2 cursor-pointer ">
             <div className="flex items-center gap-2 cursor-pointer border-r-2">
               <FaUserCircle size={24} className="hover:text-red-500" />
-              <span className="hover:text-red-500 mr-2">{current?.name}</span>
+              <Link
+                to={
+                  +current?.role === 20110412
+                    ? `${path.MEMBER}`
+                    : +current?.role === 20110396
+                    ? `${path.PITCH_OWNER}`
+                    : `${path.ADMIN}`
+                }
+              >
+                <span className="hover:text-red-500 mr-2">{current?.name}</span>
+              </Link>
             </div>
             <div
               className="flex items-center gap-2 cursor-pointer group border-r-2 mr-2"

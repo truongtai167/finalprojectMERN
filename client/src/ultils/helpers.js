@@ -56,14 +56,12 @@ export const validate = (payload, setInvalidFields) => {
           ]);
         }
         break;
-      case "name":
-        console.log("name");
-        const nameRegex = /^[^\d\W_]+$/; // Chỉ chấp nhận chữ cái và khoảng trắng
-        if (!arr[1].match(nameRegex)) {
+        const nameRegex = /^[a-zA-ZÀ-ÿ\s']+$/; // Chấp nhận chữ cái không dấu, khoảng trắng và dấu '
+        if (!arr[1].match(nameRegex) || arr[1].length < 1) {
           invalids++;
           setInvalidFields((prev) => [
             ...prev,
-            { name: arr[0], mes: "Only alphabetic characters" },
+            { name: arr[0], mes: "Invalid name format" },
           ]);
         }
         break;

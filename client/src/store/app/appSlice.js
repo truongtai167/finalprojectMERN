@@ -13,7 +13,7 @@ export const appSlice = createSlice({
         // logout: (state) => {
         //     state.isLoading = false
         // }
-        showModal: (state, action) => {
+        showModel: (state, action) => {
             state.isShowModel = action.payload.isShowModel
             state.modelChildren = action.payload.modelChildren
         }

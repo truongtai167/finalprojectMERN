@@ -26,3 +26,4 @@ export { default as VoteOption } from "./VoteOption";
 export { default as Model } from "./Model";
 export { default as Pagination } from "./Pagination";
 export { default as PaginationItem } from "./PaginationItem";
+export { default as Loading } from "./Loading";
