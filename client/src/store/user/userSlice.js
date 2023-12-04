@@ -7,7 +7,8 @@ export const userSlice = createSlice({
     isLoggedIn: false,
     current: null,
     token: null,
-    // isLoading: false,
+    isLoading: false,
+    message: "",
   },
   reducers: {
     login: (state, action) => {
@@ -20,6 +21,9 @@ export const userSlice = createSlice({
       state.token = null;
       state.current = null;
       state.isLoading = false;
+    },
+    clearMessage: (state) => {
+      state.message = "";
     },
   },
   // Code logic xử lý async action
@@ -35,7 +39,8 @@ export const userSlice = createSlice({
       // Tắt trạng thái loading, lưu thông tin user vào store
       state.isLoading = false;
       state.current = action.payload;
-      console.log("getCurrent", state.current);
+      state.isLoggedIn = true;
+      // console.log("getCurrent", state.current);
     });
 
     // Khi thực hiện action login thất bại (Promise rejected)
@@ -43,10 +48,14 @@ export const userSlice = createSlice({
       // Tắt trạng thái loading, lưu thông báo lỗi vào store
       state.isLoading = false;
       state.current = null;
+      state.isLoggedIn = false;
+      state.token = null;
+      state.message =
+        "Phiên đăng nhập hết hạn, hãy vui lòng đăng nhập lại để tiếp tục sử dụng dịch vụ";
     });
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, clearMessage } = userSlice.actions;
 
 export default userSlice.reducer;

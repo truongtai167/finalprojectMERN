@@ -20,7 +20,7 @@ const Pagination = ({ totalCount, currentPage }) => {
       return `${start} - ${end}`;
     }
   };
-  console.log(pagination);
+ 
   return (
     <div className="flex w-full justify-between items-center">
       {+params.get("page") === 0 && (

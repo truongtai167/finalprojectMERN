@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
 import logo from "../assets/logo.png";
 import icons from "../ultils/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import path from "..//ultils/path";
 import { getCurrent } from "../store/user/asyncAction";
-import { logout } from "../store/user/userSlice";
+import { logout, clearMessage } from "../store/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 const Header = () => {
   const { FaUserCircle, CiLogout, BsCart } = icons;
   const dispatch = useDispatch();
-  const { isLoggedIn, current } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const { isLoggedIn, current, message } = useSelector((state) => state.user);
   useEffect(() => {
     const setTimeoutId = setTimeout(() => {
       if (isLoggedIn) dispatch(getCurrent());
@@ -18,7 +20,13 @@ const Header = () => {
       clearTimeout(setTimeoutId);
     };
   }, [dispatch, isLoggedIn]);
-
+  useEffect(() => {
+    if (message)
+      Swal.fire("Oops!", message, "info").then(() => {
+        dispatch(clearMessage());
+        navigate(`/${path.LOGIN}`);
+      });
+  }, [message]);
   return (
     <div className="border w-main flex justify-between h-[110px] py-[35px]">
       <Link to={`/${path.HOME}`}>
@@ -104,18 +112,11 @@ const Header = () => {
       </div>
 
       <div className="flex items-center justify-end px-6 gap-2  border-gray-300">
-        {isLoggedIn ? (
+        {isLoggedIn && current ? (
           <div className="flex items-center gap-2 cursor-pointer ">
-            <div
-              className="flex items-center gap-2 cursor-pointer group border-r-2"
-              onClick={() => {
-                /* handle user profile click */
-              }}
-            >
-              <FaUserCircle size={24} className="group-hover:text-red-500" />
-              <span className="group-hover:text-red-500 mr-2">
-                {current?.name}
-              </span>
+            <div className="flex items-center gap-2 cursor-pointer border-r-2">
+              <FaUserCircle size={24} className="hover:text-red-500" />
+              <span className="hover:text-red-500 mr-2">{current?.name}</span>
             </div>
             <div
               className="flex items-center gap-2 cursor-pointer group border-r-2 mr-2"
@@ -128,12 +129,9 @@ const Header = () => {
             </div>
           </div>
         ) : (
-          <div className="flex items-center gap-1 cursor-pointer group">
+          <div className="flex items-center gap-1 cursor-pointer ">
             <FaUserCircle size={24} className="text-red-500" />
-            <Link
-              className="pl-1 group-hover:text-red-500 "
-              to={`/${path.LOGIN}`}
-            >
+            <Link className="pl-1 hover:text-red-500 " to={`/${path.LOGIN}`}>
               Sign In / Sign Up
             </Link>
           </div>

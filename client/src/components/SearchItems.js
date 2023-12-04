@@ -107,6 +107,7 @@ const SearchItems = ({
                   onClick={(e) => {
                     e.stopPropagation();
                     setSetSelected([]);
+                    changeActiveFilter(null);
                   }}
                 >
                   Reset

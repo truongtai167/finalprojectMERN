@@ -2,9 +2,18 @@ import { configureStore } from "@reduxjs/toolkit";
 import appSlice from "./app/appSlice";
 import pitchSlice from "./pitch/pitchSlice";
 import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
-import userSlice from "./user/userSlice";
 
+import userSlice from "./user/userSlice";
+import {
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  persistReducer,
+  persistStore,
+} from "redux-persist";
 const commonConfig = {
   key: "pitch/user",
   storage,
@@ -19,5 +28,11 @@ export const store = configureStore({
     pitches: pitchSlice,
     user: persistReducer(userConfig, userSlice),
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 export const persistor = persistStore(store);

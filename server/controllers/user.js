@@ -476,7 +476,7 @@ const updateOrder = asyncHandler(async (req, res) => {
       message: "booked pitch, choose another pitch please.",
     });
   } else {
-    console.log("loi cmnr");
+    // console.log("loi cmnr");
     const user = await User.findById(_id).select("order");
     const alreadyPitch = user?.order?.find((el) => {
       return el.pitch.toString() === pitchId && el.shift === shift;

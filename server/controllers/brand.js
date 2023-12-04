@@ -14,8 +14,9 @@ const createBrand = asyncHandler(async (req, res) => {
   let categories = [];
   if (req.body.categories) {
     categories = req.body.categories.split(",");
-  }
-  req.body.categories = categories;
+    req.body.categories = categories;
+  } else throw new Error("Missing input");
+
   const response = await Brand.create(req.body);
 
   if (response && req.body.categories) {
@@ -95,7 +96,7 @@ const deleteBrand = asyncHandler(async (req, res) => {
   // find old title
   const deletedBrand = await Brand.findById(brandId);
   const deletedTitle = deletedBrand.title;
-  console.log("deletedBrand.title", deletedBrand.title);
+  // console.log("deletedBrand.title", deletedBrand.title);
   // update pitchCategory
   const categories = deletedBrand.categories;
   await Promise.all(
@@ -133,7 +134,6 @@ const deleteBrand = asyncHandler(async (req, res) => {
 
 const ratings = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-
   const { star, comment, brandId } = req.body;
   if (!star || !brandId) throw new Error("Missing input");
   const ratingBrand = await Brand.findById(brandId);
