@@ -278,3 +278,28 @@ export const pitchownerSidebar = [
     icon: <FaMoneyBill />,
   },
 ];
+export const roles = [
+  {
+    code: 20110394,
+    value: "Admin",
+  },
+  {
+    code: 20110396,
+    value: "PitchOwner",
+  },
+  {
+    code: 20110412,
+    value: "User",
+  },
+];
+
+export const blockStatus = [
+  {
+    code: true,
+    value: "Block",
+  },
+  {
+    code: false,
+    value: "Active",
+  },
+];

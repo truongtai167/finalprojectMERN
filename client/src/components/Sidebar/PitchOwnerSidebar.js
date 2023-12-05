@@ -1,13 +1,13 @@
 import React, { Fragment, memo, useState } from "react";
 import logo from "../../assets/logo.png";
-import { adminSideBar } from "../../ultils/constants";
+import { pitchownerSidebar } from "../../ultils/constants";
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import { FaAngleDoubleDown, FaAngleDoubleRight } from "react-icons/fa";
 
 const activedStyle = "px-4 py-2 flex items-center gap-2 bg-blue-500";
 const notactivedStyle = "px-4 py-2 flex items-center gap-2 hover:bg-blue-200";
-const AdminSidebar = () => {
+const PitchOwnerSidebar = () => {
   const [actived, setActived] = useState([]);
   const handleShowTabs = (tabID) => {
     if (actived.some((el) => el === tabID)) {
@@ -20,10 +20,10 @@ const AdminSidebar = () => {
     <div className="bg-white h-full py-4">
       <div className="flex flex-col justify-center items-center p-4 gap-2">
         <img src={logo} alt="logo" className="w-[200px] object-contain" />
-        <span>Admin WorkSpace</span>
+        <span>PitchOwner WorkSpace</span>
       </div>
       <div>
-        {adminSideBar.map((el) => (
+        {pitchownerSidebar.map((el) => (
           <Fragment key={el.id}>
             {el.type === "SINGLE" && (
               <NavLink
@@ -81,4 +81,4 @@ const AdminSidebar = () => {
   );
 };
 
-export default memo(AdminSidebar);
+export default memo(PitchOwnerSidebar);
