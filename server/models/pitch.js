@@ -15,13 +15,17 @@ var pitchSchema = new mongoose.Schema(
       // unique: true,
       lowercase: true,
     },
+    thumb: {
+      type: String,
+      // required: true,
+      // để required thì nếu comment cho pitch chưa có thumb thì ko save đc
+    },
     description: {
       type: Array,
       required: true,
     },
     brand: {
       type: String,
-      required: true,
     },
     price: {
       type: Number,
@@ -31,10 +35,6 @@ var pitchSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    quantity: {
-      type: String,
-      default: 1,
-    },
     owner: {
       type: mongoose.Types.ObjectId,
       ref: "User",
@@ -42,9 +42,6 @@ var pitchSchema = new mongoose.Schema(
     },
     images: {
       type: Array,
-    },
-    location: {
-      type: String,
     },
     address: {
       type: Array,

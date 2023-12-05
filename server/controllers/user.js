@@ -332,27 +332,88 @@ const resetPassword = asyncHandler(async (req, res) => {
 //       users: response ? response : "cannot get user",
 //     });
 // });
+// const getUsers = asyncHandler(async (req, res) => {
+//   const response = await User.find().select("-refreshToken -password -role");
+//   if (response)
+//     return res.status(200).json({
+//       success: true,
+//       users: response,
+//     });
+//   else
+//     return res.status(200).json({
+//       success: false,
+//       users: "Cannot get User",
+//     });
+// });
 const getUsers = asyncHandler(async (req, res) => {
-  const response = await User.find().select("-refreshToken -password -role");
-  if (response)
-    return res.status(200).json({
-      success: true,
-      users: response,
-    });
-  else
-    return res.status(200).json({
-      success: false,
-      users: "Cannot get User",
+  const queries = { ...req.query };
+  // tách các trường đặc biệt ra khỏi query
+  const exlcludeFields = ["limit", "sort", "page", "fields"];
+  exlcludeFields.forEach((el) => delete queries[el]);
+  //Format lại các operators cho đúng cú pháp mongoose
+  let queryString = JSON.stringify(queries);
+  queryString = queryString.replace(
+    /\b(gte|gt|lt|lte)\b/g,
+    (matchedEl) => `$${matchedEl}`
+  );
+  const formartedQueries = JSON.parse(queryString);
+  // Filtering
+  // regex: tìm từ bắt đầu bằng chữ truyền vào
+  // options: 'i' không phân biệt viết hoa viết thường
+  // doc: https://www.mongodb.com/docs/manual/reference/operator/query/regex/
+  if (queries?.name)
+    formartedQueries.name = { $regex: queries.name, $options: "i" };
+
+  if (req.query.q) {
+    delete formartedQueries.q;
+    formartedQueries["$or"] = [
+      { name: { $regex: queries.q, $options: "i" } },
+      { email: { $regex: queries.q, $options: "i" } },
+    ];
+  }
+  let queryCommand = User.find(formartedQueries);
+  //Sorting
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(",").join(" ");
+    queryCommand = queryCommand.sort(sortBy);
+  }
+  // Fields litmiting
+  if (req.query.fields) {
+    const fields = req.query.fields.split(",").join(" ");
+    queryCommand = queryCommand.select(fields);
+  }
+
+  //Pagination
+  //limit : số object lấy về 1 lần gọi API
+  //skip 2 (bỏ qua 2 cái đầu)
+  // +2 => 2
+  const page = +req.query.page || 1;
+  const limit = +req.query.limit || process.env.LIMIT_USERS;
+  const skip = (page - 1) * limit;
+  queryCommand.skip(skip).limit(limit);
+
+  // Executed query
+  // Số lượng sân thỏa điều kiện
+  queryCommand
+    .then(async (response) => {
+      const counts = await User.find(formartedQueries).countDocuments();
+      return res.status(200).json({
+        success: response ? true : false,
+        counts,
+        users: response ? response : "Can not get users",
+      });
+    })
+    .catch((err) => {
+      if (err) throw new Error(err, message);
     });
 });
 const deleteUser = asyncHandler(async (req, res) => {
-  const { _id } = req.query;
-  if (!_id) throw new Error("Missing Input");
-
-  const response = await User.findByIdAndDelete(_id);
+  const { userId } = req.params;
+  // if (!_id) throw new Error("Missing Input");
+  const response = await User.findByIdAndDelete(userId);
   return res.status(200).json({
     success: response ? true : false,
-    deletedUser: response
+    message: response
       ? `User with email ${response.email} deleted`
       : "No user delete",
   });
@@ -381,7 +442,7 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
   }).select("-refreshToken -password -role");
   return res.status(200).json({
     success: response ? true : false,
-    updatedUser: response ? response : "something went wrong",
+    message: response ? 'Updated' : "something went wrong",
   });
 });
 

@@ -3,26 +3,24 @@ const PitchCategory = require("../models/pitchCategory");
 const asyncHandler = require("express-async-handler");
 const { createSlug } = require("../ultils/helpers");
 const createBrand = asyncHandler(async (req, res) => {
-  const { _id } = req.user;
-  if (Object.keys(req.body).length === 0) throw new Error("Missing input");
-  if (req.body && req.body.title && _id) {
-    // req.body.slug = slugify(req.body.name);
-    const slug = createSlug(req.body.title);
-    req.body.slug = slug;
-    req.body.owner = _id;
-  }
-  let categories = [];
-  if (req.body.categories) {
-    categories = req.body.categories.split(",");
-    req.body.categories = categories;
-  } else throw new Error("Missing input");
-
+  const { title, description, address, categories, owner } = req.body;
+  const thumb = req?.files?.thumb[0]?.path;
+  const images = req.files?.images?.map((el) => el.path);
+  if (!title || !description || !address || !categories)
+    throw new Error("Missing inputs!!");
+  const slug = createSlug(title);
+  req.body.slug = slug;
+  if (thumb) req.body.thumb = thumb;
+  if (images) req.body.images = images;
+  //
+  let categoryArray = [];
+  categoryArray = req.body.categories.split(",");
+  req.body.categories = categoryArray;
   const response = await Brand.create(req.body);
-
-  if (response && req.body.categories) {
+  if (response) {
     // Chờ cho brand được tạo xong rồi mới thực hiện cập nhật category
     await Promise.all(
-      categories.map(async (categoryTitle) => {
+      categoryArray.map(async (categoryTitle) => {
         // Tìm category có title tương ứng
         const pitchCategory = await PitchCategory.findOne({
           title: categoryTitle,

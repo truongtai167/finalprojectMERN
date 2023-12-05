@@ -3,19 +3,21 @@ import {
   Button,
   InputForm,
   MarkdownEditor,
-  Select,
+  // Select,
   Loading,
 } from "../../components";
+import Select from "react-select";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { validate, getBase64 } from "../../ultils/helpers";
 import { toast } from "react-toastify";
-import { apiCreatePitch } from "../../apis";
+import { apiCreateBrand } from "../../apis";
 import { showModel } from "../../store/app/appSlice";
 
-const CreatePitches = () => {
+const CreateBrand = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.app);
+  console.log("Submit button clicked");
   const { current } = useSelector((state) => state.user);
   const {
     register,
@@ -24,46 +26,50 @@ const CreatePitches = () => {
     handleSubmit,
     watch,
   } = useForm();
-  const handleCreatePitch = async (data) => {
+  const handleCreateBrand = async (data) => {
+    console.log(selectedCategories);
     const invalids = validate(payload, setInvalidFields);
     if (invalids === 0) {
-      if (data.category) {
-        data.category = categories?.find(
-          (el) => el._id === data.category
-        )?.title;
-        const finalPayload = { ...data, ...payload, owner: current._id };
-        console.log({ ...data, ...payload });
-        const formData = new FormData();
-        for (let i of Object.entries(finalPayload)) {
-          formData.append(i[0], i[1]);
-        }
-        if (finalPayload.thumb) {
-          formData.append("thumb", finalPayload.thumb[0]);
-        }
-        if (finalPayload.images) {
-          for (let image of finalPayload.images)
-            formData.append("images", image);
-        }
-        dispatch(showModel({ isShowModel: true, modelChildren: <Loading /> }));
-        console.log(formData);
+      // if (data.categories) {
+      //   data.category = categories?.find(
+      //     (el) => el._id === data.category
+      //   )?.title;
+      const finalPayload = {
+        ...data,
+        ...payload,
+        owner: current._id,
+        categories: selectedCategories,
+      };
+      console.log({ ...data, ...payload });
+      const formData = new FormData();
+      for (let i of Object.entries(finalPayload)) {
+        formData.append(i[0], i[1]);
+      }
+      if (finalPayload.thumb) {
+        formData.append("thumb", finalPayload.thumb[0]);
+      }
+      if (finalPayload.images) {
+        for (let image of finalPayload.images) formData.append("images", image);
+      }
+      dispatch(showModel({ isShowModel: true, modelChildren: <Loading /> }));
+      console.log(formData);
 
-        const response = await apiCreatePitch(formData);
-        console.log(formData);
-        dispatch(showModel({ isShowModel: false, modelChildren: null }));
-        if (response.success) {
-          reset();
-          setPayload({
-            description: "",
-          });
-          setPreview({
-            thumb: null,
-            images: [],
-          });
-          console.log("CHECK NOTIFICATION");
-          toast.success("Create Pitch Success !");
-        } else {
-          toast.error("Fail!!!");
-        }
+      const response = await apiCreateBrand(formData);
+      console.log(formData);
+      dispatch(showModel({ isShowModel: false, modelChildren: null }));
+      if (response.success) {
+        reset();
+        setPayload({
+          description: "",
+        });
+        setPreview({
+          thumb: null,
+          images: [],
+        });
+        console.log("CHECK NOTIFICATION");
+        toast.success("Create Brand Success !");
+      } else {
+        toast.error("Fail!!!");
       }
     }
   };
@@ -74,6 +80,7 @@ const CreatePitches = () => {
     thumb: null,
     images: [],
   });
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [invalidFields, setInvalidFields] = useState([]);
   const changeValue = useCallback(
     (e) => {
@@ -100,7 +107,7 @@ const CreatePitches = () => {
     }
     setPreview((prev) => ({ ...prev, images: imagesPreview }));
   };
-
+  const [selectedOptions, setSelectedOptions] = useState([]);
   // const handleRemove = (name) => {
   //     const files = [...watch('images')]
   //     reset({
@@ -121,45 +128,22 @@ const CreatePitches = () => {
   return (
     <div className="w-full">
       <h1 className="h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b">
-        <span>Create New Pitch</span>
+        <span>Create Your Brand</span>
       </h1>
       <div className="p-4">
-        <form onSubmit={handleSubmit(handleCreatePitch)}>
-          {/* <InputForm
-            label="Owner"
-            register={register}
-            errors={errors}
-            id="owner"
-            validate={{}}
-            defaultValue={current._id}
-            fullWidth
-            placeholder="owner of new pitch"
-            hidden
-          /> */}
+        <form onSubmit={handleSubmit(handleCreateBrand)}>
           <InputForm
-            label="Name pitch"
+            label="Name Brand"
             register={register}
             errors={errors}
-            id="name"
+            id="title"
             validate={{
               required: "Require",
             }}
             fullWidth
-            placeholder="Name of new pitch"
+            placeholder="Name of Your Brand"
           />
           <div className="w-full my-6 flex gap-4">
-            <InputForm
-              label="Price pitch"
-              register={register}
-              errors={errors}
-              id="price"
-              validate={{
-                required: "Require",
-              }}
-              style="flex-1"
-              placeholder="Price of new pitch"
-              type="number"
-            />
             <InputForm
               label="Address"
               register={register}
@@ -169,32 +153,24 @@ const CreatePitches = () => {
                 required: "Require",
               }}
               style="flex-1"
-              placeholder="Address of new pitch"
+              placeholder="Address of Your Brand"
             />
           </div>
-          <div className="w-full my-6 flex gap-4">
+          <div className="w-full my-6 flex gap-4 ">
             <Select
-              label="Category"
-              options={categories?.map((el) => ({
-                code: el._id,
-                value: el.title,
-              }))}
-              register={register}
               id="category"
-              validate={{ required: "Require" }}
-              style="flex-1"
-              errors={errors}
+              options={categories?.map((category) => ({
+                label: category.title,
+                value: category._id,
+              }))}
+              isMulti
+              onChange={(selectedOptions) => {
+                const selectedValues = selectedOptions.map(
+                  (option) => option.label
+                );
+                setSelectedCategories(selectedValues);
+              }}
             />
-            {/* <Select
-              label="Brand"
-              options={categories
-                ?.find((el) => el._id === watch("category"))
-                ?.brand?.map((el) => ({ code: el, value: el }))}
-              register={register}
-              id="brand"
-              style="flex-1 max-h-[42px]"
-              errors={errors}
-            /> */}
           </div>
           <MarkdownEditor
             name="description"
@@ -277,4 +253,4 @@ const CreatePitches = () => {
   );
 };
 
-export default CreatePitches;
+export default CreateBrand;

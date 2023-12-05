@@ -17,8 +17,6 @@ const path = {
   ADMIN: "admin",
   DASHBOARD: "dashboard",
   MANAGE_USER: "manage-user",
-  // MANAGE_PITCH: 'manage-pitch',
-  // MANAGE_ORDER: 'manage-order',
   CREATE_USER: "create-user",
 
   // PitchOwner Route
@@ -27,7 +25,8 @@ const path = {
   MANAGE_PITCH: "manage-pitch",
   MANAGE_ORDER: "manage-order",
   CREATE_PITCH: "create-pitch",
-
+  MANAGE_BRAND: "manage-brand",
+  CREATE_BRAND: "create-brand",
   // Member Route
   MEMBER: "member",
   PERSONAL: "personal",

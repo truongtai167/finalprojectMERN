@@ -3,25 +3,41 @@ const asyncHandler = require("express-async-handler");
 // const slugify = require("slugify");
 // import { createSlug } from "../ultils/helpers";
 const { createSlug } = require("../ultils/helpers");
+// const createPitch = asyncHandler(async (req, res) => {
+//   const { _id } = req.user;
+//   if (Object.keys(req.body).length === 0) throw new Error("Missing input");
+
+//   if (req.body && req.body.name && _id) {
+//     // req.body.slug = slugify(req.body.name);
+//     const slug = createSlug(req.body.name);
+//     // console.log(slug);
+//     req.body.slug = slug;
+//     req.body.owner = _id;
+//   }
+//   const newPitch = await Pitch.create(req.body);
+//   return res.status(200).json({
+//     success: newPitch ? true : false,
+//     NewPitch: newPitch ? newPitch : "Cannot create new pitch",
+//   });
+// });
 const createPitch = asyncHandler(async (req, res) => {
-  const { _id } = req.user;
-  if (Object.keys(req.body).length === 0) throw new Error("Missing input");
-
-  if (req.body && req.body.name && _id) {
-    // req.body.slug = slugify(req.body.name);
-    const slug = createSlug(req.body.name);
-    // console.log(slug);
-    req.body.slug = slug;
-    req.body.owner = _id;
-  }
-
+  const { name, description, address, brand, price, category, owner } =
+    req.body;
+  const thumb = req?.files?.thumb[0]?.path;
+  const images = req.files?.images?.map((el) => el.path);
+  if (!name || !description || !address || !price || !category)
+    throw new Error("Missing inputs!!");
+  const slug = createSlug(name);
+  req.body.slug = slug;
+  if (thumb) req.body.thumb = thumb;
+  if (images) req.body.images = images;
+  // if (owner) req.body.owner = owner;
   const newPitch = await Pitch.create(req.body);
   return res.status(200).json({
     success: newPitch ? true : false,
-    NewPitch: newPitch ? newPitch : "Cannot create new pitch",
+    createPitch: newPitch ? newPitch : "Can not create new pitch",
   });
 });
-
 const getPitch = asyncHandler(async (req, res) => {
   const { pitchId } = req.params;
   // const excludeFields = ["name", "address", "email", "phoneNumber"];

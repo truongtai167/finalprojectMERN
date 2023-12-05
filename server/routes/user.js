@@ -22,6 +22,6 @@ router.put(
   controllers.updateUserByAdmin
 );
 router.get("/", [verifyAccessToken, isAdmin], controllers.getUsers);
-router.delete("/", [verifyAccessToken, isAdmin], controllers.deleteUser);
+router.delete("/:userId", [verifyAccessToken, isAdmin], controllers.deleteUser);
 
 module.exports = router;

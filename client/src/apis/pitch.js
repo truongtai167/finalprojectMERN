@@ -18,3 +18,22 @@ export const apiRatings = (data) =>
     method: "put",
     data,
   });
+export const apiCreatePitch = (data) =>
+  axios({
+    url: "/pitch/",
+    method: "post",
+    data,
+  });
+
+export const apiUpdatePitch = (data, pitchId) =>
+  axios({
+    url: "/pitch/" + pitchId,
+    method: "put",
+    data,
+  });
+
+export const apiDeletePitch = (pitchId) =>
+  axios({
+    url: "/pitch/" + pitchId,
+    method: "delete",
+  });

@@ -20,6 +20,11 @@ var brandSchema = new mongoose.Schema(
     description: {
       type: Array,
     },
+    thumb: {
+      type: String,
+      // required: true,
+      // để required thì nếu comment cho pitch chưa có thumb thì ko save đc
+    },
     images: {
       type: Array,
     },

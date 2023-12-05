@@ -20,7 +20,7 @@ const Select = ({
         id={id}
         {...register(id, validate)}
       >
-        <option value="">---CHOSE---</option>
+        <option value="">---choose---</option>
         {options?.map((el) => (
           <option value={el.code} key={el.code}>
             {el.value}

@@ -224,11 +224,17 @@ const ManageUser = () => {
                         errors={errors}
                         id={"isBlocked"}
                         defaultValue={el.isBlocked}
-                        validate={{ required: "Plseae Select" }}
+                        validate={{ required: "Please Select" }}
                         options={blockStatus}
                       />
                     ) : (
-                      <span>{el.isBlocked ? "Blocked" : "Active"}</span>
+                      <span>
+                        {
+                          blockStatus.find(
+                            (status) => status.code === +el.isBlocked
+                          )?.value
+                        }
+                      </span>
                     )}
                   </td>
                   <td className="py-2 px-4">

@@ -20,6 +20,8 @@ import {
   ManagePitch,
   CreatePitches,
   DashBoardOwner,
+  CreateBrand,
+  ManageBrand,
 } from "./pages/PitchOwner";
 import path from "./ultils/path";
 import { getCategories } from "./store/app/asyncAction";
@@ -61,6 +63,8 @@ function App() {
           <Route path={path.CREATE_PITCH} element={<CreatePitches />} />
           <Route path={path.MANAGE_ORDER} element={<ManageOrder />} />
           <Route path={path.MANAGE_PITCH} element={<ManagePitch />} />
+          <Route path={path.MANAGE_BRAND} element={<ManageBrand />} />
+          <Route path={path.CREATE_BRAND} element={<CreateBrand />} />
         </Route>
 
         {/*Member Route*/}

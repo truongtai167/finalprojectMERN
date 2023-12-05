@@ -277,6 +277,20 @@ export const pitchownerSidebar = [
     path: `/${path.PITCH_OWNER}/${path.MANAGE_ORDER}`,
     icon: <FaMoneyBill />,
   },
+  {
+    id: 4,
+    type: "SINGLE",
+    text: "Manage brand",
+    path: `/${path.PITCH_OWNER}/${path.MANAGE_BRAND}`,
+    icon: <FaMoneyBill />,
+  },
+  {
+    id: 5,
+    type: "SINGLE",
+    text: "Create brand",
+    path: `/${path.PITCH_OWNER}/${path.CREATE_BRAND}`,
+    icon: <FaMoneyBill />,
+  },
 ];
 export const roles = [
   {
@@ -295,11 +309,11 @@ export const roles = [
 
 export const blockStatus = [
   {
-    code: true,
+    code: 1,
     value: "Block",
   },
   {
-    code: false,
+    code: 2,
     value: "Active",
   },
 ];

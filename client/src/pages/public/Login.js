@@ -192,6 +192,7 @@ const Login = () => {
               nameKey="name"
               invalidFields={invalidFields}
               setInvalidFields={setInvalidFields}
+              fullWidth
             />
           )}
           <InputField
@@ -201,6 +202,7 @@ const Login = () => {
             type={"email"}
             invalidFields={invalidFields}
             setInvalidFields={setInvalidFields}
+            fullWidth
           />
           <InputField
             value={payload.password}
@@ -209,6 +211,7 @@ const Login = () => {
             type={"password"}
             invalidFields={invalidFields}
             setInvalidFields={setInvalidFields}
+            fullWidth
           />
           {isRegister && (
             <InputField
@@ -218,6 +221,7 @@ const Login = () => {
               type={"tel"}
               invalidFields={invalidFields}
               setInvalidFields={setInvalidFields}
+              fullWidth
             />
           )}
           <Button
