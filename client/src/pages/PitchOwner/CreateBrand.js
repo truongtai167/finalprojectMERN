@@ -66,7 +66,7 @@ const CreateBrand = () => {
           thumb: null,
           images: [],
         });
-        console.log("CHECK NOTIFICATION");
+        // console.log("CHECK NOTIFICATION");
         toast.success("Create Brand Success !");
       } else {
         toast.error("Fail!!!");

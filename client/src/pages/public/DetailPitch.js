@@ -7,6 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import icons from "../../ultils/icons";
 import { PitchExtraInformation } from "../../ultils/constants";
 import DOMPurify from "dompurify";
+import { shifts } from "../../ultils/constants";
+import Select from "react-select";
 import {
   Breadcrumb,
   Button,
@@ -23,12 +25,12 @@ import {
 } from "../../ultils/helpers";
 const {
   FaCalendarAlt,
-  FaShieldAlt,
-  FaCar,
-  AiOutlineSafety,
-  FaWifi,
-  IoFastFood,
-  BsFillTelephoneForwardFill,
+  // FaShieldAlt,
+  // FaCar,
+  // AiOutlineSafety,
+  // FaWifi,
+  // IoFastFood,
+  // BsFillTelephoneForwardFill,
 } = icons;
 const settings = {
   dots: false,
@@ -40,7 +42,7 @@ const settings = {
 
 function DetailPitch() {
   const { pitchId, title, category, brand } = useParams();
-  const [startDate, setStartDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
   const [pitch, setPitch] = useState([]);
   const [currentImage, setCurrentImage] = useState(null);
   const [relatedPitches, setRelatedPitches] = useState(null);
@@ -73,11 +75,16 @@ function DetailPitch() {
       fetchPitchData();
     }
   }, [update]);
-
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedShift, setSelectedShift] = useState([]);
   const rerender = useCallback(() => {
     setUpdate(!update);
   }, [update]);
-
+  const handleClickBooking = (data) => {
+    console.log("handleClickBooking is called");
+    console.log("Selected Shift:", selectedShift);
+    console.log("Selected Date:", selectedDate);
+  };
   return (
     <div className="w-full">
       <div className="h-[81px] flex justify-center items-center bg-gray-100">
@@ -146,24 +153,45 @@ function DetailPitch() {
           <ul className="list-item text-sm text-gray-500">{pitch?.address}</ul>
           <div>
             <h2 className="font-semibold">Shift:</h2>
+            <Select
+              id="shift"
+              options={shifts?.map((st) => ({
+                label: st.time,
+                value: st.value,
+              }))}
+              isMulti
+              placeholder={"Select Shift Book"}
+              onChange={(selectedOptions) => {
+                const selectedValues = selectedOptions.map(
+                  (option) => option.value
+                );
+                setSelectedShift(selectedValues);
+              }}
+            />
           </div>
           <div>
             <h2 className="font-semibold">Date:</h2>
             <div className="border font-bold mb-4 p-2 flex items-center">
               <FaCalendarAlt className="mr-2" />
               {/* <ChooseDate /> */}
-              {/* <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
+              <DatePicker
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
                 dateFormat="dd/MM/yyyy"
-                showPopperArrow={false}
-                className="w-full border-none outline-none"
-                popperClassName="datepicker-popper"
-              /> */}
+                // minDate={new Date()}
+                placeholderText="Select Date Book"
+                // showPopperArrow={false}
+                // className="w-full border-none outline-none"
+                // popperClassName="datepicker-popper"
+              />
             </div>
           </div>
           <div>
-            <Button name="Booking" fw></Button>
+            <Button
+              name="Booking"
+              fw
+              handleOnClick={handleClickBooking}
+            ></Button>
           </div>
         </div>
 

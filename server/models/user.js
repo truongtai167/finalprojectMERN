@@ -46,13 +46,15 @@ var userSchema = new mongoose.Schema(
     order: [
       {
         pitch: { type: mongoose.Types.ObjectId, ref: "Pitch" },
-        bookedDate: Date,
-        shift: String,
+        bookedDate: { type: Date },
+        shift: {
+          type: Array,
+        },
       },
     ],
     isBlocked: {
       type: String,
-      enum:[1,2],
+      enum: [1, 2],
       default: 2,
     },
     refreshToken: {
