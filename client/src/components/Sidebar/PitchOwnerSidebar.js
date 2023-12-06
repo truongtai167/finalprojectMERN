@@ -1,7 +1,7 @@
 import React, { Fragment, memo, useState } from "react";
 import logo from "../../assets/logo.png";
 import { pitchownerSidebar } from "../../ultils/constants";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import clsx from "clsx";
 import { FaAngleDoubleDown, FaAngleDoubleRight } from "react-icons/fa";
 
@@ -18,10 +18,13 @@ const PitchOwnerSidebar = () => {
   };
   return (
     <div className="bg-white h-full py-4">
-      <div className="flex flex-col justify-center items-center p-4 gap-2">
+      <Link
+        to={"/"}
+        className="flex flex-col justify-center items-center p-4 gap-2"
+      >
         <img src={logo} alt="logo" className="w-[200px] object-contain" />
-        <span>PitchOwner WorkSpace</span>
-      </div>
+        <span className="font-bold">PitchOwner WorkSpace</span>
+      </Link>
       <div>
         {pitchownerSidebar.map((el) => (
           <Fragment key={el.id}>

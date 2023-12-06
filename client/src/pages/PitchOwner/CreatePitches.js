@@ -10,13 +10,14 @@ import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { validate, getBase64 } from "../../ultils/helpers";
 import { toast } from "react-toastify";
-import { apiCreatePitch } from "../../apis";
+import { apiCreatePitch, apiGetBrandByOwner } from "../../apis";
 import { showModel } from "../../store/app/appSlice";
 
 const CreatePitches = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.app);
   const { current } = useSelector((state) => state.user);
+  const [brand, setBrand] = useState(null);
   const {
     register,
     formState: { errors },
@@ -24,6 +25,14 @@ const CreatePitches = () => {
     handleSubmit,
     watch,
   } = useForm();
+  const fetchBrandByOwner = async (uid) => {
+    const response = await apiGetBrandByOwner(uid);
+    // console.log(response);
+    if (response.success) setBrand(response.brandData);
+  };
+  useEffect(() => {
+    fetchBrandByOwner(current._id);
+  }, []);
   const handleCreatePitch = async (data) => {
     const invalids = validate(payload, setInvalidFields);
     if (invalids === 0) {
@@ -125,17 +134,6 @@ const CreatePitches = () => {
       </h1>
       <div className="p-4">
         <form onSubmit={handleSubmit(handleCreatePitch)}>
-          {/* <InputForm
-            label="Owner"
-            register={register}
-            errors={errors}
-            id="owner"
-            validate={{}}
-            defaultValue={current._id}
-            fullWidth
-            placeholder="owner of new pitch"
-            hidden
-          /> */}
           <InputForm
             label="Name pitch"
             register={register}
@@ -185,16 +183,16 @@ const CreatePitches = () => {
               style="flex-1"
               errors={errors}
             />
-            {/* <Select
+            <InputForm
               label="Brand"
-              options={categories
-                ?.find((el) => el._id === watch("category"))
-                ?.brand?.map((el) => ({ code: el, value: el }))}
               register={register}
-              id="brand"
-              style="flex-1 max-h-[42px]"
               errors={errors}
-            /> */}
+              id="brand"
+              validate={{}}
+              style="flex-1"
+              defaultValue={brand?.title}
+              readOnly={true}
+            />
           </div>
           <MarkdownEditor
             name="description"

@@ -5,3 +5,8 @@ export const apiCreateBrand = (data) =>
     method: "post",
     data,
   });
+  export const apiGetBrandByOwner = (userId) =>
+  axios({
+    url: "/brand/" + userId,
+    method: "get",
+  });

@@ -39,7 +39,7 @@ const createBrand = asyncHandler(async (req, res) => {
     createdBrand: response ? response : "Cannot create new brand",
   });
 });
-const getBrand = asyncHandler(async (req, res) => {
+const getBrands = asyncHandler(async (req, res) => {
   const { brandId } = req.params;
   const excludeFields = [
     "title",
@@ -220,13 +220,29 @@ const uploadImagesBrand = asyncHandler(async (req, res) => {
     message: response ? response : "Cannot upload images brand",
   });
 });
+const getBrandByOwner = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  // const excludeFields = ["name", "address", "email", "phoneNumber"];
+  // const pitch = await Pitch.findById(pitchId)
+  //   .populate("owner", excludeFields)
+  //   .populate({
+  //     path: "postedBy",
+  //     select: "name avatar",
+  //   });
+  const brand = await Brand.findOne({ owner: userId });
+  return res.status(200).json({
+    success: brand ? true : false,
+    brandData: brand ? brand : "Cannot get brand",
+  });
+});
 module.exports = {
   createBrand,
-  getBrand,
+  getBrands,
   updateBrand,
   deleteBrand,
   ratings,
   updateBrandDescription,
   updateBrandAddress,
   uploadImagesBrand,
+  getBrandByOwner,
 };

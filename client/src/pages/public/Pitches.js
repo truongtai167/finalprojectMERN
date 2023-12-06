@@ -39,7 +39,7 @@ const Pitches = () => {
   const [params] = useSearchParams();
   const [sort, setSort] = useState("");
   // const formattedCategory2 = category.replace(/-/g, " ");
-  const fetchProductsByCategory = async (queries) => {
+  const fetchPitchesByCategory = async (queries) => {
     const response = await apiGetPitches(queries);
     // console.log(response);
     // console.log(formattedCategory2);
@@ -87,7 +87,7 @@ const Pitches = () => {
     delete queries.to;
     delete queries.from;
     const q = { ...priceQuery, ...queries };
-    fetchProductsByCategory(q);
+    fetchPitchesByCategory(q);
     window.scrollTo(0, 50);
   }, [params]);
   const changeActiveFilter = useCallback(

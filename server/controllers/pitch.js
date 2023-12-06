@@ -25,7 +25,7 @@ const createPitch = asyncHandler(async (req, res) => {
     req.body;
   const thumb = req?.files?.thumb[0]?.path;
   const images = req.files?.images?.map((el) => el.path);
-  if (!name || !description || !address || !price || !category)
+  if (!name || !description || !address || !price || !category || !brand)
     throw new Error("Missing inputs!!");
   const slug = createSlug(name);
   req.body.slug = slug;

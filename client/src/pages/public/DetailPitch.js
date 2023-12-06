@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import icons from "../../ultils/icons";
 import { PitchExtraInformation } from "../../ultils/constants";
+import DOMPurify from "dompurify";
 import {
   Breadcrumb,
   Button,
@@ -124,12 +125,21 @@ function DetailPitch() {
           <h2 className="font-semibold pt-2">Brand:</h2>
           <span>{pitch?.brand} </span>
           <h2 className="font-semibold pt-2 ">Description:</h2>
-          <ul className="list-item list-disc text-sm text-gray-500 ml-4">
-            {pitch?.description?.map((el) => (
-              <li className="leading-6" key={el}>
-                {el}
-              </li>
-            ))}
+          <ul className="list-square text-sm text-gray-500 pl-4">
+            {pitch?.description?.length > 1 &&
+              pitch?.description?.map((el) => (
+                <li className="leading-6" key={el}>
+                  {el}
+                </li>
+              ))}
+            {pitch?.description?.length === 1 && (
+              <div
+                className="text-sm line-clamp-[15] mb-8"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(pitch?.description[0]),
+                }}
+              ></div>
+            )}
           </ul>
           <h2 className="font-semibold">Address:</h2>
 
