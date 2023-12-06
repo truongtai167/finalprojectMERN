@@ -7,6 +7,7 @@ import { getCurrent } from "../../store/user/asyncAction";
 import { logout, clearMessage } from "../../store/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import { showOrder } from "../../store/app/appSlice";
 
 const Header = () => {
   const { FaUserCircle, CiLogout, BsCart } = icons;
@@ -99,9 +100,12 @@ const Header = () => {
           </div>
         )}
         {current && (
-          <div className="flex items-center gap-1 cursor-pointer group">
+          <div
+            className="flex items-center gap-1 cursor-pointer "
+            onClick={() => dispatch(showOrder())}
+          >
             <BsCart size={24} className="text-red-500" />
-            <span className="group-hover:text-red-500">Booking</span>
+            <span className="hover:text-red-500">Booking</span>
           </div>
         )}
       </div>

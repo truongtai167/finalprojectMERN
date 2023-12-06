@@ -6,7 +6,11 @@ export const apiGetPitches = (params) =>
     method: "get",
     params,
   });
-
+// export const apiGetPitch2 = (params) =>
+//   axios({
+//     url: "/pitchbrand",
+//     method: "get",
+//   });
 export const apiGetPitch = (pitchId) =>
   axios({
     url: "/pitch/" + pitchId,

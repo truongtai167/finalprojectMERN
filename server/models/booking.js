@@ -2,21 +2,19 @@ const mongoose = require("mongoose"); // Erase if already required
 
 // Declare the Schema of the Mongo model
 var bookingSchema = new mongoose.Schema({
-  pitches: [
-    {
-      pitch: { type: mongoose.Types.ObjectId, ref: "pitch" },
-      bookedDate: { type: Date },
-      shift: {
-        type: Array,
-      },
-    },
-  ],
+  pitch: {
+    type: mongoose.Types.ObjectId,
+    ref: "Pitch",
+  },
+  bookedDate: { type: Date },
+  shift: {
+    type: String,
+  },
   status: {
     type: String,
     default: "Pending",
     enum: ["Cancelled", "Pending", "Success"],
   },
-  // paymentIntent: {},
   coupon: {
     type: mongoose.Types.ObjectId,
     ref: "Coupon",

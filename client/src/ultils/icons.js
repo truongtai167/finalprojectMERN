@@ -32,8 +32,8 @@ import {
   AiOutlineLogout,
   AiOutlineSafety,
   AiOutlineDown,
- 
 } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
 import { CiLogout } from "react-icons/ci";
 import { BiLogoGmail } from "react-icons/bi";
 import { BsFillSuitHeartFill, BsCart } from "react-icons/bs";
@@ -74,7 +74,7 @@ const icons = {
   FaMoneyBill,
   MdPersonalInjury,
   MdHistory,
- 
+  IoMdClose,
 };
 
 export default icons;

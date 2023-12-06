@@ -43,15 +43,7 @@ var userSchema = new mongoose.Schema(
     address: {
       type: String,
     },
-    order: [
-      {
-        pitch: { type: mongoose.Types.ObjectId, ref: "Pitch" },
-        bookedDate: { type: Date },
-        shift: {
-          type: Array,
-        },
-      },
-    ],
+
     isBlocked: {
       type: String,
       enum: [1, 2],

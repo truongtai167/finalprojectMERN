@@ -17,8 +17,12 @@ router.put(
   [verifyAccessToken, uploader.single("avatar")],
   controllers.updateUser
 );
-router.put("/booking", verifyAccessToken, controllers.updateOrder);
-
+router.post("/booking", verifyAccessToken, controllers.BookingPitch);
+// router.delete(
+//   "/remove-order/:userId",
+//   verifyAccessToken,
+//   controllers.removeOrder
+// );
 // Admin
 router.put(
   "/:userId",

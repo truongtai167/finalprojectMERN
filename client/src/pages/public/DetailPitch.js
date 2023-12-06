@@ -1,7 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Slider from "react-slick";
-import { apiGetPitch, apiGetPitches } from "../../apis";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  apiGetPitch,
+  apiGetPitches,
+  apiUpdateOrder,
+  apiBooking,
+  // apiRemoveOrder,
+} from "../../apis";
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import icons from "../../ultils/icons";
@@ -15,7 +24,6 @@ import {
   PitchExtraInfo,
   PitchInformation,
   CustomSlider,
-  ChooseDate,
 } from "../../components";
 // import ReactImageMagnify from "react-image-magnify";
 import {
@@ -23,6 +31,9 @@ import {
   formatPrice,
   renderStarFromNumber,
 } from "../../ultils/helpers";
+import { toast } from "react-toastify";
+import path from "../../ultils/path";
+import Swal from "sweetalert2";
 const {
   FaCalendarAlt,
   // FaShieldAlt,
@@ -47,6 +58,8 @@ function DetailPitch() {
   const [currentImage, setCurrentImage] = useState(null);
   const [relatedPitches, setRelatedPitches] = useState(null);
   const [update, setUpdate] = useState(false);
+  const { isLoggedIn, current } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const fetchPitchData = async () => {
     const response = await apiGetPitch(pitchId);
     if (response.success) {
@@ -56,6 +69,7 @@ function DetailPitch() {
   };
   const fetchPitches = async () => {
     const response = await apiGetPitches({ brand });
+    // console.log(brand);
     if (response.success) setRelatedPitches(response.pitches);
   };
 
@@ -80,10 +94,34 @@ function DetailPitch() {
   const rerender = useCallback(() => {
     setUpdate(!update);
   }, [update]);
-  const handleClickBooking = (data) => {
+  const handleClickBooking = async () => {
     console.log("handleClickBooking is called");
     console.log("Selected Shift:", selectedShift);
     console.log("Selected Date:", selectedDate);
+    if (!isLoggedIn) {
+      return Swal.fire({
+        title: "Almost...",
+        text: "Please Login !!!",
+        icon: "info",
+        cancelButtonText: "Not Now",
+        showCancelButton: true,
+        confirmButtonText: "Go Login Page",
+      }).then((rs) => {
+        if (rs.isConfirmed) navigate(`/${path.LOGIN}`);
+      });
+    }
+    const response = await apiBooking({
+      shift: selectedShift,
+      bookedDate: selectedDate,
+      pitchId: pitchId,
+    });
+    if (response.success) {
+      setSelectedDate(null);
+      setSelectedShift(null);
+      toast.success(response.message);
+      // xoa gio hang
+    } else toast.error(response.message);
+    console.log(response);
   };
   return (
     <div className="w-full">
@@ -159,12 +197,13 @@ function DetailPitch() {
                 label: st.time,
                 value: st.value,
               }))}
-              isMulti
+              // isMulti
               placeholder={"Select Shift Book"}
               onChange={(selectedOptions) => {
-                const selectedValues = selectedOptions.map(
-                  (option) => option.value
-                );
+                const selectedValues = selectedOptions.value;
+                //  .map(
+                //   (option) => option.value
+                // );
                 setSelectedShift(selectedValues);
               }}
             />

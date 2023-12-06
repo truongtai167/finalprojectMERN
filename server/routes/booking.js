@@ -7,8 +7,8 @@ const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 // User
 
 router.post("/", verifyAccessToken, controllers.createBooking);
-router.get("/", verifyAccessToken, controllers.getUserBooking);
-
+router.get("/:userId", verifyAccessToken, controllers.getUserBooking);
+router.delete("/:bookingId", verifyAccessToken, controllers.deleteBooking);
 // Admin
 
 router.put(

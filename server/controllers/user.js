@@ -448,115 +448,54 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
   });
 });
 
-// cùng sân -  cùng ngày -  cùng shift => error
-// cùng sân - cùng ngày - khác shift => ok
-// cùng sân - khác ngày - cùng shift => ok
-// status != emptu => eror
-
-const updateOrder = asyncHandler(async (req, res) => {
-  // const { _id } = req.user;
-  // const { pitchId, bookedDate, shift } = req.body;
-  // if (!pitchId || !bookedDate || !shift) throw new Error("Missing input");
-
-  // // Tìm đặt sân trong bảng Booking dựa trên ngày và ca sân
-  // const exOrder = await Booking.find({
-  //   "pitches.pitch": pitchId,
-  //   "pitches.shift": shift,
-  //   "pitches.bookedDate": bookedDate,
-  // });
-  // const existingBooking = exOrder[0]?.pitches.find(
-  //   (el) => el.pitch.toString() === pitchId && el.shift === shift
-  // );
-
-  // if (existingBooking) {
-  //   // Kiểm tra xem có sân bóng cụ thể (pitchId) đã được đặt trong ngày và ca sân này chưa
-  //   console.log("chon san khac de");
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: "booked pitch, choose another pitch please.",
-  //   });
-  // } else {
-  //   // console.log("loi cmnr");
-  //   const user = await User.findById(_id).select("order");
-  //   const alreadyPitch = user?.order?.find((el) => {
-  //     return el.pitch.toString() === pitchId && el.shift === shift;
-  //   });
-
-  //   if (alreadyPitch) {
-  //     return res.status(500).json({
-  //       success: false,
-  //       message: "already added in order",
-  //     });
-  //   } else {
-  //     const response = await User.findByIdAndUpdate(
-  //       _id,
-  //       { $push: { order: { pitch: pitchId, bookedDate, shift } } },
-  //       { new: true }
-  //     );
-  //     return res.status(200).json({
-  //       success: response ? true : false,
-  //       BookingPitch: response ? response : "something went wrong",
-  //     });
-  //   }
-  // }
-  //////////////////////////////////////////////////////////////////////////
-  try {
-    const { pitchId, bookedDate, shift } = req.body;
-    console.log(pitchId, bookedDate, shift);
-
-    // Kiểm tra bookedDate
-    const currentDate = new Date();
-    if (new Date(bookedDate) < currentDate) {
-      return res.status(400).json({
-        success: false,
-        message: "Ngày đặt sân phải bằng hoặc lớn hơn ngày hiện tại.",
-      });
-    }
-
-    // Kiểm tra trong trường pitches của model booking
-    const existingBooking = await Booking.findOne({
-      "pitches.pitch": pitchId,
-      "pitches.bookedDate": bookedDate,
-    });
-
-    if (existingBooking) {
-      // Kiểm tra trường shift
-      const foundShift = existingBooking.pitches.find(
-        (pitch) =>
-          pitch.pitch.toString() === pitchId &&
-          pitch.shift.some((s) => shift.includes(s))
-      );
-
-      if (foundShift) {
-        return res.status(400).json({
-          success: false,
-          message: "Sân đã được đặt vào thời gian và ca sân đã chọn.",
-        });
-      }
-    }
-
-    // Nếu không có lỗi, thêm vào trường order của model user
-    const userId = req.user._id; // Lấy user ID từ token hoặc middleware xác thực
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { $push: { order: { pitch: pitchId, bookedDate, shift } } },
-      { new: true }
-    );
-
-    return res.status(200).json({
-      success: true,
-      message: "Đặt sân thành công.",
-      user: updatedUser,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
+const BookingPitch = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { pitchId, bookedDate, shift } = req.body;
+  if (!pitchId || !bookedDate || !shift) throw new Error("Missing input");
+  const currentDate = new Date();
+  if (new Date(bookedDate) < currentDate) {
+    return res.status(400).json({
       success: false,
-      message: "Đã xảy ra lỗi khi xử lý yêu cầu.",
+      message: "Choose another Date.",
+    });
+  }
+
+  const existingBooking = await Booking.findOne({
+    pitch: pitchId,
+    bookedDate: bookedDate,
+    shift: shift,
+  });
+  if (existingBooking) {
+    // Kiểm tra trường shift
+    return res.status(400).json({
+      success: false,
+      message: "this pitch already booked.",
+    });
+  } else {
+    req.body.bookingBy = _id;
+    req.body.pitch = pitchId;
+    const response = await Booking.create(req.body);
+    return res.status(200).json({
+      success: response ? true : false,
+      message: response ? "Booked" : "something went wrong",
     });
   }
 });
+// const removeOrder = asyncHandler(async (req, res) => {
+//   const { _id } = req.params;
 
+//   // Xóa nội dung trong trường order của model User
+//   const updatedUser = await User.findByIdAndUpdate(
+//     _id,
+//     { $set: { order: [] } },
+//     { new: true }
+//   ).select("order");
+
+//   return res.status(200).json({
+//     success: true,
+//     message: "Đã xóa nội dung trong trường order thành công.",
+//   });
+// });
 module.exports = {
   register,
   login,
@@ -569,6 +508,7 @@ module.exports = {
   deleteUser,
   updateUser,
   updateUserByAdmin,
-  updateOrder,
+  BookingPitch,
   verifyEmail,
+  // removeOrder,
 };

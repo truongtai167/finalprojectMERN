@@ -11,6 +11,7 @@ import {
   Pitches,
   VerifyEmail,
   ResetPassword,
+  DetailOrder,
 } from "./pages/public";
 import { AdminLayout, DashBoard, ManageUser, CreateUser } from "./pages/Admin";
 import {
@@ -28,15 +29,26 @@ import { getCategories } from "./store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Model } from "./components";
+import { Model, Order } from "./components";
+import { showOrder } from "./store/app/appSlice";
 function App() {
   const dispatch = useDispatch();
-  const { isShowModel, modelChildren } = useSelector((state) => state.app);
+  const { isShowModel, modelChildren, isShowOrder } = useSelector(
+    (state) => state.app
+  );
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
   return (
     <div className="font-main relative">
+      {isShowOrder && (
+        <div
+          onClick={() => dispatch(showOrder())}
+          className="absolute inset-0 bg-overlay z-50 flex justify-end"
+        >
+          <Order />
+        </div>
+      )}
       {isShowModel && <Model>{modelChildren}</Model>}
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
@@ -49,6 +61,7 @@ function App() {
           <Route path={path.FAQ} element={<FAQ />} />
           <Route path={path.OUR_SERVICE} element={<Services />} />
           <Route path={path.PITCHES} element={<Pitches />} />
+          <Route path={path.DETAIL_ORDER} element={<DetailOrder />} />
           <Route path={path.ALL} element={<Home />} />
         </Route>
         {/*Admin Route*/}

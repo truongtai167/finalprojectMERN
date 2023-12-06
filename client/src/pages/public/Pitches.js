@@ -40,7 +40,7 @@ const Pitches = () => {
   const [sort, setSort] = useState("");
   // const formattedCategory2 = category.replace(/-/g, " ");
   const fetchPitchesByCategory = async (queries) => {
-    const response = await apiGetPitches(queries);
+    const response = await apiGetPitches({ ...queries, category });
     // console.log(response);
     // console.log(formattedCategory2);
 

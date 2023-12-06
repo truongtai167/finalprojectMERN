@@ -10,7 +10,7 @@ const uploader = require("../config/cloudinaryconfig");
 // Quest
 router.get("/:pitchId", controllers.getPitch);
 router.get("/", controllers.getPitches);
-
+// router.get("/pitchbrand", controllers.getPitchesBrand);
 // User
 router.put("/ratings", [verifyAccessToken], controllers.ratings);
 

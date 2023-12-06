@@ -12,6 +12,10 @@ module.exports = {
       width: {
         main: "1380px",
       },
+      gridTemplateRows: {
+        10: "repeat(10,minmax(0,1fr))",
+        layout: "200px minmax(900px,1fr) 100px",
+      },
       backgroundColor: {
         main: "#ee3131",
         overlay: "rgba(0,0,0,0.3)",
@@ -82,5 +86,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/line-clamp"), require("@tailwindcss/forms"),],
+  plugins: [require("@tailwindcss/line-clamp"), require("@tailwindcss/forms")],
 };

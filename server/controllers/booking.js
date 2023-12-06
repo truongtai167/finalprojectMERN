@@ -50,9 +50,11 @@ const updateStatusBooking = asyncHandler(async (req, res) => {
 });
 
 const getUserBooking = asyncHandler(async (req, res) => {
-  const { _id } = req.user;
+  const { userId } = req.params;
 
-  const response = await Booking.find({ bookingBy: _id });
+  const response = await Booking.find({ bookingBy: userId })
+    // .select("pitch")
+    .populate("pitch", "name price thumb category");
   return res.status(200).json({
     success: response ? true : false,
     Booking: response ? response : "Cannot get user booking detail",
@@ -66,10 +68,18 @@ const getBookings = asyncHandler(async (req, res) => {
     Booking: response ? response : "Cannot get all user booking detail",
   });
 });
-
+const deleteBooking = asyncHandler(async (req, res) => {
+  const { bookingId } = req.params;
+  const response = await Booking.findByIdAndDelete(bookingId);
+  return res.status(200).json({
+    success: response ? true : false,
+    message: response ? "Deleted" : "Cannot update status booking",
+  });
+});
 module.exports = {
   createBooking,
   updateStatusBooking,
   getUserBooking,
   getBookings,
+  deleteBooking,
 };

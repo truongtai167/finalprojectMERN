@@ -12,7 +12,7 @@ const path = {
     ":category/:brand/:pitchId/:title",
   VERIFY_EMAIL: "verify/:status",
   RESET_PASSWORD: "reset-password/:token",
-
+  DETAIL_ORDER: "my-order",
   // Admin Route
   ADMIN: "admin",
   DASHBOARD: "dashboard",
