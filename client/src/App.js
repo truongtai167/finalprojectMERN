@@ -13,7 +13,6 @@ import {
   ResetPassword,
 } from "./pages/public";
 import { AdminLayout, DashBoard, ManageUser, CreateUser } from "./pages/Admin";
-import { MemberLayout, Personal } from "./pages/member";
 import {
   PitchOwnerLayout,
   ManageOrder,
@@ -23,6 +22,7 @@ import {
   CreateBrand,
   ManageBrand,
 } from "./pages/PitchOwner";
+import { MemberLayout, History, MyBooking, Personal } from "./pages/member";
 import path from "./ultils/path";
 import { getCategories } from "./store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -70,6 +70,8 @@ function App() {
         {/*Member Route*/}
         <Route path={path.MEMBER} element={<MemberLayout />}>
           <Route path={path.PERSONAL} element={<Personal />} />
+          <Route path={path.MY_BOOKING} element={<MyBooking />} />
+          <Route path={path.HISTORY} element={<History />} />
         </Route>
         <Route path={path.VERIFY_EMAIL} element={<VerifyEmail />} />
         <Route path={path.LOGIN} element={<Login />} />

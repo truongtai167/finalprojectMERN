@@ -17,7 +17,7 @@ import { showModel } from "../../store/app/appSlice";
 const CreateBrand = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.app);
-  console.log("Submit button clicked");
+  
   const { current } = useSelector((state) => state.user);
   const {
     register,

@@ -1,5 +1,11 @@
 import { RiPhoneFill } from "react-icons/ri";
-import { MdEmail, MdSpaceDashboard, MdGroups } from "react-icons/md";
+import {
+  MdEmail,
+  MdSpaceDashboard,
+  MdGroups,
+  MdPersonalInjury,
+  MdHistory,
+} from "react-icons/md";
 import { IoFastFood } from "react-icons/io5";
 import {
   FaUserCircle,
@@ -26,6 +32,7 @@ import {
   AiOutlineLogout,
   AiOutlineSafety,
   AiOutlineDown,
+ 
 } from "react-icons/ai";
 import { CiLogout } from "react-icons/ci";
 import { BiLogoGmail } from "react-icons/bi";
@@ -65,6 +72,9 @@ const icons = {
   MdGroups,
   FaProductHunt,
   FaMoneyBill,
+  MdPersonalInjury,
+  MdHistory,
+ 
 };
 
 export default icons;

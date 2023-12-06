@@ -421,15 +421,17 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 const updateUser = asyncHandler(async (req, res) => {
   const { _id } = req.user;
+  const { name, phoneNumber, email } = req.body;
+  const data = { name, phoneNumber, email };
+  if (req.file) data.avatar = req.file.path;
   if (!_id || Object.keys(req.body).length === 0)
-    throw new Error("Missing Input");
-
-  const response = await User.findByIdAndUpdate(_id, req.body, {
+    throw new Error("Missing inputs");
+  const response = await User.findByIdAndUpdate(_id, data, {
     new: true,
-  }).select("-refreshToken -password -role");
+  }).select("-password -role -refreshToken");
   return res.status(200).json({
     success: response ? true : false,
-    updatedUser: response ? response : "something went wrong",
+    message: response ? "Updated" : "Can not update",
   });
 });
 
@@ -442,7 +444,7 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
   }).select("-refreshToken -password -role");
   return res.status(200).json({
     success: response ? true : false,
-    message: response ? 'Updated' : "something went wrong",
+    message: response ? "Updated" : "something went wrong",
   });
 });
 

@@ -31,3 +31,4 @@ export { default as PitchOwnerSidebar } from "./Sidebar/PitchOwnerSidebar";
 export { default as InputForm } from "./Inputs/InputForm";
 export { default as Select } from "./Inputs/Select";
 export { default as MarkdownEditor } from "./Inputs/MarkdownEditor";
+export { default as MemberSidebar } from "./Sidebar/MemberSidebar";

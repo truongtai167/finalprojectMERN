@@ -33,8 +33,9 @@ const {
   AiOutlineSafety,
   FaWifi,
   IoFastFood,
-  BsFillTelephoneForwardFill,
-  AiFillEye,
+  MdHistory,
+  // AiFillEye,
+  MdPersonalInjury,
   BsFillTelephoneFill,
 } = icons;
 export const PitchExtraInformation = [
@@ -290,6 +291,29 @@ export const pitchownerSidebar = [
     text: "Create brand",
     path: `/${path.PITCH_OWNER}/${path.CREATE_BRAND}`,
     icon: <FaMoneyBill />,
+  },
+];
+export const memberSidebar = [
+  {
+    id: 1,
+    type: "SINGLE",
+    text: "Personal",
+    path: `/${path.MEMBER}/${path.PERSONAL}`,
+    icon: <MdPersonalInjury />,
+  },
+  {
+    id: 2,
+    type: "SINGLE",
+    text: "Booking histories",
+    path: `/${path.MEMBER}/${path.HISTORY}`,
+    icon: <MdHistory />,
+  },
+  {
+    id: 3,
+    type: "SINGLE",
+    text: "Booking",
+    path: `/${path.MEMBER}/${path.Booking}`,
+    icon: <MdPersonalInjury />,
   },
 ];
 export const roles = [

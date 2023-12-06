@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import defaultImage from "../../assets/Coming_Soon.png";
 import { formatMoney, renderStarFromNumber } from "../../ultils/helpers";
 import newTag from "../../assets/newTag.png";
@@ -7,12 +7,39 @@ import { SelectOption } from "..";
 import icons from "../../ultils/icons";
 import { Link } from "react-router-dom";
 import path from "../../ultils/path";
-
+import withBase from "../../hocs/withBase";
+import { showModel } from "../../store/app/appSlice";
+import { DetailPitch } from "../../pages/public";
 const { AiFillEye, AiOutlineMenu, BsFillSuitHeartFill } = icons;
 
-const Pitch = ({ pitchData, isNew, normal }) => {
+const Pitch = ({ pitchData, isNew, normal, navigate, dispatch }) => {
   const [isShowOption, setisShowOption] = useState(false);
-
+  const handleClickOptions = (e, flag) => {
+    e.stopPropagation();
+    if (flag === "MENU")
+      navigate(
+        `/${pitchData?.category?.toLowerCase()}/${pitchData?._id}/${
+          pitchData?.title
+        }`
+      );
+    if (flag === "WISHLIST") console.log("WISHLIST");
+    if (flag === "QUICK_VIEW") {
+      dispatch(
+        showModel({
+          isShowModel: true,
+          modelChildren: (
+            <DetailPitch
+              data={{
+                pid: pitchData?._id,
+                category: pitchData?.category,
+              }}
+              isQuickView
+            ></DetailPitch>
+          ),
+        })
+      );
+    }
+  };
   return (
     <div className="w-full text-base pr-[10px]">
       <Link
@@ -32,11 +59,19 @@ const Pitch = ({ pitchData, isNew, normal }) => {
         <div className="w-full relative">
           {isShowOption && (
             <div className="absolute bottom-[-10px] left-0 right-0 flex justify-center gap-2 animate-slide-top">
-              <span title="Quick View">
-                <SelectOption icon={<AiFillEye />}></SelectOption>
+              <span onClick={(e) => handleClickOptions(e, "QUICK_VIEW")}>
+                <SelectOption icon={<AiFillEye></AiFillEye>}></SelectOption>
               </span>
-              <SelectOption icon={<AiOutlineMenu />}></SelectOption>
-              <SelectOption icon={<BsFillSuitHeartFill />}></SelectOption>
+              <span onClick={(e) => handleClickOptions(e, "MENU")}>
+                <SelectOption
+                  icon={<AiOutlineMenu></AiOutlineMenu>}
+                ></SelectOption>
+              </span>
+              <span onClick={(e) => handleClickOptions(e, "WISHLIST")}>
+                <SelectOption
+                  icon={<BsFillSuitHeartFill></BsFillSuitHeartFill>}
+                ></SelectOption>
+              </span>
             </div>
           )}
           <img
@@ -73,4 +108,4 @@ const Pitch = ({ pitchData, isNew, normal }) => {
   );
 };
 
-export default Pitch;
+export default withBase(memo(Pitch));

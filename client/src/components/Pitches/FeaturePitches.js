@@ -5,7 +5,7 @@ import banner3 from "../../assets/banner3.png";
 import banner4 from "../../assets/banner4.jpg";
 import banner5 from "../../assets/banner5.png";
 import banner6 from "../../assets/banner6.jpg";
-
+import banner7 from "../../assets/banner7.jpg";
 const FeaturePitches = () => {
   const [pitches, setpitches] = useState(null);
 
@@ -35,7 +35,7 @@ const FeaturePitches = () => {
           ></PitchCard>
         ))}
       </div>
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <img src={banner5} className="w-[40%] h-[380px]"></img>
 
         <div className="flex flex-col justify-between h-full w-[24%]">
@@ -46,6 +46,34 @@ const FeaturePitches = () => {
           ></img>
         </div>
         <img src={banner6} className="w-[35%] h-[380px]"></img>
+      </div>
+    </div> */}
+      <div className="grid grid-cols-3 grid-rows-2 gap-4">
+        <img
+          src={banner5}
+          className="w-full h-full object-cover col-span-2 row-span-2"
+          alt="Banner 5"
+        ></img>
+        <img
+          src={banner4}
+          className="w-full h-full object-cover"
+          alt="Banner 4"
+        ></img>
+        <img
+          src={banner3}
+          className="w-full h-full object-cover row-span-2"
+          alt="Banner 3"
+        ></img>
+        <img
+          src={banner6}
+          className="w-full h-full object-cover"
+          alt="Banner 6"
+        ></img>
+        <img
+          src={banner7}
+          className="w-full h-full object-cover"
+          alt="Banner 7"
+        ></img>
       </div>
     </div>
   );

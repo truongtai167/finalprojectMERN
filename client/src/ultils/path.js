@@ -30,5 +30,7 @@ const path = {
   // Member Route
   MEMBER: "member",
   PERSONAL: "personal",
+  MY_BOOKING: "my_booking",
+  HISTORY: "buy-history",
 };
 export default path;
