@@ -89,14 +89,16 @@ function DetailPitch() {
       fetchPitchData();
     }
   }, [update]);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [selectedShift, setSelectedShift] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState(null);
+  const [selectedShift, setSelectedShift] = useState(null);
+  const [selectedHour, setSelectedHour] = useState(null);
   const rerender = useCallback(() => {
     setUpdate(!update);
   }, [update]);
   const handleClickBooking = async () => {
     console.log("Selected Shift:", selectedShift);
     console.log("Selected Date:", new Date(selectedDate));
+    console.log("Selected hpur:", selectedHour);
     if (!isLoggedIn) {
       return Swal.fire({
         title: "Almost...",
@@ -114,6 +116,7 @@ function DetailPitch() {
       shift: selectedShift,
       bookedDate: selectedDate,
       pitchId: pitchId,
+      hour: selectedHour,
     });
     if (response.success) {
       // setSelectedDate(null);
@@ -195,15 +198,13 @@ function DetailPitch() {
               options={shifts?.map((st) => ({
                 label: st.time,
                 value: st.value,
+                hour: st.hour,
               }))}
               // isMulti
               placeholder={"Select Shift Book"}
               onChange={(selectedOptions) => {
-                const selectedValues = selectedOptions.value;
-                //  .map(
-                //   (option) => option.value
-                // );
-                setSelectedShift(selectedValues);
+                setSelectedShift(selectedOptions.value);
+                setSelectedHour(selectedOptions.hour);
               }}
             />
           </div>
