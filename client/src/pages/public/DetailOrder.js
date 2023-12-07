@@ -1,6 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 // import withBase from "../../hocs/withBase";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { apiGetUserOrder } from "../../apis";
 import defaultImage from "../../assets/Coming_Soon.png";
@@ -55,6 +56,7 @@ const DetailOrder = () => {
                     {el.pitch?.name}
                   </span>
                   <span className="text-[12px]">{el.pitch?.category}</span>
+                  <span className="text-[12px]">{el.pitch?.address}</span>
                 </div>
               </div>
             </span>
@@ -83,21 +85,22 @@ const DetailOrder = () => {
         <span className="text-xs italic">
           taxes and discount calculated at check out form
         </span>
-        <div className="flex gap-3">
+        <div className="flex gap-3 ">
           <Button
+            // className="bg-main text-white px-4 py-2 rounded-md inline-block"
             handleOnClick={() => {
               navigate(`/${path.HOME}`);
             }}
             name="Book Other"
           />
 
-          <Button
-            handleOnClick={() => {
-              //   dispatch(showOrder());
-              navigate(`${path.DETAIL_ORDER}`);
-            }}
-            name="Check out "
-          />
+          <Link
+            className="bg-main text-white px-4 py-2 rounded-md  items-center w-[160px] h-[50px] "
+            target="_blank"
+            to={`/${path.CHECKOUT}`}
+          >
+            CHECK OUT
+          </Link>
         </div>
       </div>
     </div>

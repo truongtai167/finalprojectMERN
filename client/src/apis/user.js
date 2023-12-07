@@ -77,6 +77,12 @@ export const apiDeleteOrder = (bid) =>
     url: "/booking/" + bid,
     method: "delete",
   });
+export const apiStatusOrder = (data) =>
+  axios({
+    url: "/booking/status",
+    method: "put",
+    data,
+  });
 // export const apiUpdateOrder = (data) =>
 // axios({
 //   url: "/user/booking",

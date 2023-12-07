@@ -13,6 +13,7 @@ const path = {
   VERIFY_EMAIL: "verify/:status",
   RESET_PASSWORD: "reset-password/:token",
   DETAIL_ORDER: "my-order",
+  CHECKOUT:"checkout",
   // Admin Route
   ADMIN: "admin",
   DASHBOARD: "dashboard",

@@ -83,7 +83,10 @@ const Header = () => {
                   </Link>
                 )}
                 <span
-                  onClick={() => dispatch(logout())}
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate(`/${path.HOME}`);
+                  }}
                   className="p-2 w-full hover:bg-sky-100"
                 >
                   Logout

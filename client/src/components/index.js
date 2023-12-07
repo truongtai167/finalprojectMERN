@@ -33,3 +33,5 @@ export { default as Select } from "./Inputs/Select";
 export { default as MarkdownEditor } from "./Inputs/MarkdownEditor";
 export { default as MemberSidebar } from "./Sidebar/MemberSidebar";
 export { default as Order } from "./Pitches/Order";
+export { default as Paypal } from "./Common/Paypal";
+export { default as Congratulation } from "./Common/Congratulation";

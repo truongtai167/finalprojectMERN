@@ -23,7 +23,13 @@ import {
   CreateBrand,
   ManageBrand,
 } from "./pages/PitchOwner";
-import { MemberLayout, History, MyBooking, Personal } from "./pages/member";
+import {
+  MemberLayout,
+  History,
+  MyBooking,
+  Personal,
+  Checkout,
+} from "./pages/member";
 import path from "./ultils/path";
 import { getCategories } from "./store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,6 +57,7 @@ function App() {
       )}
       {isShowModel && <Model>{modelChildren}</Model>}
       <Routes>
+        <Route path={path.CHECKOUT} element={<Checkout />} />
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.NEWS} element={<News />} />
@@ -62,6 +69,7 @@ function App() {
           <Route path={path.OUR_SERVICE} element={<Services />} />
           <Route path={path.PITCHES} element={<Pitches />} />
           <Route path={path.DETAIL_ORDER} element={<DetailOrder />} />
+
           <Route path={path.ALL} element={<Home />} />
         </Route>
         {/*Admin Route*/}
