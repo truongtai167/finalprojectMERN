@@ -95,9 +95,8 @@ function DetailPitch() {
     setUpdate(!update);
   }, [update]);
   const handleClickBooking = async () => {
-    console.log("handleClickBooking is called");
     console.log("Selected Shift:", selectedShift);
-    console.log("Selected Date:", selectedDate);
+    console.log("Selected Date:", new Date(selectedDate));
     if (!isLoggedIn) {
       return Swal.fire({
         title: "Almost...",
@@ -110,18 +109,18 @@ function DetailPitch() {
         if (rs.isConfirmed) navigate(`/${path.LOGIN}`);
       });
     }
+
     const response = await apiBooking({
       shift: selectedShift,
       bookedDate: selectedDate,
       pitchId: pitchId,
     });
     if (response.success) {
-      setSelectedDate(null);
-      setSelectedShift(null);
+      // setSelectedDate(null);
+      // setSelectedShift(null);
       toast.success(response.message);
-      // xoa gio hang
     } else toast.error(response.message);
-    console.log(response);
+    // console.log(response);
   };
   return (
     <div className="w-full">

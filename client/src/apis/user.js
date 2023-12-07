@@ -72,6 +72,11 @@ export const apiGetUserOrder = (userId) =>
     url: "/booking/" + userId,
     method: "get",
   });
+export const apiGetUserOrderStatus = (userId) =>
+  axios({
+    url: "/booking/get-order/" + userId,
+    method: "get",
+  });
 export const apiDeleteOrder = (bid) =>
   axios({
     url: "/booking/" + bid,

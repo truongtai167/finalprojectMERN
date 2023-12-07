@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 // import withBase from "../../hocs/withBase";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { apiGetUserOrder } from "../../apis";
+import { apiGetUserOrder, apiGetUserOrderStatus } from "../../apis";
 import defaultImage from "../../assets/Coming_Soon.png";
 import { shifts } from "../../ultils/constants";
 import { formatMoney } from "../../ultils/helpers";
@@ -17,14 +17,17 @@ const DetailOrder = () => {
   //   console.log(current);
   const [order, setOrder] = useState(null);
   const fetchPitchData = async () => {
-    const response = await apiGetUserOrder(current?._id);
+    const response = await apiGetUserOrderStatus(current?._id);
     // console.log(response.Booking);
     if (response.success) setOrder(response.Booking);
     // console.log(order);
   };
   useEffect(() => {
     fetchPitchData();
-  }, []);
+  }, [order]);
+  // useEffect(() => {
+  //   // fetchPitchData();
+  // }, []);
   return (
     <div className="w-full">
       <div className="h-[81px] flex justify-center items-center bg-gray-100">

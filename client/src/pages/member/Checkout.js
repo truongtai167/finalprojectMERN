@@ -5,7 +5,11 @@ import { showOrder } from "../../store/app/appSlice";
 import { useNavigate } from "react-router-dom";
 import withBase from "../../hocs/withBase";
 import { useDispatch, useSelector } from "react-redux";
-import { apiGetUserOrder, apiDeleteOrder } from "../../apis";
+import {
+  apiGetUserOrder,
+  apiDeleteOrder,
+  apiGetUserOrderStatus,
+} from "../../apis";
 import defaultImage from "../../assets/Coming_Soon.png";
 import { shifts } from "../../ultils/constants";
 import { formatMoney } from "../../ultils/helpers";
@@ -22,7 +26,7 @@ const Checkout = () => {
   // const [orderIds, setOrderIds] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const fetchPitchData = async () => {
-    const response = await apiGetUserOrder(current?._id);
+    const response = await apiGetUserOrderStatus(current?._id);
     // console.log(response.Booking);
     if (response.success) setOrder(response.Booking);
     // console.log("order", order);
