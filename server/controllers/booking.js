@@ -74,21 +74,16 @@ const getUserBookingStatus = asyncHandler(async (req, res) => {
 });
 
 const deleteBooking = asyncHandler(async (req, res) => {
-  const { bookingId } = req.params;
-  const response = await Booking.findByIdAndDelete(bookingId);
+  const { bid } = req.params;
+  const response = await Booking.findByIdAndDelete(bid);
   return res.status(200).json({
     success: response ? true : false,
-    message: response ? "Deleted" : "Cannot update status booking",
+    message: response ? "Deleted" : "Cannot delete booking",
   });
 });
 const getPitchObjectIdByName = async (pitchName) => {
-  try {
-    const pitch = await Pitch.findOne({ title: pitchName }).select("_id");
-    return pitch ? pitch._id : null;
-  } catch (error) {
-    console.error("Error while getting pitch objectId:", error);
-    throw error;
-  }
+  const pitch = await Pitch.findOne({ title: pitchName }).select("_id");
+  return pitch ? pitch._id : null;
 };
 const getBookings = asyncHandler(async (req, res) => {
   const queries = { ...req.query };
@@ -103,19 +98,31 @@ const getBookings = asyncHandler(async (req, res) => {
     /\b(gte|gt|lt|lte)\b/g,
     (matchedEl) => `$${matchedEl}`
   );
-  const formattedQueries = JSON.parse(queryString);
+  let formattedQueries = JSON.parse(queryString);
   if (req.query.q) {
     // Thêm điều kiện tìm kiếm theo tên sân
-    console.log("có q", queries);
+    // console.log("có q", queries);
     // delete formartedQueries.q;
-    formattedQueries["$or"] = [
-      { status: { $regex: queries.q, $options: "i" } },
-      //   { total: { $regex: queries.q, $options: "i" } },
-      { shift: { $regex: queries.q, $options: "i" } },
-    //   { bookedData: { $regex: queries.q, $options: "i" } },
-    ];
+    formattedQueries = { status: { $regex: queries.q, $options: "i" } };
   }
-  console.log(formattedQueries);
+  if (req.query.qpitch) {
+    // console.log("có pitch", req.query.qpitch);
+    const pitchObjectId = await getPitchObjectIdByName(queries.qpitch);
+    // if (!pitchObjectId) {
+    //   console.log("Pitch not found for the given name.");
+    // }
+
+    // formattedQueries.qpitch = pitchObjectId;
+    formattedQueries["$and"] = [
+      { pitch: pitchObjectId },
+      //   { total: { $regex: queries.q, $options: "i" } },
+      //   { shift: { $regex: queries.q, $options: "i" } },
+      //   { bookedData: { $regex: queries.q, $options: "i" } },
+    ];
+    delete formattedQueries.qpitch;
+  }
+  // console.log(formattedQueries);
+
   let queryCommand = Booking.find(formattedQueries)
     .populate({
       path: "bookingBy",

@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { InputForm, Pagination } from "components";
 import { useForm } from "react-hook-form";
-import { apiGetAllOrders } from "apis";
+import { apiGetAllOrders, apiDeleteOrder } from "apis";
 import defaultt from "assets/default.png";
 import moment from "moment";
 import icons from "ultils/icons";
+import { shifts } from "ultils/constant";
 import {
   useSearchParams,
   createSearchParams,
@@ -12,11 +13,9 @@ import {
   useLocation,
 } from "react-router-dom";
 import useDebounce from "hooks/useDebounce";
-import UpdatePitch from "pages/admin/UpdatePitch";
+
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-
-const { AiFillStar } = icons;
 
 const ManageOrder = () => {
   const navigate = useNavigate();
@@ -29,7 +28,6 @@ const ManageOrder = () => {
   } = useForm();
   const [order, setOrder] = useState(null);
   const [counts, setCounts] = useState(0);
-  const [editOrder, setEditOrder] = useState(null);
   const [update, setUpdate] = useState(false);
 
   const render = useCallback(() => {
@@ -47,27 +45,34 @@ const ManageOrder = () => {
   };
 
   const queryDebounce = useDebounce(watch("q"), 800);
-  // const queryDecounce = useDebounce(queries.q, 500)
+  const queryDebouncePitch = useDebounce(watch("qpitch"), 800);
 
+  // const [debouncedPitch, setDebouncedPitch] = useState("");
   useEffect(() => {
-    if (queryDebounce) {
-      navigate({
-        pathname: location.pathname,
-        search: createSearchParams({ q: queryDebounce }).toString(),
-      });
-    } else {
-      navigate({
-        pathname: location.pathname,
-      });
+    let queryParams = {};
+
+    if (queryDebouncePitch) {
+      queryParams.qpitch = queryDebouncePitch;
     }
-  }, [queryDebounce]);
+
+    if (queryDebounce) {
+      queryParams.q = queryDebounce;
+    }
+
+    const searchParams = createSearchParams(queryParams).toString();
+
+    navigate({
+      pathname: location.pathname,
+      search: searchParams ? `?${searchParams}` : "",
+    });
+  }, [queryDebounce, queryDebouncePitch]);
 
   useEffect(() => {
     const searchParams = Object.fromEntries([...params]);
     fetchOrderData(searchParams);
   }, [params, update]);
 
-  const handleDeletePitch = (pid) => {
+  const handleDeletePitch = (bid) => {
     Swal.fire({
       title: "Are you sure",
       text: "Sure friends ?",
@@ -75,10 +80,10 @@ const ManageOrder = () => {
       showCancelButton: true,
     }).then(async (rs) => {
       if (rs.isConfirmed) {
-        // const response = await apiDeletePitch(pid);
-        // if (response.success) toast.success(response.mes);
-        // else toast.error(response.mes);
-        // render();
+        const response = await apiDeleteOrder(bid);
+        if (response.success) toast.success(response.message);
+        else toast.error(response.message);
+        render();
       }
     });
   };
@@ -96,6 +101,18 @@ const ManageOrder = () => {
       <div className="p-4 border-b w-full  flex justify-between items-center ">
         <h1 className="text-3xl font-bold tracking-tight">Manage Order</h1>
       </div>
+      <div className="flex w-full justify-start items-center px-1">
+        {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
+        <form className="w-[45%]">
+          <InputForm
+            id="qpitch"
+            register={register}
+            errors={errors}
+            fullWidth
+            placeholder="Search pitch ..."
+          />
+        </form>
+      </div>
       <div className="flex w-full justify-end items-center px-1">
         {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
         <form className="w-[45%]">
@@ -104,7 +121,7 @@ const ManageOrder = () => {
             register={register}
             errors={errors}
             fullWidth
-            placeholder="Search Order  ..."
+            placeholder="Search status ..."
           />
         </form>
       </div>
@@ -114,13 +131,11 @@ const ManageOrder = () => {
             <th className="px-4 py-2 text-center h-[60px] rounded-tl-lg">#</th>
             <th className="px-4 py-2 text-center h-[60px] ">Thumb</th>
             <th className="px-4 py-2 text-center h-[60px] ">Pitch</th>
-            {/* <th className="px-4 py-2 text-center h-[60px] ">Title</th>
-            <th className="px-4 py-2 text-center h-[60px] ">Address</th> */}
             <th className="px-4 py-2 text-center h-[60px] ">Shift</th>
             <th className="px-4 py-2 text-center h-[60px] ">Booking By</th>
             <th className="px-4 py-2 text-center h-[60px] ">Total Price</th>
             <th className="px-4 py-2 text-center h-[60px] ">Status</th>
-            <th className="px-4 py-2 text-center h-[60px] ">CreateAt</th>
+            <th className="px-4 py-2 text-center h-[60px] ">Booked At</th>
             <th className="px-4 py-2 text-center  h-[60px] rounded-tr-lg">
               Actions
             </th>
@@ -154,7 +169,9 @@ const ManageOrder = () => {
                 )}
               </td>
               <td className="text-center py-2">{el.pitch.title}</td>
-              <td className="text-center py-2">{el.shift}</td>
+              <td className="text-center py-2">
+                {shifts.find((s) => +s.value === +el.shift)?.time}
+              </td>
               <td className="text-center py-2">{`${el.bookingBy?.firstname} ${el.bookingBy?.lastname} `}</td>
               <td className="text-center py-2">{el.total}</td>
               <td className="text-center py-2">{el.status}</td>
@@ -162,12 +179,6 @@ const ManageOrder = () => {
                 {moment(el.createdAt).format("DD/MM/YYYY")}
               </td>
               <td className="text-center py-2">
-                <span
-                  className="text-blue-500 hover:underline cursor-pointer px-1"
-                  // onClick={() => setEditPitch(el)}
-                >
-                  Edit
-                </span>
                 <span
                   onClick={() => handleDeletePitch(el._id)}
                   className="text-blue-500 hover:underline cursor-pointer px-1"

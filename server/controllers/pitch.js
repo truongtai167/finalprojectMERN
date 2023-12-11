@@ -220,36 +220,42 @@ const getPitches = asyncHandler(async (req, res) => {
   // console.log(formatedQueries);
   let addressQueryObject = {};
   // filtering
-  if (queries?.name)
-    formatedQueries.name = { $regex: queries.name, $options: "i" };
+  if (queries?.title)
+    formatedQueries.title = { $regex: queries.title, $options: "i" };
   if (queries?.brand)
     formatedQueries.brand = { $regex: queries.brand, $options: "i" };
   if (queries?.category) {
-    console.log(queries?.category);
     formatedQueries.category = { $regex: queries.category, $options: "i" };
   }
 
-  if (queries?.address) {
-    delete formatedQueries.address;
-    const addressArray = queries.address?.split(",");
+  if (queries?.location) {
+    delete formatedQueries.location;
+    const addressArray = queries.location?.split(",");
     const addressQuery = addressArray.map((el) => ({
       address: {
         $regex: el,
         $options: "i",
       },
     }));
-    addressQueryObject = { $or: addressQuery };
+    if (addressArray.length === 1) {
+      addressQueryObject = { $and: addressQuery };
+    } else {
+      addressQueryObject = { $or: addressQuery };
+    }
   }
+
+  // console.log(queries.q)
+  // { address: { $regex: queries.q, $options: "i" } },
+
   if (req.query.q) {
-    delete formartedQueries.q;
-    formartedQueries["$or"] = [
-      { name: { $regex: queries.q, $options: "i" } },
-      { address: { $regex: queries.q, $options: "i" } },
+    delete formatedQueries.q;
+    formatedQueries["$or"] = [
+      { title: { $regex: queries.q, $options: "i" } },
       { category: { $regex: queries.q, $options: "i" } },
       { brand: { $regex: queries.q, $options: "i" } },
     ];
   }
-  const qr = { ...addressQueryObject, ...formatedQueries };
+  const qr = { ...formatedQueries, ...addressQueryObject };
 
   let queryCommand = Pitch.find(qr);
 
@@ -283,10 +289,11 @@ const getPitches = asyncHandler(async (req, res) => {
     });
   });
 });
+
 module.exports = {
   createPitch,
   getPitch,
-  getPitchs,
+  getPitches,
   updatePitch,
   deletePitch,
   ratings,

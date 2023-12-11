@@ -46,9 +46,9 @@ const SearchItems = ({
         const queries = {};
         for (let i of param) queries[i[0]] = i[1];
         if (selected.length > 0) {
-            queries.address = selected.join(",");
+            queries.location = selected.join(",");
             queries.page = 1;
-        } else delete queries.address;
+        } else delete queries.location;
         // if (Number(price.from) > 0) queries.from = price.from;
         // if (Number(price.to) > 0) queries.from = price.to;
         navigate({

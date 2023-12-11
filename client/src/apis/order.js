@@ -6,3 +6,13 @@ export const apiGetAllOrders = (params) =>
     method: "get",
     params,
   });
+// export const apiDeleteOrder = (bid) =>
+//   axios({
+//     url: "/booking/" + bid,
+//     method: "delete",
+//   });
+export const apiDeleteOrder = (bid) =>
+  axios({
+    url: "/booking/" + bid,
+    method: "delete",
+  });
