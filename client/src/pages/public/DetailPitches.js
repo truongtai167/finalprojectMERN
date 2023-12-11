@@ -7,15 +7,11 @@ import {
   PitchExtraInfo,
   PitchInformation,
   CustomSlider,
-  Map
+  Map,
 } from "components";
 import Slider from "react-slick";
 import ReactImageMagnify from "react-image-magnify";
-import {
-  formatMoney,
-  formatPrice,
-  renderStarFromNumber,
-} from "ultils/helper";
+import { formatMoney, formatPrice, renderStarFromNumber } from "ultils/helper";
 import { pitchExtraInformation } from "ultils/constant";
 import DOMPurify, { clearConfig } from "dompurify";
 import clsx from "clsx";
@@ -40,7 +36,7 @@ const settings = {
 
 const { FaCalendarAlt } = icons;
 const DetailPitches = ({ isQuickView, data }) => {
-  console.log(isQuickView)
+  console.log(isQuickView);
   const navigate = useNavigate();
   const { isLoggedIn, current } = useSelector((state) => state.user);
   const [pitch, setpitch] = useState(null);
@@ -52,11 +48,11 @@ const DetailPitches = ({ isQuickView, data }) => {
   const { pid, title, category, brand } = useParams();
   const [selectedHour, setSelectedHour] = useState([]);
   const [coords, setCoords] = useState(null);
-
+  const [total, setTotal] = useState(null);
   const handleClickBooking = async () => {
-    console.log("Selected Shift:", selectedShift);
-    console.log("Selected Date:", new Date(selectedDate));
-    console.log("Selected hour:", selectedHour);
+    // console.log("Selected Shift:", selectedShift);
+    // console.log("Selected Date:", new Date(selectedDate));
+    // console.log("Selected hour:", selectedHour);
     if (!isLoggedIn) {
       return Swal.fire({
         title: "Almost...",
@@ -75,6 +71,7 @@ const DetailPitches = ({ isQuickView, data }) => {
       bookedDate: selectedDate,
       pitchId: pid,
       hours: selectedHour,
+      total: pitch?.price,
     });
     if (response.success) {
       toast.success(response.message);
@@ -236,9 +233,9 @@ const DetailPitches = ({ isQuickView, data }) => {
                 dateFormat="dd/MM/yyyy"
                 // minDate={new Date()}
                 placeholderText="Select Date Book"
-              // showPopperArrow={false}
-              // className="w-full border-none outline-none"
-              // popperClassName="datepicker-popper"
+                // showPopperArrow={false}
+                // className="w-full border-none outline-none"
+                // popperClassName="datepicker-popper"
               />
             </div>
           </div>
