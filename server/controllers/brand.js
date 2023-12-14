@@ -123,8 +123,8 @@ const deleteBrand = asyncHandler(async (req, res) => {
             );
         })
     );
-
     const response = await Brand.findByIdAndDelete(bid);
+
     return res.status(200).json({
         success: response ? true : false,
         message: response ? "Deleted" : "Cannot delete brand",
