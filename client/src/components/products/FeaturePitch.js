@@ -17,6 +17,7 @@ const FeaturePitch = () => {
     useEffect(() => {
         fetchPitches()
     }, [])
+    console.log(pitches)
     return (
         <div className='w-full'>
             <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-blue-700'>FEATURED PITCHES</h3>
@@ -29,6 +30,8 @@ const FeaturePitch = () => {
                         title={el.title}
                         totalRatings={el.totalRatings}
                         price={el.price}
+                        category={el.category}
+                        brand={el.brand}
                     >
                     </PitchCard>
                 ))}
