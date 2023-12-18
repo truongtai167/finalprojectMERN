@@ -9,7 +9,7 @@ const uploader = require("../config/cloudinaryconfig");
 
 router.post("/", verifyAccessToken, ctrls.createBooking);
 router.put("/status", [verifyAccessToken], ctrls.updateStatusBooking);
-router.get("/all", [verifyAccessToken, isAdmin], ctrls.getBookings);
+router.get("/all", ctrls.getBookings);
 router.get(
     "/all-order",
     [verifyAccessToken, isAdmin],

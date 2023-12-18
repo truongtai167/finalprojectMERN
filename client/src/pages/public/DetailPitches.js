@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiGetPitch, apiGetPitches, apiBooking } from "apis";
+import { apiGetPitch, apiGetPitches, apiBooking, apiGetAllOrder } from "apis";
 import {
   Breadcrumb,
   Button,
@@ -36,6 +36,8 @@ const settings = {
 
 const { FaCalendarAlt } = icons;
 const DetailPitches = ({ isQuickView, data }) => {
+  const [booking, setBooking] = useState(null)
+  const [getShift, setGetShift] = useState(null)
   const navigate = useNavigate();
   const params = useParams();
   const [pid, setpitchid] = useState(null);
@@ -51,6 +53,35 @@ const DetailPitches = ({ isQuickView, data }) => {
   const [selectedHour, setSelectedHour] = useState([]);
   const [coords, setCoords] = useState(null);
 
+  const fetchBooking = async () => {
+    const response = await apiGetAllOrder()
+    if (response.success) {
+      setBooking(response.Bookings)
+    }
+
+    // shift.map(el => el.isDisabled = true)
+    // console.log(shift)
+    // console.log(response.Bookings)
+    // console.log(shift)
+    // console.log(selectedDate)
+    // response.Bookings.map(el => (
+    //   new Date(el.bookedDate).getTime() === new Date(selectedDate).getTime() ? console.log("BẰNG NHAU") : console.log("KO BẰNG", new Date(el.bookedDate), selectedDate)
+    // ))
+    setGetShift(shifts)
+    getShift.map(el => el.isDisabled = false)
+    // console.log(pitch._id)
+    // response.Bookings.map(el => (
+    //   console.log(el.pitch._id)
+    // ))
+    if (selectedDate) {
+      response.Bookings.map(el => (
+        getShift.map(elshift =>
+        (
+          ((elshift.value === +el.shift) && (new Date(el.bookedDate).getTime() === new Date(selectedDate).getTime()) && (pitch._id === el.pitch._id)) ? (elshift.isDisabled = true) : '')
+        )
+      ))
+    }
+  }
   const handleClickBooking = async () => {
     console.log("Selected Shift:", selectedShift);
     console.log("Selected Date:", new Date(selectedDate));
@@ -64,7 +95,9 @@ const DetailPitches = ({ isQuickView, data }) => {
         showCancelButton: true,
         confirmButtonText: "Go Login Page",
       }).then((rs) => {
-        if (rs.isConfirmed) navigate(`${path.LOGIN}`);
+        if (rs.isConfirmed) {
+          navigate(`/${path.LOGIN}`);
+        }
       });
     }
 
@@ -101,6 +134,7 @@ const DetailPitches = ({ isQuickView, data }) => {
     }
     window.scrollTo(0, 0);
   }, [pid]);
+
 
   useEffect(() => {
     if (pid) {
@@ -139,7 +173,15 @@ const DetailPitches = ({ isQuickView, data }) => {
     e.stopPropagation();
     setcurrentImage(el);
   };
-
+  // const colorStyle = {
+  //   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+  //     console.log("option", data, isDisabled, isFocused, isSelected)
+  //     return { ...styles }
+  //   }
+  // }
+  useEffect(() => {
+    fetchBooking()
+  }, [selectedDate])
   return (
     <div className={clsx("w-full")}>
       {!isQuickView && (
@@ -222,12 +264,15 @@ const DetailPitches = ({ isQuickView, data }) => {
             <h2 className="font-semibold">Shift:</h2>
             <Select
               id="shift"
-              options={shifts?.map((st) => ({
+              options={getShift?.map((st) => ({
                 label: st.time,
                 value: st.value,
                 hour: st.hour,
+                isDisabled: st.isDisabled
               }))}
               isMulti
+              isSearchable={false}
+              isDisabled={selectedDate ? false : true}
               placeholder={"Select Shift Book"}
               onChange={(selectedOptions) => {
                 setSelectedShift(selectedOptions.map((option) => option.value));
