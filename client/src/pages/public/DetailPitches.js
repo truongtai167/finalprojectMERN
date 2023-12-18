@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import path from "ultils/path";
 import { toast } from "react-toastify";
 import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
+import moment from "moment";
 
 const settings = {
   dots: false,
@@ -288,6 +289,7 @@ const DetailPitches = ({ isQuickView, data }) => {
               <DatePicker
                 selected={selectedDate}
                 onChange={(date) => setSelectedDate(date)}
+                minDate={moment().toDate()}
                 dateFormat="dd/MM/yyyy"
                 // minDate={new Date()}
                 placeholderText="Select Date Book"
