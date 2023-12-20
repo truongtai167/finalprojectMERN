@@ -29,7 +29,6 @@ import { MemberLayout, Personal, History, Wishlist } from "pages/member";
 import {
   PitchOwnerLayout,
   ManagePitchOwn,
-  PersonalOwn,
   CreatePitchOwn,
   CreateOwnerBrand,
   ManageOwnerOrder,
@@ -40,7 +39,7 @@ import { getCategories } from "store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { Modal, Order } from "components";
-import { showOrder } from "store/app/appSilice";
+import { showOrder } from "store/app/appSlice";
 import DetailOrder from "pages/public/DetailOrder";
 import Checkout from "pages/member/CheckOut";
 import "react-toastify/dist/ReactToastify.css";

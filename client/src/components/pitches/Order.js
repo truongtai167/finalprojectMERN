@@ -10,7 +10,7 @@ import { Button } from "components";
 import { MdDeleteForever } from "react-icons/md";
 import { toast } from "react-toastify";
 import path from "ultils/path";
-import { showOrder } from "store/app/appSilice";
+import { showOrder } from "store/app/appSlice";
 const Order = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

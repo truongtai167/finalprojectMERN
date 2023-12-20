@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { validate, getBase64 } from "ultils/helper";
 import { toast } from "react-toastify";
 import { apiUpdatePitch } from "apis";
-import { showModal } from "store/app/appSilice";
+import { showModal } from "store/app/appSlice";
 
 const UpdatePitch = ({ editPitch, render, setEditPitch }) => {
   const dispatch = useDispatch();
@@ -26,15 +26,20 @@ const UpdatePitch = ({ editPitch, render, setEditPitch }) => {
           (el) => el.title === data.category
         )?.title;
       const finalPayload = { ...data, ...payload };
+
       finalPayload.thumb =
         data?.thumb?.length === 0 ? preview.thumb : data.thumb[0];
       const formData = new FormData();
       for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
+
       finalPayload.images =
         data.images?.length === 0 ? preview.images : data.images;
+
       for (let image of finalPayload.images) formData.append("images", image);
+
       dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
       window.scrollTo(0, 0);
+
       const response = await apiUpdatePitch(formData, editPitch._id);
       dispatch(showModal({ isShowModal: false, modalChildren: null }));
       if (response.success) {

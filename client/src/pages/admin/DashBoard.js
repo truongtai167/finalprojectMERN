@@ -2,10 +2,8 @@ import {
   Piechart,
   NewDashBoard,
   Barchart,
-  Chart,
   AreaChartMonth,
   ChartPrice,
-  Piechartbrand,
   PiechartCategory,
 } from "components";
 import { formatMoney, formatPrice } from "ultils/helper";
@@ -14,14 +12,12 @@ import { apiGetOrderByAdmin, apiGetAllBrands } from "apis";
 
 const Dashboard = () => {
   const [order, setOrder] = useState(null);
-  const [brand, setBrand] = useState(null)
-  const [counts, setCounts] = useState(0);
+  const [brand, setBrand] = useState(null);
 
   const fetchOrderData = async () => {
     const response = await apiGetOrderByAdmin();
     if (response.success) {
       setOrder(response.allOrder);
-      console.log(order)
     }
   };
 
@@ -29,18 +25,17 @@ const Dashboard = () => {
     const response = await apiGetAllBrands({ limit: 9999 });
     if (response.success) {
       setBrand(response);
-      console.log("CHECK", brand)
     }
   };
 
   useEffect(() => {
     fetchOrderData();
-    fetchBrandDate()
+    fetchBrandDate();
   }, []);
 
   return (
     <div className="w-full px-4 ">
-      <div >
+      <div>
         <NewDashBoard />
       </div>
       <div className="w-full flex items-center justify-center gap-2 py-2">
@@ -70,7 +65,7 @@ const Dashboard = () => {
           ) + "VND"}
         </span>
       </div>
-    </div >
+    </div>
   );
 };
 

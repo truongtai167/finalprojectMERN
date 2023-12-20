@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { validate, getBase64 } from "ultils/helper";
 import { toast } from "react-toastify";
 import { apiCreatePitch, apiGetBrandByOwner } from "apis";
-import { showModal } from "store/app/appSilice";
+import { showModal } from "store/app/appSlice";
 import Select from "react-select";
 const CreatePitch = () => {
   const dispatch = useDispatch();
@@ -21,10 +21,6 @@ const CreatePitch = () => {
   const handleCreatePitch = async (data) => {
     const invalids = validate(payload, setInvalidFields);
     if (invalids === 0) {
-      //   if (data.category) {
-      //     data.category = categories?.find(
-      //       (el) => el._id === data.category
-      //     )?.title;
       const finalPayload = {
         ...data,
         ...payload,
@@ -66,13 +62,12 @@ const CreatePitch = () => {
   const [brand, setBrand] = useState(null);
   const fetchBrandByOwner = async (uid) => {
     const response = await apiGetBrandByOwner(uid);
-    // console.log(response);
+
     if (response.success) setBrand(response.brandData);
     setCate(response.brandData.categories);
   };
   useEffect(() => {
     fetchBrandByOwner(current._id);
-    console.log("eeeee");
   }, []);
   const [payload, setPayload] = useState({
     description: "",
@@ -267,13 +262,6 @@ const CreatePitch = () => {
                     alt="thumbnail"
                     className="w-[200px] object-contain"
                   />
-                  {/* {hover === el.name &&
-                                        <div
-                                            onClick={() => handleRemove(el.name)}
-                                            className='absolute inset-0 bg-overlay cursor-pointer flex items-center justify-center' >
-                                            <IoTrashBin size={24} color='white' />
-                                        </div>
-                                    } */}
                 </div>
               ))}
             </div>

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getBase64 } from "ultils/helper";
 import { toast } from "react-toastify";
 import { apiUpdateCategory } from "apis";
-import { showModal } from "store/app/appSilice";
+import { showModal } from "store/app/appSlice";
 
 const UpdateCategory = ({ editPitch, render, setEditPitch }) => {
   const dispatch = useDispatch();

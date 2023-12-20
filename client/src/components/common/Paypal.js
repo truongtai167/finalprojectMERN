@@ -7,8 +7,6 @@ import { memo, useEffect } from "react";
 import { apiStatusOrder } from "apis";
 import Swal from "sweetalert2";
 const style = { layout: "vertical" };
-
-// Custom component to wrap the PayPalButtons and show loading spinner
 const ButtonWrapper = ({
   currency,
   showSpinner,
@@ -37,7 +35,6 @@ const ButtonWrapper = ({
       }
     }
     if (successCount === order.length) {
-      // Nếu tất cả responses thành công, đóng cửa sổ
       setIsSuccess(true);
       setTimeout(() => {
         Swal.fire("Congratulate", "Payment Success", "Success").then(() => {
@@ -91,6 +88,6 @@ const Paypal = ({ amount, payload, setIsSuccess }) => {
       </PayPalScriptProvider>
     </div>
   );
-}
+};
 
-export default memo(Paypal)
+export default memo(Paypal);

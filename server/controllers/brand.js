@@ -40,7 +40,6 @@ const createBrand = asyncHandler(async (req, res) => {
     createdBrand: response ? response : "Cannot create new brand",
   });
 });
-const getCateByBrand = asyncHandler(async (req, res) => {});
 
 const getBrands = asyncHandler(async (req, res) => {
   const { brandId } = req.params;
@@ -69,7 +68,13 @@ const updateBrand = asyncHandler(async (req, res) => {
     req.body.thumb = files?.thumb[0].path;
   }
   if (files?.images) {
-    req.body.thumb = files?.images?.map((el) => el.path);
+    req.body.images = files?.images?.map((el) => el.path);
+  }
+  if (req.body.images) {
+    const updatedImages = req.body.images.filter((item) => {
+      return item !== "[object FileList]";
+    });
+    req.body.images = updatedImages;
   }
   const oldBrand = await Brand.findById(bid);
   const oldTitle = oldBrand.title;
@@ -148,7 +153,6 @@ const deleteBrand = asyncHandler(async (req, res) => {
   });
 });
 
-// const ratings = asyncHandler(async (req, res) => {
 //   const { _id } = req.user;
 //   const { star, comment, bid, updatedAt } = req.body;
 //   if (!star || !bid) throw new Error("Missing input");
@@ -300,13 +304,7 @@ const uploadImagesBrand = asyncHandler(async (req, res) => {
 });
 const getBrandByOwner = asyncHandler(async (req, res) => {
   const { userId } = req.params;
-  // const excludeFields = ["name", "address", "email", "phoneNumber"];
-  // const pitch = await Pitch.findById(pitchId)
-  //   .populate("owner", excludeFields)
-  //   .populate({
-  //     path: "postedBy",
-  //     select: "name avatar",
-  //   });
+
   const brand = await Brand.findOne({ owner: userId });
   return res.status(200).json({
     success: brand ? true : false,
@@ -329,8 +327,7 @@ const getBrand = asyncHandler(async (req, res) => {
 });
 const getBrandByTitle = asyncHandler(async (req, res) => {
   const { btitle } = req.params;
-  // console.log("req.params", req.params);
-  // console.log(title);
+
   if (!btitle) throw new Error("Missing input");
   const excludeFields = ["firstname", "lastname", "email"];
   const response = await Brand.findOne({
@@ -363,9 +360,7 @@ const getAllBrands = asyncHandler(async (req, res) => {
     (matchedEl) => `$${matchedEl}`
   );
   const formartedQueries = JSON.parse(queryString);
-  // formartedQueries['$or'] = [
-  //     { role: { $regex: queries.q, $options: 'i' } }
-  // ]
+
   // Filtering
   // regex: tìm từ bắt đầu bằng chữ truyền vào
   // options: 'i' không phân biệt viết hoa viết thường

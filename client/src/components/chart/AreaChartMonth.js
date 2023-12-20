@@ -40,27 +40,39 @@ const AreaChartMonth = ({ order }) => {
   return (
     <div className="w-full">
       <ResponsiveContainer width={300} height={300}>
-        <AreaChart data={generateMonthlyChartData()} margin={{
-          top: 20,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}>
+        <AreaChart
+          data={generateMonthlyChartData()}
+          margin={{
+            top: 20,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" style={{
-            fill: 'rgba(255,255,255)'
-          }} />
-          <YAxis style={{
-            fill: 'rgba(255,255,255)'
-          }} />
+          <XAxis
+            dataKey="month"
+            style={{
+              fill: "rgba(255,255,255)",
+            }}
+          />
+          <YAxis
+            style={{
+              fill: "rgba(255,255,255)",
+            }}
+          />
           <Tooltip />
           <Legend />
 
-          <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8" />
+          <Area
+            type="monotone"
+            dataKey="count"
+            stroke="#8884d8"
+            fill="#8884d8"
+          />
         </AreaChart>
       </ResponsiveContainer>
     </div>
-
   );
 };
 export default AreaChartMonth;

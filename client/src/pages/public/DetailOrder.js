@@ -1,9 +1,8 @@
 import React, { memo, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-// import withBase from "hocs/withBase";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { apiGetUserOrder, apiGetUserOrderStatus } from "apis";
+import { apiGetUserOrderStatus } from "apis";
 import defaultImage from "assets/default.png";
 import { shifts } from "ultils/constant";
 import { formatMoney, convertToTitleCase } from "ultils/helper";
@@ -23,8 +22,6 @@ const DetailOrder = () => {
       setOrder(response.Booking);
       setOrderChanged(false);
     }
-
-    // console.log(response.Booking);
   };
 
   useEffect(() => {

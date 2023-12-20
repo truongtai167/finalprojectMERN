@@ -1,11 +1,4 @@
-import {
-  Piechart,
-  NewDashBoard,
-  Barchart,
-  Chart,
-  AreaChartMonth,
-  ChartPrice,
-} from "components";
+import { AreaChartMonth, ChartPrice } from "components";
 import { formatMoney, formatPrice } from "ultils/helper";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
@@ -31,13 +24,8 @@ const DashboardOwner = () => {
   }, []);
   return (
     <div>
-      {/* <NewDashBoard></NewDashBoard> */}
       <div className="w-full flex flex-col items-center ">
-        <div>
-          {/* <Piechart></Piechart>
-            {/* <Chart /> */}
-          {/* <Barchart /> */}
-        </div>
+        <div></div>
 
         <div>
           <AreaChartMonth order={order} />

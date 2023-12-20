@@ -1,57 +1,57 @@
 import { createSlice } from "@reduxjs/toolkit";
-import * as actions from './asyncAction'
+import * as actions from "./asyncAction";
 
 export const userSlice = createSlice({
-    name: 'user',
-    initialState: {
-        isLoggedIn: false,
-        current: null,
-        token: null,
-        isLoading: false,
-        mes: ''
+  name: "user",
+  initialState: {
+    isLoggedIn: false,
+    current: null,
+    token: null,
+    isLoading: false,
+    mes: "",
+  },
+  reducers: {
+    login: (state, action) => {
+      state.isLoggedIn = action.payload.isLoggedIn;
+      state.token = action.payload.token;
     },
-    reducers: {
-        login: (state, action) => {
-            state.isLoggedIn = action.payload.isLoggedIn
-            state.token = action.payload.token
-        },
-        logout: (state, action) => {
-            state.isLoggedIn = false
-            state.token = null
-            state.current = null
-        },
-        clearMessage: (state) => {
-            state.mes = ''
-        }
+    logout: (state, action) => {
+      state.isLoggedIn = false;
+      state.token = null;
+      state.current = null;
     },
-    // Code logic xử lý async action
-    extraReducers: (builder) => {
-        // // Bắt đầu thực hiện action login (Promise pending)
-        builder.addCase(actions.getCurrent.pending, (state) => {
-            // Bật trạng thái loading
-            state.isLoading = true;
-        });
+    clearMessage: (state) => {
+      state.mes = "";
+    },
+  },
+  // Code logic xử lý async action
+  extraReducers: (builder) => {
+    // // Bắt đầu thực hiện action login (Promise pending)
+    builder.addCase(actions.getCurrent.pending, (state) => {
+      // Bật trạng thái loading
+      state.isLoading = true;
+    });
 
-        // Khi thực hiện action login thành công (Promise fulfilled)
-        builder.addCase(actions.getCurrent.fulfilled, (state, action) => {
-            // Tắt trạng thái loading, lưu thông tin user vào store
-            state.isLoading = false;
-            state.current = action.payload;
-            state.isLoggedIn = true;
-        });
+    // Khi thực hiện action login thành công (Promise fulfilled)
+    builder.addCase(actions.getCurrent.fulfilled, (state, action) => {
+      // Tắt trạng thái loading, lưu thông tin user vào store
+      state.isLoading = false;
+      state.current = action.payload;
+      state.isLoggedIn = true;
+    });
 
-        // Khi thực hiện action login thất bại (Promise rejected)
-        builder.addCase(actions.getCurrent.rejected, (state, action) => {
-            // Tắt trạng thái loading, lưu thông báo lỗi vào store
-            state.isLoading = false;
-            state.current = null;
-            state.isLoggedIn = false;
-            state.token = null
-            state.mes = 'Login out of time, please log in again'
-        });
-    }
-})
+    // Khi thực hiện action login thất bại (Promise rejected)
+    builder.addCase(actions.getCurrent.rejected, (state, action) => {
+      // Tắt trạng thái loading, lưu thông báo lỗi vào store
+      state.isLoading = false;
+      state.current = null;
+      state.isLoggedIn = false;
+      state.token = null;
+      state.mes = "Login out of time, please log in again";
+    });
+  },
+});
 
-export const { login, logout, clearMessage } = userSlice.actions
+export const { login, logout, clearMessage } = userSlice.actions;
 
-export default userSlice.reducer
+export default userSlice.reducer;

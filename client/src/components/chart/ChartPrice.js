@@ -1,13 +1,5 @@
-import React, { useEffect, useState } from "react";
-// import {
-//   AreaChart,
-//   Area,
-//   XAxis,
-//   YAxis,
-//   CartesianGrid,
-//   Tooltip,
-//   ResponsiveContainer,
-// } from "recharts";
+import React from "react";
+
 import {
   BarChart,
   Bar,
@@ -48,19 +40,27 @@ const ChartPrice = ({ order }) => {
 
   return (
     <ResponsiveContainer width={300} height={300}>
-      <BarChart data={generateMonthlyRevenueChartData()} margin={{
-        top: 20,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}>
+      <BarChart
+        data={generateMonthlyRevenueChartData()}
+        margin={{
+          top: 20,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="month" style={{
-          fill: 'rgba(255,255,255)'
-        }} />
-        <YAxis style={{
-          fill: 'rgba(255,255,255)'
-        }} />
+        <XAxis
+          dataKey="month"
+          style={{
+            fill: "rgba(255,255,255)",
+          }}
+        />
+        <YAxis
+          style={{
+            fill: "rgba(255,255,255)",
+          }}
+        />
         <Tooltip />
         <Legend />
         <Bar dataKey="revenue" fill="#8884d8" />

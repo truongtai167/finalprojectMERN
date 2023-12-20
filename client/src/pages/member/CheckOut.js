@@ -12,7 +12,6 @@ import { Paypal, Congratulation, Button } from "components";
 import Swal from "sweetalert2";
 import { FaMoneyBillWave } from "react-icons/fa";
 
-
 const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -102,7 +101,10 @@ const Checkout = () => {
           </span>
         </div>
         <div className="flex flex-col w-full justify-center items-center">
-          <button className="bg-green-700 w-[200px] h-[35px] rounded-md font-bold flex items-center justify-center m-3 text-white hover:text-green-800 hover:bg-green-300 duration-300 " onClick={() => handlePayByCash()}>
+          <button
+            className="bg-green-700 w-[200px] h-[35px] rounded-md font-bold flex items-center justify-center m-3 text-white hover:text-green-800 hover:bg-green-300 duration-300 "
+            onClick={() => handlePayByCash()}
+          >
             <span className="italic ">Pay By Cash</span>
             <FaMoneyBillWave className="ml-2" />
           </button>
@@ -112,7 +114,7 @@ const Checkout = () => {
             setIsSuccess={setIsSuccess}
             amount={Math.round(
               order?.reduce((sum, el) => sum + Number(el.pitch?.price), 0) /
-              23500
+                23500
             )}
           />
         </div>

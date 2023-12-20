@@ -141,7 +141,7 @@ const register = asyncHandler(async (req, res) => {
                             <td class="footer">
                                 <p>
                                     This link will expire in 1 minutes. If you did not make this request, please disregard this email.
-                                    For help, contact us through our <a href="" target="_blank">FAQ</a>.
+                                    For help, contact us through our FAQ Page</a>.
                                 </p>
                             </td>
                         </tr>
@@ -159,7 +159,7 @@ const register = asyncHandler(async (req, res) => {
       success: newUser ? true : false,
       mes: newUser
         ? "Please check your email to active account"
-        : "Something went wrong, please try again123123",
+        : "Something went wrong, please try again",
     });
   }
 });
@@ -334,9 +334,7 @@ const getUsers = asyncHandler(async (req, res) => {
     (matchedEl) => `$${matchedEl}`
   );
   const formartedQueries = JSON.parse(queryString);
-  // formartedQueries['$or'] = [
-  //     { role: { $regex: queries.q, $options: 'i' } }
-  // ]
+
   // Filtering
   // regex: tìm từ bắt đầu bằng chữ truyền vào
   // options: 'i' không phân biệt viết hoa viết thường

@@ -35,7 +35,6 @@ const {
   AiOutlineSafety,
   FaWifi,
   IoFastFood,
-  // AiFillEye,
   BsFillTelephoneFill,
 } = icons;
 const { BsReplyFill, BsShieldShaded, FaTty, AiFillGift } = icons;
@@ -80,7 +79,7 @@ export const pitchInforTabs = [
   },
   {
     id: 2,
-    name: "FACILITIES",
+    name: "OWNER",
     content: [
       "Chào mừng bạn đến với Sân , nơi đặt trích tâm lý tưởng cho mọi đội bóng và người yêu thể thao! Cơ sở vật chất tại đây đáp ứng mọi tiêu chuẩn và đảm bảo trải nghiệm tuyệt vời:",
       "🌱 Thảm Cỏ Mềm Mại: Sân Bóng Xanh tự hào sở hữu thảm cỏ mềm mại, tạo nên bề mặt chơi lý tưởng cho mọi trận đấu. Đây không chỉ là nơi thi đấu, mà còn là không gian xanh mát để đội bóng và người hâm mộ tận hưởng.",
@@ -422,5 +421,6 @@ export const locations = [
   "Bình Tân",
   "Tân Bình",
   "Bình Chánh",
+  "Tân Phú",
   // Thêm thông tin cho các quận/huyện khác ở Tp. Hồ Chí Minh
 ];

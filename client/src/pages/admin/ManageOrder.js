@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { apiGetAllOrder, apiDeleteOrder } from "apis";
 import defaultt from "assets/default.png";
 import moment from "moment";
-import icons from "ultils/icons";
 import { shifts } from "ultils/constant";
 import { formatMoney, formatPrice } from "ultils/helper";
 import {
@@ -91,15 +90,6 @@ const ManageOrder = () => {
   };
   return (
     <div className="w-full flex flex-col gap-4 px-4 ">
-      {/* {editPitch && (
-        <div className="absolute inset-0 win-h-screen bg-gray-100 z-50">
-          <UpdatePitch
-            editPitch={editPitch}
-            render={render}
-            setEditPitch={setEditPitch}
-          />
-        </div>
-      )} */}
       <div className="p-4 border-b w-full flex items-center ">
         <h1 className="text-3xl font-bold tracking-tight">Manage Order</h1>
       </div>
@@ -118,7 +108,6 @@ const ManageOrder = () => {
           </form>
         </div>
         <div className="flex w-full justify-end items-center px-1">
-          {/* <form className='w-[300px]' onSubmit={handleSubmit(handleManagePitch)}> */}
           <form className="w-[300px]">
             <InputForm
               id="q"

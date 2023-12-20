@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Button, InputForm, MarkDownEditor, Loading } from "components";
 import { useForm } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { validate, getBase64 } from "ultils/helper";
 import { toast } from "react-toastify";
 import { apiCreatePitch, apiGetUsers, apiGetBrandByOwner } from "apis";
-import { showModal } from "store/app/appSilice";
+import { showModal } from "store/app/appSlice";
 import Select from "react-select";
 const CreatePitch = () => {
   const dispatch = useDispatch();
   const [Users, setUsers] = useState(null);
-//   const { categories } = useSelector((state) => state.app);
+
   const [Cate, setCate] = useState(null);
   const {
     register,
@@ -23,10 +23,6 @@ const CreatePitch = () => {
   const handleCreatePitch = async (data) => {
     const invalids = validate(payload, setInvalidFields);
     if (invalids === 0) {
-      //   if (data.category) {
-      // data.category = categories?.find(
-      //   (el) => el._id === data.category
-      // )?.title;
       const finalPayload = {
         ...data,
         ...payload,
@@ -34,7 +30,7 @@ const CreatePitch = () => {
         category: selectedCategories,
         brand: selectedBrand?.title,
       };
-      console.log(finalPayload);
+      
       const formData = new FormData();
       for (let i of Object.entries(finalPayload)) {
         formData.append(i[0], i[1]);
@@ -58,12 +54,11 @@ const CreatePitch = () => {
           thumb: null,
           images: [],
         });
-        // console.log("CHECK NOTIFICATION")
+        
         toast.success("Create Pitch Success !");
       } else {
         toast.error("Fail!!!");
       }
-      //   }
     }
   };
   const [selectedOwner, setSelectedOwner] = useState(null);
@@ -115,26 +110,19 @@ const CreatePitch = () => {
 
   useEffect(() => {
     fetchUsers();
-    // fetchBrandOwner();
-    // console.log(selectedBrand);
   }, []);
   useEffect(() => {
     if (selectedOwner) {
-      //   console.log(selectedOwner);
       fetchBrandOwner(selectedOwner);
     }
   }, [selectedOwner]);
 
   const fetchBrandOwner = async (id) => {
-    // console.log("Fetching brand for owner:", id);
     const response = await apiGetBrandByOwner(id);
     if (response.success) {
       setSelectedBrand(response.brandData);
-    //   console.log(response.brandData.categories);
+
       setCate(response.brandData.categories);
-      //   console.log("cca");
-      //   selectedBrand = response.brandData;
-      //   console.log("cc2");
     }
   };
 
@@ -295,13 +283,6 @@ const CreatePitch = () => {
                     alt="thumbnail"
                     className="w-[200px] object-contain"
                   />
-                  {/* {hover === el.name &&
-                                        <div
-                                            onClick={() => handleRemove(el.name)}
-                                            className='absolute inset-0 bg-overlay cursor-pointer flex items-center justify-center' >
-                                            <IoTrashBin size={24} color='white' />
-                                        </div>
-                                    } */}
                 </div>
               ))}
             </div>

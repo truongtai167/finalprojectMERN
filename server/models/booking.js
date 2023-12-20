@@ -11,11 +11,7 @@ var bookingSchema = new mongoose.Schema({
   shift: {
     type: String,
   },
-  status: {
-    type: String,
-    default: "Pending",
-    enum: ["Pending", "Success"],
-  },
+
   bookingBy: {
     type: mongoose.Types.ObjectId,
     ref: "User",

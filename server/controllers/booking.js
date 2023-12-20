@@ -87,7 +87,6 @@ const getPitchObjectIdByName = async (pitchName) => {
   return pitch ? pitch._id : null;
 };
 const getBookingsOwner = asyncHandler(async (req, res) => {
-  //   const { uid } = req.params;
   const queries = { ...req.query };
 
   // Tách các trường đặc biệt ra khỏi query
@@ -103,42 +102,14 @@ const getBookingsOwner = asyncHandler(async (req, res) => {
   let formattedQueries = JSON.parse(queryString);
   if (req.query.q) {
     // Thêm điều kiện tìm kiếm theo tên sân
-    // console.log("có q", queries);
-    // delete formartedQueries.q;
+
     formattedQueries = { status: { $regex: queries.q, $options: "i" } };
   }
   if (req.query.qpitch) {
-    // console.log("có pitch", req.query.qpitch);
-    // const pitchObjectId = await getPitchObjectIdByName(queries.qpitch);
-    // if (!pitchObjectId) {
-    //   console.log("Pitch not found for the given name.");
-    // }
-
-    // formattedQueries.qpitch = pitchObjectId;
     formattedQueries = { namePitch: { $regex: queries.qpitch, $options: "i" } };
     delete formattedQueries.qpitch;
   }
-  //   if (req.query.qpitch) {
-  //     // console.log("có pitch", req.query.qpitch);
-  //     const pitchObjectId = await getPitchObjectIdByName(queries.qpitch);
-  //     // if (!pitchObjectId) {
-  //     //   console.log("Pitch not found for the given name.");
-  //     // }
 
-  //     // formattedQueries.qpitch = pitchObjectId;
-  //     formattedQueries["$and"] = [
-  //       { pitch: pitchObjectId },
-  //       //   { total: { $regex: queries.q, $options: "i" } },
-  //       //   { shift: { $regex: queries.q, $options: "i" } },
-  //       //   { bookedData: { $regex: queries.q, $options: "i" } },
-  //     ];
-  //     delete formattedQueries.qpitch;
-  //   }
-  // console.log(formattedQueries);
-  //   if (req.query.owner) {
-  //     console.log("halo");
-  //     formattedQueries["$and"] = [{ owner: queries?.owner }];
-  //   }
   if (queries?.owner) {
     formattedQueries["owner"] = queries?.owner;
   }
@@ -181,83 +152,7 @@ const getBookingsOwner = asyncHandler(async (req, res) => {
     });
   });
 });
-// const getBookings = asyncHandler(async (req, res) => {
-//     const queries = { ...req.query };
 
-//     // Tách các trường đặc biệt ra khỏi query
-//     const excludeFields = ["limit", "sort", "page", "fields"];
-//     excludeFields.forEach((el) => delete queries[el]);
-
-//     // Format lại các operators cho đúng cú pháp mongoose
-//     let queryString = JSON.stringify(queries);
-//     queryString = queryString.replace(
-//         /\b(gte|gt|lt|lte)\b/g,
-//         (matchedEl) => `$${matchedEl}`
-//     );
-//     let formattedQueries = JSON.parse(queryString);
-//     if (req.query.q) {
-//         // Thêm điều kiện tìm kiếm theo tên sân
-//         // console.log("có q", queries);
-//         // delete formartedQueries.q;
-//         formattedQueries = { status: { $regex: queries.q, $options: "i" } };
-//     }
-//     if (req.query.qpitch) {
-//         // console.log("có pitch", req.query.qpitch);
-//         const pitchObjectId = await getPitchObjectIdByName(queries.qpitch);
-//         // if (!pitchObjectId) {
-//         //   console.log("Pitch not found for the given name.");
-//         // }
-
-//         // formattedQueries.qpitch = pitchObjectId;
-//         formattedQueries["$and"] = [
-//             { pitch: pitchObjectId },
-//             //   { total: { $regex: queries.q, $options: "i" } },
-//             //   { shift: { $regex: queries.q, $options: "i" } },
-//             //   { bookedData: { $regex: queries.q, $options: "i" } },
-//         ];
-//         delete formattedQueries.qpitch;
-//     }
-//     // console.log(formattedQueries);
-
-//     let queryCommand = Booking.find(formattedQueries)
-//         .populate({
-//             path: "bookingBy",
-//             select: "firstname lastname",
-//         })
-//         .populate({
-//             path: "pitch",
-//             select: "title thumb",
-//         });
-//     // Sorting
-//     if (req.query.sort) {
-//         const sortBy = req.query.sort.split(",").join(" ");
-//         queryCommand = queryCommand.sort(sortBy);
-//     }
-
-//     // Fields limiting
-//     if (req.query.fields) {
-//         const fields = req.query.fields.split(",").join(" ");
-//         queryCommand = queryCommand.select(fields);
-//     }
-
-//     // Pagination
-//     const page = +req.query.page || 1;
-//     const limit = +req.query.limit || process.env.LIMIT_BOOKINGS;
-//     const skip = (page - 1) * limit;
-//     queryCommand.skip(skip).limit(limit);
-
-//     // Execute query
-//     queryCommand.exec(async (err, response) => {
-//         if (err) throw new Error(err.message);
-
-//         const counts = await Booking.find(formattedQueries).countDocuments();
-//         return res.status(200).json({
-//             success: response ? true : false,
-//             Bookings: response ? response : "Cannot get pitch",
-//             totalCount: counts,
-//         });
-//     });
-// });
 const getBookings = asyncHandler(async (req, res) => {
   const queries = { ...req.query };
 
@@ -274,22 +169,13 @@ const getBookings = asyncHandler(async (req, res) => {
   let formattedQueries = JSON.parse(queryString);
   if (req.query.q) {
     // Thêm điều kiện tìm kiếm theo tên sân
-    // console.log("có q", queries);
-    // delete formartedQueries.q;
+
     formattedQueries = { status: { $regex: queries.q, $options: "i" } };
   }
   if (req.query.qpitch) {
-    // console.log("có pitch", req.query.qpitch);
-    // const pitchObjectId = await getPitchObjectIdByName(queries.qpitch);
-    // if (!pitchObjectId) {
-    //   console.log("Pitch not found for the given name.");
-    // }
-
-    // formattedQueries.qpitch = pitchObjectId;
     formattedQueries = { namePitch: { $regex: queries.qpitch, $options: "i" } };
     delete formattedQueries.qpitch;
   }
-  // console.log(formattedQueries);
 
   let queryCommand = Booking.find(formattedQueries)
     .populate({
