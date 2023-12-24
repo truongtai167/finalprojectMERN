@@ -14,13 +14,14 @@ const sendMail = require("../ultils/sendMail");
 const crypto = require("crypto");
 const makeToken = require("uniqid");
 const { users } = require("../ultils/constant");
-
+const btoa = require("btoa");
+const atob = require("atob");
 const register = asyncHandler(async (req, res) => {
   const { email, password, firstname, lastname, role } = req.body;
   if (!email || !password || !lastname || !firstname)
     return res.status(400).json({
       success: false,
-      mes: "Missing inputs",
+      mes: "Missing input",
     });
   const user = await User.findOne({ email });
   if (user) throw new Error("User has existed");
@@ -140,7 +141,7 @@ const register = asyncHandler(async (req, res) => {
                         <tr>
                             <td class="footer">
                                 <p>
-                                    This link will expire in 1 minutes. If you did not make this request, please disregard this email.
+                                    This link will expire in 5 minutes. If you did not make this request, please disregard this email.
                                     For help, contact us through our FAQ Page</a>.
                                 </p>
                             </td>
@@ -154,7 +155,7 @@ const register = asyncHandler(async (req, res) => {
     }
     setTimeout(async () => {
       await User.deleteOne({ email: emailedited });
-    }, [600000]);
+    }, [300000]);
     return res.json({
       success: newUser ? true : false,
       mes: newUser
@@ -176,7 +177,7 @@ const finalRegister = asyncHandler(async (req, res) => {
   return res.json({
     success: notActivedEmail ? true : false,
     mes: notActivedEmail
-      ? "Register is succesfully. Please go login"
+      ? "Register is successfully. Please go login"
       : "Something went wrong, please try again",
   });
 });
@@ -339,6 +340,8 @@ const getUsers = asyncHandler(async (req, res) => {
   // regex: tìm từ bắt đầu bằng chữ truyền vào
   // options: 'i' không phân biệt viết hoa viết thường
   // doc: https://www.mongodb.com/docs/manual/reference/operator/query/regex/
+  if (queries?.role)
+    formartedQueries.role = { $regex: queries.role, $options: "i" };
   if (queries?.name)
     formartedQueries.name = { $regex: queries.name, $options: "i" };
 
