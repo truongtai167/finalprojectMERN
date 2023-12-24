@@ -34,8 +34,8 @@ const Select = ({
             {pitchOwn.firstname} {pitchOwn.lastname}
           </option>
         )}
-        {options?.map((el) => (
-          <option value={el.code}>{el.value}</option>
+        {options?.map((el, index) => (
+          <option key={index} value={el.code}>{el.value}</option>
         ))}
       </select>
       {errors[id] && (

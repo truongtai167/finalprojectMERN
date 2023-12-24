@@ -150,9 +150,8 @@ const Pitches = () => {
           columnClassName="my-masonry-grid_column"
         >
           {pitches?.pitches?.map((el) => (
-            <div className="cursor-pointer">
+            <div key={el._id} className="cursor-pointer">
               <Pitch
-                key={el._id}
                 pid={el._id}
                 pitchData={el}
                 normal={true}

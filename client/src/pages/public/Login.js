@@ -1,13 +1,18 @@
 import React, { useState, useCallback, useEffect } from "react";
 import loginpng from "assets/login.jpg";
 import { InputFields, Button, Loading } from "components";
+import { jwtDecode } from "jwt-decode";
+
 import {
   apiRegister,
   apiLogin,
   apiForgotPassword,
   apiFinalRegister,
+  apiLoginGG,
 } from "apis/user";
 import Swal from "sweetalert2";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import path from "ultils/path";
 import { login } from "store/user/userSlice";
@@ -37,6 +42,7 @@ const Login = () => {
   const [isRegister, setisRegister] = useState(false);
   const [isRegisterPitchOwner, setisRegisterPitchOwner] = useState(false);
   const [isBlockedUser, setisBlockedUser] = useState(false);
+  const [GGlogin, setGGlogin] = useState(false);
   const resetPayload = () => {
     setpayload({
       email: "",
@@ -62,17 +68,22 @@ const Login = () => {
   }, [isRegister, isRegisterPitchOwner]);
   //SUBMIT
   const handleSubmit = useCallback(async () => {
+    console.log("RUN 1")
     if (isRegisterPitchOwner) payload.role = "2";
     else payload.role = "3";
     const { firstname, lastname, role, ...data } = payload;
     const invalids = isRegister
       ? validate(payload, setinvalidFields)
       : isRegisterPitchOwner
-      ? validate(payload, setinvalidFields)
-      : validate(data, setinvalidFields);
+        ? validate(payload, setinvalidFields)
+        : validate(data, setinvalidFields);
+    console.log("CHECK INVALIDS", invalids)
 
-    if (invalids === 0) {
+    if (+invalids === 0) {
+      console.log("RUN 2")
+
       if (isRegister || isRegisterPitchOwner) {
+        console.log("RUN 10")
         dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
         const response = await apiRegister(payload);
         dispatch(showModal({ isShowModal: false, modalChildren: null }));
@@ -82,17 +93,23 @@ const Login = () => {
           Swal.fire("Oops!", response.mes, "error");
         }
       } else {
+        console.log("RUN 9")
         const rs = await apiLogin(data);
+        console.log(rs)
         if (rs.success) {
-          if (+rs.isBlocked === 2) {
-            dispatch(
-              login({
-                isLoggedIn: true,
-                token: rs.accessToken,
-                userData: rs.userData,
-              })
-            );
+          console.log("RUN 8")
+          if (+rs?.isBlocked === 2) {
+
+            // dispatch(
+            //   login({
+            //     isLoggedIn: true,
+            //     token: rs.accessToken,
+            //     userData: rs.userData,
+            //   })
+            // );
+            console.log("RUN 3")
             navigate(`/${path.HOME}`);
+            console.log("RUN 4")
           } else if (+rs.isBlocked === 1) {
             Swal.fire({
               title: " You are blocked",
@@ -124,6 +141,37 @@ const Login = () => {
     setisVerifiedEmail(false);
     settoken("");
   };
+  const handleLoginGG = async (data) => {
+    const rs = await apiLoginGG({ email: data });
+    console.log(email);
+    if (rs.success) {
+      if (+rs.userData?.isBlocked === 2) {
+        dispatch(
+          login({
+            isLoggedIn: true,
+            token: rs.accessToken,
+            userData: rs.userData,
+          })
+        );
+        navigate(`/${path.HOME}`);
+      } else if (+rs.isBlocked === 1) {
+        Swal.fire({
+          title: " You are blocked",
+          text: "Account has been blocked! Go to FAQs for more information",
+          showCancelButton: true,
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            navigate(`/${path.FAQ}`);
+          } else navigate(`/${path.HOME}`);
+        });
+      }
+    } else {
+      Swal.fire("Oops!", rs.mes, "error");
+    }
+  };
+  // useEffect(() => {
+  //   handleLoginGG();
+  // }, [GGlogin]);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full relative">
       {isVerifiedEmail && (
@@ -187,8 +235,8 @@ const Login = () => {
             {isRegister
               ? "SIGN UP"
               : isRegisterPitchOwner
-              ? "PITCH OWNER "
-              : "SIGN IN"}
+                ? "PITCH OWNER "
+                : "SIGN IN"}
           </h2>
           <div className=" flex py-1">
             {!isRegister && !isRegisterPitchOwner && (
@@ -334,8 +382,8 @@ const Login = () => {
             {isRegister
               ? "Register"
               : isRegisterPitchOwner
-              ? "Register"
-              : "Login"}
+                ? "Register"
+                : "Login"}
           </Button>
           <div className="flex items-center justify-between my-2 w-full">
             {isRegister && !isRegisterPitchOwner && (
@@ -344,7 +392,6 @@ const Login = () => {
                   className="text-white hover:underline cursor-pointer w-full flex items-center justify-center"
                   onClick={() => setisRegister(false)}
                 >
-                  {" "}
                   <FaStepBackward /> Back to Login
                 </span>
               </>
@@ -356,11 +403,31 @@ const Login = () => {
                   className="text-white hover:underline cursor-pointer w-full flex items-center justify-center"
                   onClick={() => setisRegisterPitchOwner(false)}
                 >
-                  {" "}
                   <FaStepBackward /> Back to Login
                 </span>
               </>
             )}
+          </div>
+          <div>
+            <GoogleOAuthProvider clientId="205458580138-ntkleug6m343o4fqjbrqeqni2kd9tfd1.apps.googleusercontent.com">
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  const details = jwtDecode(credentialResponse.credential);
+                  console.log("details.email", details.email);
+
+                  if (details.email) {
+                    setemail(details.email);
+                    console.log(email);
+                    handleLoginGG(details.email);
+                    console.log("ád");
+                  }
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
+              ;
+            </GoogleOAuthProvider>
           </div>
         </div>
       </div>

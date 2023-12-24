@@ -29,9 +29,8 @@ const AdminSideBar = ({ open, setOpen }) => {
   };
   return (
     <div
-      className={`bg-dark-purple overflow-y-auto h-full py-4 ${
-        open ? "w-72" : "w-20"
-      } duration-700`}
+      className={`bg-dark-purple overflow-y-auto h-full py-4 ${open ? "w-72" : "w-20"
+        } duration-700`}
     >
       <div>
         <Link
@@ -41,22 +40,20 @@ const AdminSideBar = ({ open, setOpen }) => {
           <img src={logo} alt="logo" className="w-[200px] object-contain" />
         </Link>
         <h1
-          className={`text-white font-bold text-center duration-500 ${
-            !open && "scale-0"
-          }`}
+          className={`text-white font-bold text-center duration-500 ${!open && "scale-0"
+            }`}
         >
           Admin Workspace
         </h1>
       </div>
       <BsArrowLeftShort
         onClick={() => setOpen(!open)}
-        className={`bg-white text-dark-purple text-3xl rounded-full absolute -right-3.5 top-9 border border-dark-purple cursor-pointer ${
-          !open && "rotate-180"
-        } `}
+        className={`bg-white text-dark-purple text-3xl rounded-full absolute -right-3.5 top-9 border border-dark-purple cursor-pointer ${!open && "rotate-180"
+          } `}
       />
       <div className="inline-flex"></div>
       <div className="mt-10 ml-3 mr-5">
-        {adminSideBar.map((el) => (
+        {adminSideBar.map((el, index) => (
           <Fragment key={el.id}>
             {el.type === "SINGLE" && (
               <NavLink
@@ -134,9 +131,8 @@ const AdminSideBar = ({ open, setOpen }) => {
                 <BiSolidLogOut />
               </span>
               <span
-                className={`text-white duration-200 pl-2 mt-2 ${
-                  !open && "hidden"
-                }`}
+                className={`text-white duration-200 pl-2 mt-2 ${!open && "hidden"
+                  }`}
               >
                 Back To Home Page
               </span>

@@ -1,6 +1,6 @@
-export { default as PitchOwnerLayout } from "./PitchOwnerLayout";
-export { default as ManagePitchOwn } from "./ManagePitchOwn";
-export { default as CreatePitchOwn } from "./CreatePitchOwn";
-export { default as ManageOwnerOrder } from "./ManageOwnerOrder";
-export { default as CreateOwnerBrand } from "./CreateOwnerBrand";
-export { default as DashboardOwner } from "./DashboardOwner";
+export { default as PitchOwnerLayout } from "./layout/PitchOwnerLayout";
+export { default as ManagePitchOwn } from "./pitch/ManagePitchOwn";
+export { default as CreatePitchOwn } from "./pitch/CreatePitchOwn";
+export { default as ManageOwnerOrder } from "./order/ManageOwnerOrder";
+export { default as CreateOwnerBrand } from "./brand/CreateOwnerBrand";
+export { default as DashboardOwner } from "./dashboard/DashboardOwner";

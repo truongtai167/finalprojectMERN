@@ -569,7 +569,47 @@ const getWishListById = asyncHandler(async (req, res) => {
     rs: user ? user : "User not found",
   });
 });
+const loginGG = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  // const email = "20110412@student.hcmute.edu.vn";
 
+  if (!email)
+    return res.status(400).json({
+      success: false,
+      mes: "Missing inputs",
+    });
+  //refresh token => cấp mới accesstoken .
+  //access token => xác thực người dùng , phân quyền người dùng.
+
+  const response = await User.findOne({ email: email });
+
+  if (response) {
+    const { role, refreshToken, ...userData } = response.toObject();
+
+    //tạo accesstoken
+    const accessToken = generateAccessToken(response._id, role);
+    //tạo refreshtoken
+    const newrefreshToken = generateRefreshToken(response._id);
+    // lưu refreshtoken vào database
+    await User.findByIdAndUpdate(
+      response._id,
+      { refreshToken: newrefreshToken },
+      { new: true }
+    );
+    // lưu refresh token vào cookie
+    res.cookie("refreshToken", newrefreshToken, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    return res.status(200).json({
+      success: true,
+      accessToken,
+      userData,
+    });
+  } else {
+    throw new Error("Invalid credentials");
+  }
+});
 module.exports = {
   register,
   login,
@@ -587,4 +627,5 @@ module.exports = {
   BookingPitch,
   updateWishlist,
   getWishListById,
+  loginGG
 };

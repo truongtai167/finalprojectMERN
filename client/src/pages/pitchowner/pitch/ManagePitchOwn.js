@@ -12,7 +12,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import useDebounce from "hooks/useDebounce";
-import UpdatePitch from "pages/admin/UpdatePitch";
+import UpdatePitch from "pages/admin/pitch/UpdatePitch";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -53,7 +53,7 @@ const ManagePitchOwn = () => {
   };
 
   const queryDebounce = useDebounce(watch("q"), 800);
-  
+
 
   useEffect(() => {
     if (queryDebounce) {
@@ -103,7 +103,7 @@ const ManagePitchOwn = () => {
         <h1 className="text-3xl font-bold tracking-tight">Manage Pitches</h1>
       </div>
       <div className="flex w-full justify-end items-center px-1">
-      
+
         <form className="w-[300px]">
           <InputForm
             id="q"

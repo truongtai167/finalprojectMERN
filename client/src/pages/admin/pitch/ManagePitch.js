@@ -12,7 +12,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import useDebounce from "hooks/useDebounce";
-import UpdatePitch from "pages/admin/UpdatePitch";
+import UpdatePitch from "pages/admin/pitch/UpdatePitch";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { formatMoney, formatPrice } from "ultils/helper";

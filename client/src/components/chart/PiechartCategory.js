@@ -67,7 +67,7 @@ const PiechartCategory = () => {
             >
               {data.map((_, index) => (
                 <Cell
-                  key={`cell-${index}`}
+                  key={`${index}`}
                   fill={COLORS[index % COLORS.length]}
                 />
               ))}

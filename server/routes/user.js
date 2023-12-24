@@ -7,6 +7,7 @@ router.post("/register", ctrls.register);
 router.post("/mock", ctrls.createUsers);
 router.put("/finalregister/:token", ctrls.finalRegister);
 router.post("/login", ctrls.login);
+router.post("/logingg", ctrls.loginGG);
 router.get("/current", verifyAccessToken, ctrls.getCurrent);
 router.post("/refreshtoken", ctrls.refreshAccessToken);
 router.get("/logout", ctrls.logout);
