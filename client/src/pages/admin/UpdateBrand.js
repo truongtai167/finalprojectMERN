@@ -151,6 +151,10 @@ const UpdateBrand = ({ editBrand, render, setEditBrand }) => {
             <h2 className="font-bold">Category: </h2>
             <Select
               id="categories"
+              defaultValue={editBrand?.categories?.map((e) => ({
+                value: e,
+                label: e,
+              }))}
               options={categories?.map((ct) => ({
                 label: ct.title,
                 value: ct.title,

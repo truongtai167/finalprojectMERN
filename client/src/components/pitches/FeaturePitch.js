@@ -12,6 +12,7 @@ const FeaturePitch = () => {
   const fetchPitches = async () => {
     const response = await apiGetPitches({
       limit: 6,
+      totalRatings: 5,
       page: Math.round(Math.random() * 1),
     });
     if (response.success) setPitches(response.pitches);

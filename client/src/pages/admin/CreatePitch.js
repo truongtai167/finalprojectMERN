@@ -30,7 +30,7 @@ const CreatePitch = () => {
         category: selectedCategories,
         brand: selectedBrand?.title,
       };
-      
+
       const formData = new FormData();
       for (let i of Object.entries(finalPayload)) {
         formData.append(i[0], i[1]);
@@ -54,7 +54,7 @@ const CreatePitch = () => {
           thumb: null,
           images: [],
         });
-        
+
         toast.success("Create Pitch Success !");
       } else {
         toast.error("Fail!!!");
@@ -97,7 +97,7 @@ const CreatePitch = () => {
     setPreview((prev) => ({ ...prev, images: imagesPreview }));
   };
   const fetchUsers = async () => {
-    const response = await apiGetUsers({ limit: 99 });
+    const response = await apiGetUsers({ limit: 99, role: 2 });
     if (response.success) setUsers(response.users);
   };
   useEffect(() => {
@@ -154,13 +154,13 @@ const CreatePitch = () => {
                 maxMenuHeight={150}
                 label="Owner"
                 options={Users?.map((el) => ({
-                  code: el._id,
+                  value: el._id,
                   label: `${el.firstname} ${el.lastname}`,
                 }))}
                 id="owner"
                 placeholder={"Select Owner"}
                 onChange={(selectedOptions) => {
-                  setSelectedOwner(selectedOptions.code);
+                  setSelectedOwner(selectedOptions.value);
                 }}
                 errors={errors}
               />
@@ -171,7 +171,7 @@ const CreatePitch = () => {
                 maxMenuHeight={150}
                 label="Category"
                 options={Cate?.map((el) => ({
-                  code: el,
+                  value: el,
                   label: el,
                 }))}
                 id="category"

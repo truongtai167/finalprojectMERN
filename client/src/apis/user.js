@@ -53,7 +53,12 @@ export const apiGetUsers = (params) =>
     method: "get",
     params,
   });
-
+  export const apiGetOwner = (params) =>
+  axios({
+    url: "/user/",
+    method: "get",
+    params,
+  });
 export const apiUpdateUserByAdmin = (data, uid) =>
   axios({
     url: "/user/" + uid,
@@ -111,11 +116,11 @@ export const apiGetWishlist = (uid) =>
     method: "get",
   });
 
-export const apiGetOwner = () =>
-  axios({
-    url: "/user/owner",
-    method: "get",
-  });
+// export const apiGetOwner = () =>
+//   axios({
+//     url: "/user/owner",
+//     method: "get",
+//   });
 
 export const apiGetAllOrder = (params) =>
   axios({

@@ -102,7 +102,10 @@ const Footer = () => {
             {/* <span className="cursor-pointer">Store Location</span> */}
             <span
               className="cursor-pointer"
-              onClick={() => window.scrollTo(350, 350)}
+              onClick={() => {
+                navigate(`/${path.HOME}`);
+                window.scrollTo(350, 350);
+              }}
             >
               Today's Deals
             </span>
@@ -111,21 +114,27 @@ const Footer = () => {
             <h3 className="mb-[20px] text-[15px] font-medium border-l-2 border-blue-900 pl-[15px]">
               WHO WE ARE
             </h3>
-            <span
+            {/* <span
               className="cursor-pointer"
               onClick={() => navigate(`/${path.FAQ}`)}
             >
               Help
-            </span>
+            </span> */}
             <span
               className="cursor-pointer"
-              onClick={() => navigate(`/${path.FAQ}`)}
+              onClick={() => {
+                window.scrollTo(0, 0);
+                navigate(`/${path.FAQ}`);
+              }}
             >
               FAQs
             </span>
             <span
               className="cursor-pointer"
-              onClick={() => navigate(`/${path.FAQ}`)}
+              onClick={() => {
+                window.scrollTo(850, 850);
+                navigate(`/${path.FAQ}`);
+              }}
             >
               Contact
             </span>
