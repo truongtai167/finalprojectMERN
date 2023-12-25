@@ -80,10 +80,7 @@ const Login = () => {
     console.log("CHECK INVALIDS", invalids)
 
     if (+invalids === 0) {
-      console.log("RUN 2")
-
       if (isRegister || isRegisterPitchOwner) {
-        console.log("RUN 10")
         dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
         const response = await apiRegister(payload);
         dispatch(showModal({ isShowModal: false, modalChildren: null }));
@@ -93,23 +90,18 @@ const Login = () => {
           Swal.fire("Oops!", response.mes, "error");
         }
       } else {
-        console.log("RUN 9")
         const rs = await apiLogin(data);
         console.log(rs)
         if (rs.success) {
-          console.log("RUN 8")
           if (+rs?.isBlocked === 2) {
-
-            // dispatch(
-            //   login({
-            //     isLoggedIn: true,
-            //     token: rs.accessToken,
-            //     userData: rs.userData,
-            //   })
-            // );
-            console.log("RUN 3")
+            dispatch(
+              login({
+                isLoggedIn: true,
+                token: rs.accessToken,
+                userData: rs.userData,
+              })
+            );
             navigate(`/${path.HOME}`);
-            console.log("RUN 4")
           } else if (+rs.isBlocked === 1) {
             Swal.fire({
               title: " You are blocked",
@@ -141,34 +133,34 @@ const Login = () => {
     setisVerifiedEmail(false);
     settoken("");
   };
-  const handleLoginGG = async (data) => {
-    const rs = await apiLoginGG({ email: data });
-    console.log(email);
-    if (rs.success) {
-      if (+rs.userData?.isBlocked === 2) {
-        dispatch(
-          login({
-            isLoggedIn: true,
-            token: rs.accessToken,
-            userData: rs.userData,
-          })
-        );
-        navigate(`/${path.HOME}`);
-      } else if (+rs.isBlocked === 1) {
-        Swal.fire({
-          title: " You are blocked",
-          text: "Account has been blocked! Go to FAQs for more information",
-          showCancelButton: true,
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            navigate(`/${path.FAQ}`);
-          } else navigate(`/${path.HOME}`);
-        });
-      }
-    } else {
-      Swal.fire("Oops!", rs.mes, "error");
-    }
-  };
+  // const handleLoginGG = async (data) => {
+  //   const rs = await apiLoginGG({ email: data });
+  //   console.log(email);
+  //   if (rs.success) {
+  //     if (+rs.userData?.isBlocked === 2) {
+  //       dispatch(
+  //         login({
+  //           isLoggedIn: true,
+  //           token: rs.accessToken,
+  //           userData: rs.userData,
+  //         })
+  //       );
+  //       navigate(`/${path.HOME}`);
+  //     } else if (+rs.isBlocked === 1) {
+  //       Swal.fire({
+  //         title: " You are blocked",
+  //         text: "Account has been blocked! Go to FAQs for more information",
+  //         showCancelButton: true,
+  //       }).then(async (result) => {
+  //         if (result.isConfirmed) {
+  //           navigate(`/${path.FAQ}`);
+  //         } else navigate(`/${path.HOME}`);
+  //       });
+  //     }
+  //   } else {
+  //     Swal.fire("Oops!", rs.mes, "error");
+  //   }
+  // };
   // useEffect(() => {
   //   handleLoginGG();
   // }, [GGlogin]);
@@ -408,18 +400,15 @@ const Login = () => {
               </>
             )}
           </div>
-          <div>
+          {/* <div>
             <GoogleOAuthProvider clientId="205458580138-ntkleug6m343o4fqjbrqeqni2kd9tfd1.apps.googleusercontent.com">
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
                   const details = jwtDecode(credentialResponse.credential);
-                  console.log("details.email", details.email);
 
                   if (details.email) {
                     setemail(details.email);
-                    console.log(email);
                     handleLoginGG(details.email);
-                    console.log("ád");
                   }
                 }}
                 onError={() => {
@@ -428,7 +417,7 @@ const Login = () => {
               />
               ;
             </GoogleOAuthProvider>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

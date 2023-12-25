@@ -27,10 +27,10 @@ const DashboardOwner = () => {
       <div className="w-full flex flex-col items-center ">
         <div></div>
 
-        <div>
+        <div className="flex-1 bg-gray-700">
           <AreaChartMonth order={order} />
         </div>
-        <div>
+        <div className="flex-1 bg-gray-700">
           <ChartPrice order={order} />
         </div>
         <div>

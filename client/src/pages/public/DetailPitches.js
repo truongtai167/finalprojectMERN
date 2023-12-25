@@ -67,13 +67,13 @@ const DetailPitches = ({ isQuickView, data }) => {
       const currentHour = currentDate.hour();
       response.Bookings.map((el) =>
         getShift.map((elshift) => {
-          const isSameDay = moment(el.bookedDate).isSame(selectedDate, "day");
+          const isSameDay = moment(selectedDate).isSame(currentDate, "day");
           elshift.value === +el.shift &&
-          new Date(el.bookedDate).getTime() ===
+            new Date(el.bookedDate).getTime() ===
             new Date(selectedDate).getTime() &&
-          pitch._id === el.pitch?._id
-            ? (elshift.isDisabled = true)
-            : (elshift.isDisabled = false);
+            pitch._id === el.pitch?._id
+            && (elshift.isDisabled = true)
+          // : (elshift.isDisabled = false);
           if (isSameDay) {
             if (+currentHour >= +elshift.hour) {
               elshift.isDisabled = true;
@@ -283,9 +283,9 @@ const DetailPitches = ({ isQuickView, data }) => {
                 dateFormat="dd/MM/yyyy"
                 // minDate={new Date()}
                 placeholderText="Select Date Book"
-                // showPopperArrow={false}
-                // className="w-full border-none outline-none"
-                // popperClassName="datepicker-popper"
+              // showPopperArrow={false}
+              // className="w-full border-none outline-none"
+              // popperClassName="datepicker-popper"
               />
             </div>
           </div>
